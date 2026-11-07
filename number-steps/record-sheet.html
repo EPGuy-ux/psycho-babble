@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Number Steps record sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
+<style>
+/* A4 portrait, two pages: page 1 is the check, page 2 is the teaching plan and reviews. */
+@page{size:A4;margin:11mm 12mm}
+:root{--ink:#1A1C3A;--muted:#565B82;--line:#C9CEEA;--soft:#F3F5FF;--a:#FF5C7A;--a-soft:#FFE4EA;--b:#FFB21F;--b-soft:#FFF1D2;--c:#14B8A6;--c-soft:#D3F6F1;--go:#5536E8;--go-soft:#ECE8FF}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:"Atkinson Hyperlegible","Segoe UI",sans-serif;font-size:9pt;line-height:1.35;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",sans-serif;font-weight:800;margin:0;letter-spacing:-.01em}
+h1{font-size:19pt;display:flex;align-items:center;gap:2mm}
+h2{font-size:12.5pt;margin-bottom:2mm}
+h3{font-size:10pt}
+.page{page-break-after:always}
+.page:last-child{page-break-after:auto}
+.head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3mm}
+.logo{display:inline-grid;grid-template-columns:repeat(3,7px);grid-template-rows:repeat(3,7px);gap:1.5px;margin-right:6px;vertical-align:-2px}
+.logo i{border-radius:2px}
+.logo i:nth-child(1){grid-area:3/1;background:var(--a)}.logo i:nth-child(2){grid-area:2/2;background:var(--b)}.logo i:nth-child(3){grid-area:3/2;background:var(--b)}.logo i:nth-child(4){grid-area:1/3;background:var(--c)}.logo i:nth-child(5){grid-area:2/3;background:var(--c)}.logo i:nth-child(6){grid-area:3/3;background:var(--c)}
+.sub{color:var(--muted);font-size:8.5pt}
+.meta{display:grid;grid-template-columns:1fr 1.2fr 1fr 1fr 1fr;gap:2mm;margin-bottom:3mm}
+.meta div{border:1px solid var(--line);border-radius:3mm;padding:1.5mm 2.5mm;height:11mm}
+.meta span{display:block;font-size:6.8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.key{display:flex;gap:5mm;font-size:8pt;margin-bottom:2mm;color:var(--muted)}
+.key b{color:var(--ink)}
+table{width:100%;border-collapse:collapse}
+th{font-size:6.8pt;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:1mm 1.5mm;border-bottom:1.5px solid var(--ink)}
+td{border-bottom:1px solid var(--line);padding:1.3mm 1.5mm;vertical-align:top;height:11.6mm}
+.n{flex:none;width:7mm;height:7mm;border-radius:2mm;display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:10pt;color:var(--ink)}
+.pa .n{background:var(--a)}.pb .n{background:var(--b)}.pc .n{background:var(--c)}
+td.step{width:42mm}
+td.step .w{display:flex;gap:2mm;align-items:flex-start}
+td.step b{display:block;line-height:1.2}
+td.cue{width:48mm;font-size:7.8pt;color:var(--muted)}
+td.res{width:44mm;font-size:7.6pt}
+td.res .opts{display:flex;gap:2.2mm}
+.box{display:flex;align-items:center;gap:1mm;white-space:nowrap}
+.box::before{content:"";width:3mm;height:3mm;border:1.2px solid var(--ink);border-radius:.8mm;flex:none}
+.phase-row td{height:auto;padding:1.4mm 1.5mm .6mm;border-bottom:0;font-size:6.8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.pa.phase-row td{color:#BE1E48}.pb.phase-row td{color:#8F5600}.pc.phase-row td{color:#0A6F64}
+.foot{margin-top:2mm;font-size:7.3pt;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:3.5mm;padding:2.6mm 3.5mm;margin-bottom:2.6mm}
+.start{display:grid;grid-template-columns:22mm 1fr;gap:3mm;align-items:center}
+.bigbox{height:20mm;border:2px solid var(--ink);border-radius:3mm;display:grid;place-items:center;color:var(--muted);font-size:7pt;text-align:center}
+.lines div{border-bottom:1px solid var(--line);height:7mm}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5mm;margin:2mm 0}
+.tl div{background:var(--soft);border-radius:2mm;padding:1.5mm 2mm;font-size:8pt}
+.tl div:nth-child(1){box-shadow:inset 3px 0 0 var(--a)}.tl div:nth-child(2){box-shadow:inset 3px 0 0 var(--b)}.tl div:nth-child(3){box-shadow:inset 3px 0 0 var(--c)}.tl div:nth-child(4){box-shadow:inset 3px 0 0 var(--go)}
+.tl b{display:block}
+ul{margin:1mm 0 0;padding-left:4mm}
+li{margin-bottom:.8mm}
+.rev td{height:12mm}
+.rev th:nth-child(1){width:22mm}.rev th:nth-child(2){width:24mm}.rev th:nth-child(3){width:46mm}
+.flag{display:flex;gap:2mm;margin-bottom:1.2mm}
+.flag::before{content:"";width:3.2mm;height:3.2mm;border:1.2px solid var(--ink);border-radius:.8mm;flex:none;margin-top:.3mm}
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="head">
+    <div><h1><span class="logo"><i></i><i></i><i></i><i></i><i></i><i></i></span>Number Steps record</h1>
+    <p class="sub">Check one child, one-to-one, for 10 to 15 minutes. Start a step or two below where you expect difficulty. Stop at the first step where the child keeps making mistakes.</p></div>
+  </div>
+  <div class="meta">
+    <div><span>Pupil initials</span></div>
+    <div><span>Year group</span></div>
+    <div><span>Date checked</span></div>
+    <div><span>Checked by</span></div>
+    <div><span>Review due (6 weeks)</span></div>
+  </div>
+  <div class="key"><span><b>Secure:</b> confident, correct, without help</span><span><b>Emerging:</b> some of it, or only with help</span><span><b>Not yet:</b> couldn't do it yet</span></div>
+  <table>
+    <thead><tr><th>Step</th><th>Quick check (full words in the tool)</th><th>Result</th><th>What did you see? How did the child get the answer?</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="foot">Write down how the child got each answer. A child who counts from 1 to get it right is at a different point from a child who just knows.</p>
+</section>
+
+<section class="page">
+  <div class="head"><div><h1><span class="logo"><i></i><i></i><i></i><i></i><i></i><i></i></span>Teaching plan and reviews</h1>
+  <p class="sub">Pupil initials: ____________ &nbsp;&nbsp; Start date: ____________</p></div></div>
+
+  <div class="panel start">
+    <div class="bigbox">Step<br>number</div>
+    <div><h2>Teaching starts at step</h2><p class="sub">The first step marked emerging or not yet. Keep earlier steps going in short warm-ups.</p>
+    <div class="lines"><div></div></div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Activities I'll use</h2>
+    <div class="lines"><div></div><div></div><div></div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Each session: 10 to 20 minutes, every day if you can</h2>
+    <div class="tl"><div><b>Counting</b>2 to 3 min</div><div><b>Number ideas</b>5 to 7 min</div><div><b>Calculating</b>5 to 7 min</div><div><b>A story problem</b>5 to 7 min</div></div>
+    <div class="two">
+      <ul><li>Use the same numbers all session.</li><li>Objects, then pictures, then written numbers.</li><li>My turn, together, your turn.</li></ul>
+      <ul><li>Ask ‘How did you work it out?’</li><li>Get it right first. Speed comes last.</li><li>Keep the routine the same each time.</li></ul>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Reviews</h2>
+    <p class="sub">Repeat the same tasks with the same numbers at about six weeks and at the end of each block.</p>
+    <table class="rev" style="margin-top:2mm">
+      <thead><tr><th>Date</th><th>Step now</th><th>Decision</th><th>Notes</th></tr></thead>
+      <tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody>
+    </table>
+    <p class="foot"><b>Secure:</b> move to the next step. <b>Some progress:</b> carry on at the same step for another block. <b>Little or no progress:</b> check the child is at the right step, and change the approach. <b>Little or no progress after two blocks:</b> talk to your link EP.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Talk to your link EP if</h2>
+    <div class="two">
+      <div><div class="flag">Two blocks of teaching at the right step, with little progress</div><div class="flag">Not secure at steps 4 and 5 by the end of Year 1</div><div class="flag">An uneven profile, with gaps scattered across many steps</div></div>
+      <div><div class="flag">Other needs, such as language, attention or memory, make it hard to tell what's getting in the way</div><div class="flag">Anxious about maths, or avoids number work</div></div>
+    </div>
+    <p class="foot">Bring this sheet to the consultation. It shows your EP where to start.</p>
+  </div>
+  <p class="foot">Number Steps. Based on <i>Early number: a progression and assessment guide for schools</i>, North Somerset Educational Psychology Service, draft November 2026.</p>
+</section>
+
+<script>
+const S=[
+ ["a","Comparing and matching","3 spread wide vs 8 close together: which has more? Put towers of 1 to 5 cubes in order."],
+ ["a","Saying the counting words","Count as far as you can. Start at 4. What comes after 6? Count back from 10."],
+ ["a","Seeing small numbers at a glance","Flash 1 to 5 dots for two seconds: how many? Counts, or just knows?"],
+ ["a","Counting a set","Count 7 cubes in a row, then scattered, then from the other end."],
+ ["a","Knowing how many","Cover after counting: how many? From 15 cubes, give me 3, 5, 7. Spread one row of 6."],
+ ["b","Linking numerals, words and amounts","Read cards 0 to 10. Order them and find the missing one. Give me this many."],
+ ["b","Comparing numbers on a line","Which is bigger, 5 or 8? Put 7, 2 and 5 on a 0 to 10 line."],
+ ["b","Numbers inside numbers","5 cubes, some under a cup: how many hiding? Ten-frame with 7. Show 5 another way."],
+ ["b","Early adding and taking away","4 sweets and 3 more. 5 under a cloth and 3: counts on? 4 + 4, so 4 + 5?"],
+ ["c","Ten as a group, and numbers to 20","Full ten-frame and 4: how many? Make 16. Write fourteen, then forty."],
+ ["c","Number facts to 20","6 + 6, so 6 + 7? 8 + 5, how? Ten mixed facts: knows or works out?"],
+ ["c","Word problems","4 red and 3 blue. Had some, ate 2, have 4. Ella 7, Sam 4: how many more? 7 − 3?"],
+ ["c","Counting in tens, and numbers to 100","Count on from 27 to 43. Tens from 6. Fives from 0: what comes after 35?"],
+ ["c","Tens and ones, and adding to 100","What does the 4 in 43 mean? 50, 20, 85 on a 0 to 100 line. 10 more than 36. 23 + 14."],
+ ["c","Early multiplying and sharing","3 plates of 2. Share 12 between 3. 12 in groups of 3. Double 4, half of 10."]
+];
+const PH={a:"Steps 1 to 5 · The meaning of number",b:"Steps 6 to 9 · Small numbers working together",c:"Steps 10 to 15 · Bigger numbers and problems"};
+let html="",last="";
+S.forEach(([p,t,c],i)=>{
+ if(p!==last){html+=`<tr class="phase-row p${p}"><td colspan="4">${PH[p]}</td></tr>`;last=p}
+ html+=`<tr class="p${p}"><td class="step"><div class="w"><span class="n">${i+1}</span><b>${t}</b></div></td><td class="cue">${c}</td><td class="res"><div class="opts"><div class="box">Secure</div><div class="box">Emerging</div><div class="box">Not yet</div></div></td><td></td></tr>`;
+});
+document.getElementById("rows").innerHTML=html;
+</script>
+</body>
+</html>
