@@ -1,0 +1,38 @@
+# Publishes Number Steps as a public website with GitHub Pages.
+# Runs whenever a change to the number-steps folder reaches main,
+# or by hand from the Actions tab ("Run workflow").
+name: Publish Number Steps website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "number-steps/**"
+      - ".github/workflows/publish-website.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the website
+        run: number-steps/build-site.sh
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

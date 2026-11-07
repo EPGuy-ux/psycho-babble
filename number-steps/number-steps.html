@@ -49,7 +49,10 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
 .wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:0;letter-spacing:-.015em}
@@ -659,6 +662,7 @@ const yearName=v=>(YEARS.find(y=>y[0]===v)||["",""])[1];
 const pill=s=>s?`<span class="pill s-${s}">${ST[s].l}</span>`:"";
 const reduce=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const PUBLIC=/\.github\.io$/i.test(location.hostname);
 let S=store.get("check",null);
 let P=store.get("practise",{si:0,mi:0,spot:{},myth:{}});
 let stepTab="look", pendingStart=1, confirmNew=false;
@@ -923,12 +927,12 @@ function viewResults(){
 function viewRecord(){
  if(!S)return `<section class="hero"><p class="eyebrow">Record</p><h1>Nothing to record yet</h1></section>
   <div class="empty" style="margin-top:16px"><svg viewBox="-24 -22 48 44" width="72" height="66" aria-hidden="true">${buddy(0,0)}</svg><p>When you check a pupil, their results appear here as a record you can copy into your school's system.</p>
-  <p class="muted">Prefer paper? Ask your SENCo for the printable Number Steps record sheet.</p><a class="btn go" href="#check">Check a pupil</a></div>`;
+  <p class="muted">Prefer paper? ${PUBLIC?`<a href="number-steps-record-sheet.pdf" target="_blank" rel="noopener">Download the printable record sheet (PDF)</a>.`:"Ask your SENCo for the printable Number Steps record sheet."}</p><a class="btn go" href="#check">Check a pupil</a></div>`;
  const t=teachStart();
  const ticked=FLAGS.filter(([k])=>flagOn(k));
  return `
  <div class="checkhead noprint"><div><p class="eyebrow">Record</p><h2>${esc(S.pupil.initials)}</h2></div>
-  <div class="row"><button type="button" class="btn go sm" data-act="copy" id="copybtn">Copy as text</button><button type="button" class="btn ghost sm" data-act="back-run">Change answers</button><button type="button" class="btn ghost sm" data-act="new">Start a new pupil</button></div></div>
+  <div class="row"><button type="button" class="btn go sm" data-act="copy" id="copybtn">Copy as text</button>${PUBLIC?`<button type="button" class="btn ghost sm" data-act="print">Print</button>`:""}<button type="button" class="btn ghost sm" data-act="back-run">Change answers</button><button type="button" class="btn ghost sm" data-act="new">Start a new pupil</button></div></div>
  ${confirmNew?`<div class="confirm noprint" style="margin-bottom:16px"><p><b>Clear this record?</b> Copy it first if you need to keep it. This can't be undone.</p><div class="row"><button type="button" class="btn go sm" data-act="new-yes">Yes, clear it</button><button type="button" class="btn ghost sm" data-act="new-no">Keep it</button></div></div>`:""}
  <article class="sheet">
   <header class="stack" style="gap:10px"><p class="eyebrow">Number Steps record</p>
@@ -1053,6 +1057,7 @@ document.addEventListener("click",e=>{
    const fallback=()=>{const ta=document.createElement("textarea");ta.value=txt;ta.style.minHeight="240px";ta.setAttribute("aria-label","Record as text");el.closest(".checkhead").after(ta);ta.select();el.textContent="Select and copy the text below"};
    try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(err){fallback()}
    break}
+  case "print":window.print();break;
   case "new":confirmNew=true;render();break;
   case "new-no":confirmNew=false;render();break;
   case "new-yes":S=null;store.set("check",null);confirmNew=false;pendingStart=1;location.hash="check";break;
