@@ -6,7 +6,7 @@ North Somerset Educational Psychology Service · Draft · Nov 6, 2026 · @JJ Joh
 
 Use this guide to find where a child's early number understanding has broken down, and to decide what to teach next. It is for teachers, SENCos and teaching assistants working with children from Nursery to Year 3. You can also use it with older pupils with SEND who are still building early number.
 
-The guide has two parts. Part 1 sets out 15 steps in early number, with what you see when a child is secure and the errors you are likely to meet. Part 2 gives you short tasks to check each step. Part 3 suggests teaching activities for each step. Parts 4 and 5 help you choose a programme and run it well.
+The guide has five parts. Part 1 sets out 15 steps in early number, with what you see when a child is secure and the errors you are likely to meet. Part 2 gives you short tasks to check each step. Part 3 suggests teaching activities for each step. Parts 4 and 5 help you choose a programme and run it well.
 
 Children do not move through the steps in a fixed line. A child may recognise three dots at a glance before they can count a set of five. Treat the steps as a map. When you assess, check the steps either side of the one you are interested in.
 

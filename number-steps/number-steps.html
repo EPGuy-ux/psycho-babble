@@ -1,0 +1,1085 @@
+<title>Number Steps</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: one-column app (max 900px). Sticky header with tabs on wide screens, a bottom tab bar on phones. The 15 steps are stepping stones across a stream, in three soft colour bands, one per phase. */
+:root{
+  --bg:#F6F7FB; --surface:#FFFFFF; --ink:#24264A; --muted:#5F6386; --line:#E3E6F1;
+  --go:#5B53C9; --go-ink:#FFFFFF; --go-soft:#EEEDFA;
+  --on-fill:#24264A;
+  --a:#EE8E9E; --a-deep:#A63A50; --a-soft:#FBECEF;
+  --b:#F2C46E; --b-deep:#80560F; --b-soft:#FBF3E1;
+  --c:#70C6B6; --c-deep:#22695E; --c-soft:#E4F4F0;
+  --ok:#2F8A55; --ok-soft:#E3F3E8; --mid:#B0651A; --mid-soft:#FBEEDC; --no:#5A6478; --no-soft:#EDF0F5;
+  --on-status:#FFFFFF;
+  --say:#E7F1FA; --say-ink:#21506F;
+  --ep-bg:#2F2B63; --ep-ink:#F4F2FF; --ep-muted:#CDC8F2; --ep-accent:#F2C46E; --ep-tint:rgba(255,255,255,.08);
+  --shadow:0 1px 0 rgba(36,38,74,.04), 0 8px 20px -14px rgba(36,38,74,.28);
+  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15172C; --surface:#1E2140; --ink:#ECEDFA; --muted:#A7AACB; --line:#30345E;
+  --go:#9D95EE; --go-ink:#15172C; --go-soft:#2A2858;
+  --on-fill:#1A1C33;
+  --a:#E8919F; --a-deep:#F2B0BB; --a-soft:#36222F;
+  --b:#E9C27A; --b-deep:#F1D49C; --b-soft:#352C1B;
+  --c:#79C7B9; --c-deep:#A3DDD2; --c-soft:#1B3633;
+  --ok:#7DCB98; --ok-soft:#1C3527; --mid:#E5B26B; --mid-soft:#3A2E1A; --no:#B5BDCD; --no-soft:#2A2E4D;
+  --on-status:#15172C;
+  --say:#1B3247; --say-ink:#CBE4F7;
+  --ep-bg:#E7E3FF; --ep-ink:#211E4A; --ep-muted:#4B4785; --ep-accent:#80560F; --ep-tint:rgba(33,30,74,.07);
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 20px -14px rgba(0,0,0,.55);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#15172C; --surface:#1E2140; --ink:#ECEDFA; --muted:#A7AACB; --line:#30345E;
+  --go:#9D95EE; --go-ink:#15172C; --go-soft:#2A2858;
+  --on-fill:#1A1C33;
+  --a:#E8919F; --a-deep:#F2B0BB; --a-soft:#36222F;
+  --b:#E9C27A; --b-deep:#F1D49C; --b-soft:#352C1B;
+  --c:#79C7B9; --c-deep:#A3DDD2; --c-soft:#1B3633;
+  --ok:#7DCB98; --ok-soft:#1C3527; --mid:#E5B26B; --mid-soft:#3A2E1A; --no:#B5BDCD; --no-soft:#2A2E4D;
+  --on-status:#15172C;
+  --say:#1B3247; --say-ink:#CBE4F7;
+  --ep-bg:#E7E3FF; --ep-ink:#211E4A; --ep-muted:#4B4785; --ep-accent:#80560F; --ep-tint:rgba(33,30,74,.07);
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 20px -14px rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:0;letter-spacing:-.015em}
+h1{font-size:clamp(1.9rem,4.6vw,2.8rem);font-weight:800}
+h2{font-size:clamp(1.4rem,3vw,1.75rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:800}
+p{margin:0}
+a{color:var(--go)}
+:focus-visible{outline:3px solid var(--go);outline-offset:2px;border-radius:6px}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.stack{display:grid;gap:16px}
+
+/* Header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:10px 20px;flex-wrap:wrap;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
+.logo{width:36px;height:36px;flex:none;display:block}
+.tabs{display:flex;gap:4px;margin-left:auto;background:var(--bg);padding:4px;border-radius:999px;border:1px solid var(--line)}
+.tabs a{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.95rem;white-space:nowrap}
+.tabs svg{width:18px;height:18px;flex:none}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{background:var(--go);color:var(--go-ink)}
+@media (max-width:600px){
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;margin:0;border-radius:22px 22px 0 0;border:0;border-top:1px solid var(--line);background:var(--surface);box-shadow:0 -10px 24px -18px rgba(0,0,0,.35);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  .tabs a{flex:1;flex-direction:column;gap:2px;padding:7px 2px;border-radius:14px;font-size:.74rem}
+  .tabs svg{width:22px;height:22px}
+  .tabs a[aria-current="page"]{background:var(--go-soft);color:var(--go)}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+}
+
+main.wrap{padding-block:24px 72px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:14px;font:inherit;font-weight:700;border:2px solid transparent;cursor:pointer;text-decoration:none;line-height:1.2;text-align:center}
+.btn.go{background:var(--go);color:var(--go-ink)}
+.btn.go:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--go)}
+.btn.sm{min-height:40px;padding:6px 14px;font-size:.92rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* Phase colours */
+.ph-a{--p:var(--a);--pd:var(--a-deep);--ps:var(--a-soft)}
+.ph-b{--p:var(--b);--pd:var(--b-deep);--ps:var(--b-soft)}
+.ph-c{--p:var(--c);--pd:var(--c-deep);--ps:var(--c-soft)}
+.blk{display:grid;place-items:center;flex:none;width:54px;height:48px;border-radius:52% 48% 50% 50% / 60% 58% 42% 40%;background:radial-gradient(ellipse at 34% 26%,rgba(255,255,255,.5) 0 13%,transparent 14%),var(--p);color:var(--on-fill);font-family:var(--f-display);font-weight:800;font-size:1.45rem;box-shadow:inset 0 -5px 0 rgba(0,0,0,.08);font-variant-numeric:tabular-nums}
+.blk.big{width:86px;height:76px;font-size:2.3rem;box-shadow:inset 0 -7px 0 rgba(0,0,0,.08)}
+
+/* Home */
+.hero{display:grid;gap:16px;padding-block:8px 8px}
+.hero .lede{font-size:1.15rem;max-width:60ch;color:var(--muted)}
+.how{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;counter-reset:h}
+.how li{counter-increment:h;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px;display:grid;gap:4px}
+.how li::before{content:counter(h);font-family:var(--f-display);font-weight:800;font-size:1.1rem;width:36px;height:32px;border-radius:52% 48% 50% 50% / 60% 58% 42% 40%;display:grid;place-items:center;background:var(--go-soft);color:var(--go);margin-bottom:4px}
+.how b{font-family:var(--f-display);font-size:1.1rem}
+.how span{color:var(--muted);font-size:.96rem}
+.note{background:var(--go-soft);border-radius:18px;padding:14px 18px;font-size:.98rem}
+
+.phase{margin-top:28px;background:var(--ps);border-radius:26px;padding:20px}
+.phase>header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;margin-bottom:16px}
+.ph-t{display:grid;gap:4px;max-width:62ch}
+.ph-art{width:130px;height:auto}
+@media (max-width:520px){.ph-art{display:none}}
+.ph-k{font-weight:700;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--pd)}
+.phase>header p{color:var(--ink);opacity:.85}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.tile{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 14px;align-items:center;padding:14px;border-radius:18px;background:var(--surface);border:2px solid transparent;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.tile:hover{border-color:var(--p);transform:translateY(-2px)}
+.tile .blk{grid-row:span 3}
+.tt{font-weight:700;line-height:1.25}
+.ts{font-size:.88rem;color:var(--muted);line-height:1.3}
+.tile .pill{justify-self:start;margin-top:4px}
+
+.ep{background:var(--ep-bg);color:var(--ep-ink);border-radius:26px;padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+.home-ep{margin-top:28px}
+.ep-icon{width:52px;height:52px;border-radius:50%;background:var(--ep-accent);color:var(--ep-bg);display:grid;place-items:center}
+.ep-icon svg{width:28px;height:28px}
+.ep-k{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ep-accent)}
+.ep h2,.ep h3{margin:4px 0 6px}
+.ep p{color:var(--ep-muted)}
+.ep-list{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
+.ep-list li{background:var(--ep-tint);border-radius:14px;padding:10px 14px 10px 40px;position:relative;color:var(--ep-ink)}
+.ep-list li::before{content:"";position:absolute;left:17px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--ep-accent)}
+@media (max-width:520px){.ep{grid-template-columns:1fr;padding:20px}}
+
+/* Step page */
+.crumbs{margin-bottom:14px}
+.crumbs a{font-weight:700;text-decoration:none}
+.stephead{display:flex;gap:18px;align-items:flex-start;background:var(--ps);border-radius:26px;padding:22px}
+.stephead .q{font-size:1.15rem;margin-top:8px}
+.stephead>div{min-width:0}
+.mini{margin-top:14px;max-width:440px}
+.mini svg{display:block;width:100%;height:auto}
+.st-art{width:120px;height:auto;margin-left:auto;flex:none;align-self:center}
+@media (max-width:720px){.st-art{display:none}}
+@media (max-width:480px){.stephead{flex-direction:column;gap:12px}}
+.seg{display:flex;gap:6px;margin:20px 0;flex-wrap:wrap}
+.seg button{flex:1;min-width:110px;min-height:50px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
+.box{background:var(--surface);border-radius:22px;padding:20px;border:1px solid var(--line);min-width:0}
+.box h3{margin-bottom:12px}
+.ticks,.warns{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.ticks li,.warns li{position:relative;padding-left:34px}
+.ticks li::before{content:"";position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:7px;background:var(--ok-soft)}
+.ticks li::after{content:"";position:absolute;left:8px;top:6px;width:6px;height:11px;border:solid var(--ok);border-width:0 3px 3px 0;transform:rotate(45deg)}
+.warns li::before{content:"!";position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;background:var(--mid-soft);color:var(--mid);font-weight:800;display:grid;place-items:center;font-size:.85rem}
+.extra{margin-top:16px}
+.stages{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;counter-reset:s}
+.stages li{counter-increment:s;background:var(--bg);border-radius:16px;padding:12px 14px;font-size:.95rem}
+.stages li b{display:block;font-family:var(--f-display)}
+.stages li b::before{content:counter(s) ". ";color:var(--pd)}
+.stories{display:grid;gap:10px;margin-top:10px}
+.stories div{background:var(--bg);border-radius:16px;padding:12px 14px}
+.stories b{font-family:var(--f-display);color:var(--pd)}
+
+.need{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px;margin-bottom:14px}
+.tasks{list-style:none;padding:0;margin:0;counter-reset:t;display:grid;gap:12px}
+.tasks>li{counter-increment:t;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px 14px 58px;position:relative;display:grid;gap:6px}
+.tasks>li::before{content:counter(t);position:absolute;left:14px;top:14px;width:32px;height:32px;border-radius:50%;background:var(--ps);color:var(--pd);display:grid;place-items:center;font-weight:800;font-family:var(--f-display)}
+.pt{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:start}
+.pt-l{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:8px;text-align:center;background:var(--no-soft);color:var(--muted);margin-top:2px}
+.pt-say .pt-x{background:var(--say);color:var(--say-ink);padding:9px 14px;border-radius:16px 16px 16px 4px;font-weight:700;font-size:1.05rem;justify-self:start}
+.pt-say .pt-l{background:var(--say);color:var(--say-ink)}
+.pt-note .pt-l{background:var(--b-soft);color:var(--b-deep)}
+.pt-tip .pt-l{background:var(--c-soft);color:var(--c-deep)}
+@media (max-width:520px){.pt{grid-template-columns:1fr;gap:4px}.pt-l{justify-self:start}.tasks>li{padding-left:16px;padding-top:56px}}
+.adjust{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px}
+.adjust div{border-radius:16px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);font-size:.96rem}
+.adjust b{font-family:var(--f-display);display:block}
+.acts{display:grid;gap:14px}
+.act{background:var(--surface);border-radius:22px;padding:18px 20px;border:1px solid var(--line);display:grid;gap:10px}
+.act h3{display:flex;gap:10px;align-items:center}
+.act h3::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--p);flex:none}
+details.why{margin-top:20px;background:var(--surface);border-radius:18px;border:2px dashed var(--line);padding:14px 18px}
+details.why summary{cursor:pointer;font-weight:700}
+details.why p{margin-top:10px;color:var(--muted)}
+.pager{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
+
+/* Glossary terms */
+.term{font:inherit;color:inherit;background:none;border:0;padding:0;border-bottom:2px dotted var(--go);cursor:help;font-weight:inherit;line-height:inherit}
+.term:hover{color:var(--go)}
+.gloss{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.gin{max-width:620px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:22px;padding:18px 20px;box-shadow:0 20px 40px -16px rgba(0,0,0,.5);display:grid;gap:8px}
+.gin h3{text-transform:capitalize}
+.gin .btn{justify-self:start;background:var(--bg);color:var(--ink);border:0}
+
+/* Pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--no-soft);color:var(--muted);white-space:nowrap}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.s-secure{background:var(--ok-soft);color:var(--ok)}
+.pill.s-emerging{background:var(--mid-soft);color:var(--mid)}
+.pill.s-notyet{background:var(--no-soft);color:var(--no)}
+
+/* Check */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-weight:700}
+.field small{color:var(--muted)}
+input,select,textarea{width:100%;min-height:48px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;padding:10px 12px}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--go)}
+.checkhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.strip{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:5px;margin-bottom:6px}
+@media (max-width:560px){.strip{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.sq{min-height:34px;aspect-ratio:1;width:100%;max-width:46px;justify-self:center;border-radius:50%;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;font-size:.85rem;color:var(--muted);cursor:pointer;padding:0;font-variant-numeric:tabular-nums}
+.sq.s-secure{background:var(--ok);border-color:var(--ok);color:var(--on-status)}
+.sq.s-emerging{background:var(--mid);border-color:var(--mid);color:var(--on-status)}
+.sq.s-notyet{background:var(--no-soft);border-color:var(--no);color:var(--ink);border-style:dashed}
+.sq.cur{outline:3px solid var(--go);outline-offset:2px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ck{background:var(--surface);border-radius:26px;border:1px solid var(--line);padding:22px;display:grid;gap:16px;box-shadow:var(--shadow)}
+.ck-h{display:flex;gap:14px;align-items:center}
+.ck .tasks>li{background:var(--bg);border-color:transparent}
+.ck .adjust div,.ck .need{background:var(--bg);border-color:transparent}
+.chips{display:grid;gap:8px}
+.chip{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 14px;font:inherit;text-align:left;cursor:pointer;color:var(--ink);line-height:1.4}
+.chip::before{content:"";flex:none;width:20px;height:20px;border-radius:6px;border:2px solid var(--line);margin-top:1px}
+.chip[aria-pressed="true"]{border-color:var(--mid);background:var(--mid-soft)}
+.chip[aria-pressed="true"]::before{background:var(--mid);border-color:var(--mid)}
+.rate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.rate{grid-template-columns:1fr}}
+.rate button{text-align:left;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink);display:grid;gap:2px}
+.rate b{font-family:var(--f-display);font-size:1.2rem}
+.rate small{color:var(--muted);font-size:.9rem}
+.rate .r-secure[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok)}
+.rate .r-emerging[aria-pressed="true"]{background:var(--mid-soft);border-color:var(--mid)}
+.rate .r-notyet[aria-pressed="true"]{background:var(--no-soft);border-color:var(--no)}
+.next{padding:16px 18px;border-radius:18px;background:var(--go-soft);display:grid;gap:12px}
+.hint{color:var(--muted);font-size:.92rem;margin-top:-10px}
+.startbox{background:var(--ps);border-radius:26px;padding:22px;display:grid;gap:12px}
+.startbox .top-line{display:flex;gap:16px;align-items:center}
+.session{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;display:grid;gap:14px}
+.timeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.timeline li{border-radius:14px;padding:10px 12px;background:var(--bg);display:grid}
+.timeline li b{font-family:var(--f-display)}
+.timeline li span{color:var(--muted);font-size:.9rem}
+.timeline li:nth-child(1){box-shadow:inset 4px 0 0 var(--a)}
+.timeline li:nth-child(2){box-shadow:inset 4px 0 0 var(--b)}
+.timeline li:nth-child(3){box-shadow:inset 4px 0 0 var(--c)}
+.timeline li:nth-child(4){box-shadow:inset 4px 0 0 var(--go)}
+.bul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.flags{display:grid;gap:8px}
+.flag{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border-radius:14px;background:var(--bg);cursor:pointer}
+.flag input{width:22px;height:22px;min-height:0;flex:none;margin-top:2px;accent-color:var(--go)}
+.flag em{display:block;font-style:normal;font-size:.85rem;color:var(--go);font-weight:700}
+.ep .flag{background:var(--ep-tint)}
+.ep .flag input{accent-color:var(--ep-accent)}
+.ep .flag em{color:var(--ep-accent)}
+
+/* Record */
+.sheet{background:var(--surface);border-radius:24px;border:1px solid var(--line);padding:24px;display:grid;gap:20px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.meta div{background:var(--bg);border-radius:14px;padding:10px 12px;min-width:0}
+.meta dt{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:2px 0 0;font-weight:700}
+.meta input{min-height:36px;padding:4px 8px;margin-top:2px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.96rem}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td.sn{white-space:nowrap;font-weight:700}
+td .seen{margin:4px 0 0;padding-left:1.1em;color:var(--muted);font-size:.9rem}
+tr.unchecked td{color:var(--muted)}
+.confirm{background:var(--mid-soft);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.empty{background:var(--surface);border:2px dashed var(--line);border-radius:24px;padding:28px;display:grid;gap:12px;justify-items:start}
+
+/* Practise */
+.quiz{background:var(--surface);border-radius:26px;padding:22px;border:1px solid var(--line);display:grid;gap:16px;box-shadow:var(--shadow)}
+.quiz-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.score{font-family:var(--f-display);font-weight:800;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.r{background:var(--ok)}
+.dot.w{background:var(--mid)}
+.dot.c{outline:3px solid var(--go);outline-offset:2px}
+.scen{font-size:1.2rem;font-weight:700;line-height:1.45;background:var(--bg);border-radius:18px;padding:16px 18px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;padding:10px 14px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink)}
+.opt .blk{width:46px;height:40px;font-size:1.2rem}
+.opt:hover{border-color:var(--go)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--mid);background:var(--mid-soft)}
+.opt[disabled]{cursor:default}
+.fb{border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.fb.r{background:var(--ok-soft)}
+.fb.w{background:var(--mid-soft)}
+.fb b{font-family:var(--f-display);font-size:1.15rem}
+.myth{font-family:var(--f-display);font-size:clamp(1.25rem,3vw,1.6rem);font-weight:700;line-height:1.3;background:var(--bg);border-radius:18px;padding:18px 20px}
+
+footer.foot{border-top:1px solid var(--line);padding-block:20px 32px;color:var(--muted);font-size:.9rem}
+
+/* Illustrations */
+.art{margin:4px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:10px 10px 6px;box-shadow:var(--shadow)}
+.art svg{display:block;width:100%;height:auto}
+.art .narrow{display:none}
+@media (max-width:620px){.art .wide{display:none}.art .narrow{display:block}}
+.art figcaption{font-size:.88rem;color:var(--muted);text-align:center;padding:4px 8px}
+.peb{cursor:pointer}
+.peb text{font-family:var(--f-display);font-weight:800;font-size:17px;fill:var(--on-fill);pointer-events:none}
+.peb:hover .top{filter:brightness(1.06)}
+.peb:focus{outline:none}
+.peb:focus-visible .top{stroke:var(--go);stroke-width:3}
+.buddy{animation:bob 2.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media (max-width:600px){.gloss{bottom:calc(70px + env(safe-area-inset-bottom,0px))}}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
+@media print{header.top,.noprint,footer.foot{display:none!important}body{background:#fff}.sheet{border:0;padding:0}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#steps" aria-label="Number Steps home"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--go)"/><path d="M8 30h8v-7h8v-7h8" fill="none" stroke="var(--go-ink)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29.5" cy="9.5" r="3.8" fill="var(--b)"/></svg>Number Steps</a>
+    <nav class="tabs" aria-label="Main">
+      <a href="#steps" data-tab="steps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="5.5" cy="18" rx="3.5" ry="2.4"/><ellipse cx="12" cy="12" rx="3.5" ry="2.4"/><ellipse cx="18.5" cy="6" rx="3.5" ry="2.4"/></svg>Steps</a>
+      <a href="#check" data-tab="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V2.8h6V4"/><path d="m9 13 2 2 4-4"/></svg>Check</a>
+      <a href="#record" data-tab="record"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h5"/></svg>Record</a>
+      <a href="#practise" data-tab="practise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5l-5.3 2.9 1.2-6-4.5-4.1 6-.7z"/></svg>Practise</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<footer class="foot"><div class="wrap">Based on <i>Early number: a progression and assessment guide for schools</i>, North Somerset Educational Psychology Service, draft November 2026. Choosing programmes and planning provision are covered in the full guide for leaders and SENCos. Anything you enter stays in this browser on this device.</div></footer>
+<div class="gloss" id="gloss" hidden role="dialog" aria-labelledby="gt"><div class="gin"><h3 id="gt"></h3><p id="gd"></p><button type="button" class="btn sm" data-act="close-term">Got it</button></div></div>
+
+<script>
+/* ---------- Content ---------- */
+const PH={
+  a:{name:"The meaning of number",range:"Steps 1 to 5",blurb:"What a number means: comparing groups, counting, and knowing how many there are."},
+  b:{name:"Small numbers working together",range:"Steps 6 to 9",blurb:"The links between small numbers that children need before they can add and take away with confidence."},
+  c:{name:"Bigger numbers and problems",range:"Steps 10 to 15",blurb:"Taking those links up to 100, and using them to solve problems."}
+};
+
+const GLOSS={
+  "subitising":"Seeing how many are in a small group straight away, without counting. Say it SOO-bit-eye-zing.",
+  "cardinality":"Knowing that the last number you say when you count tells you how many there are altogether.",
+  "numeral":"The written sign for a number, such as 7.",
+  "numerals":"The written signs for numbers, such as 3, 7 and 10.",
+  "number line":"A line with numbers spaced evenly along it, such as 0 at one end and 10 at the other. It shows how big numbers are compared with each other.",
+  "number track":"A straight row of equal numbered squares, like a simple board game. Each square holds one number.",
+  "part-whole":"Knowing that a number is made of smaller numbers. 5 is 4 and 1, and also 3 and 2.",
+  "ten-frame":"A grid of 2 rows of 5 boxes. Children put counters in it so they can see numbers in fives and tens. 7 is a full row of 5 and 2 more.",
+  "counting on":"Starting from the first number and counting the rest. For 5 + 3, the child says 'six, seven, eight'.",
+  "counting all":"Counting both groups from 1 to find the total. For 5 + 3, the child counts 'one, two, three' all the way to eight.",
+  "doubles":"Adding a number to itself, such as 6 + 6 or 7 + 7.",
+  "near doubles":"Facts next to a double. If you know 7 + 7 = 14, then 7 + 8 is one more: 15.",
+  "making ten":"Going to 10 first. For 8 + 5, take 2 from the 5 to make 10, then add the 3 left over: 13.",
+  "place value":"Where a digit sits tells you its value. In 43, the 4 means four tens and the 3 means three ones.",
+  "by rote":"Learnt by heart through repetition, without understanding. Rote learning often falls apart when the numbers change.",
+  "number bonds":"Pairs of numbers that make a total, like 3 and 2 making 5, or 6 and 4 making 10.",
+  "additive reasoning":"Understanding how adding and taking away connect, and working out which one a story needs.",
+  "secure":"The child does it confidently and correctly, without help, more than once.",
+  "emerging":"The child can do some of it, or can do it only with help."
+};
+
+/* Parts: [type, text]. Types: do, say, note, tip. {term} or {term|shown text} links to the glossary. */
+const STEPS=[
+{n:1,phase:"a",title:"Comparing and matching",short:"More, fewer, one each",
+ q:"Can the child tell which group has more, and match one thing to another?",
+ looks:["Says which of two groups has more when the difference is big, like 3 and 8.","Gives one cup to each teddy.","Puts five towers of 1 to 5 cubes in order of height."],
+ watch:["Picks the longer row as 'more', whatever the number of things in it.","Misses things out or doubles up when matching."],
+ need:"Counters and cubes.",
+ tasks:[
+  [["do","Put out 3 counters spread wide and 8 counters close together."],["say","Which has more?"],["note","Does the child choose the group that takes up more space?"]],
+  [["do","Mix up five towers of 1 to 5 cubes."],["say","Put these in order, from smallest to biggest."]]
+ ],
+ acts:[
+  {name:"Enough for everyone?",parts:[["do","Give each toy one cup. Sometimes have too many cups, too few, or just enough."],["say","Does everyone have one? How can we check?"]]},
+  {name:"Match to compare",parts:[["do","Start with two groups that are very different in number. Pair the objects up to check which has more, fewer or the same."],["tip","Later, put a few big objects against more small ones, so size doesn't give the answer away."]]}
+ ]},
+{n:2,phase:"a",title:"Saying the counting words",short:"Number words in order",
+ q:"Can the child say the number words in the right order, every time?",
+ looks:["Says the number words in the same order each time, first to 10 and then to 20.","Can start counting from a number other than 1.","Tells you the number after 6 without going back to 1.","Counts back from 10."],
+ watch:["Skips or repeats words, like 'one, two, four, five'.","Has to start at 1 to find the next number.","Mixes up the teens, like 'eleventeen'."],
+ need:"Nothing. Just you and the child.",
+ tasks:[
+  [["say","Count for me, as far as you can."],["note","Write down the first mistake."]],
+  [["say","Start at 4 and keep counting."],["do","Then try again from 7."]],
+  [["say","What number comes after 6?"],["note","Does the child go back to 1 to find it?"]],
+  [["say","Count back from 10."]]
+ ],
+ acts:[
+  {name:"Count, pause, carry on",parts:[["do","Take turns to say a short count. Pause after 4 and ask the child to carry on from 5. Change the starting number, and go further over time."]]},
+  {name:"Count back in a rhyme",parts:[["do","Use a countdown rhyme the child knows, with objects or pictures. Start from different numbers, like 7 or 3. Pause so the child can say the next number."],["tip","Counting back is harder to hold in your head, so give extra help here."]]}
+ ],
+ why:"Saying the words in order is not the same as understanding them. A child can count to 20 and still grab a handful when you ask for five. Check steps 4 and 5 as well."},
+{n:3,phase:"a",title:"Seeing small numbers at a glance",short:"Knowing 1 to 5 without counting",
+ q:"Can the child see how many are in a small group without counting?",
+ term:"subitising",
+ looks:["Sees 1, 2 or 3 objects and says how many straight away.","Later, does the same with up to 5.","Knows familiar patterns, like dice dots and rows on a {ten-frame}."],
+ watch:["Counts one by one, even for 2 things.","Says the same number, like 'two', for every small group."],
+ need:"Dot cards showing 1 to 5, some in dice patterns and some jumbled. Something to cover them.",
+ tasks:[
+  [["do","Show a card with 2 dots for two seconds, then cover it."],["say","How many?"],["do","Repeat with 1, 3, 4 and 5 dots, in a mixed order."]],
+  [["do","Use both dice patterns and jumbled arrangements."],["note","Does the child count, or just know?"]]
+ ],
+ acts:[
+  {name:"See it, show it",parts:[["do","Show 1 to 3 objects for a moment, then cover them. The child shows the same number with fingers or counters. Use tidy and jumbled arrangements."],["tip","Go up to 4 and 5 when the child is ready."]]},
+  {name:"What did you see?",parts:[["do","Show a small dot pattern."],["say","How many? What did you notice?"],["tip","Accept 'I just saw three'. Later, talk about the parts: 'I saw two and two, so four.'"]]}
+ ],
+ why:"This is called {subitising}. Children don't move through the steps in a fixed line. A child may see three dots at a glance before they can count a set of five."},
+{n:4,phase:"a",title:"Counting a set",short:"One number for each object",
+ q:"Can the child count a group of objects accurately?",
+ looks:["Touches or moves each object once while saying one number word.","Gets the same total when counting from the other end.","Counts a scattered set, and a set of mixed objects."],
+ watch:["Says more words than they touch, or touches more objects than they say words.","Counts an object twice.","Loses track of which objects they've counted in a scattered set."],
+ need:"7 cubes.",
+ tasks:[
+  [["do","Put out 7 cubes in a row."],["say","How many are there?"],["note","Does each touch match one number word?"]],
+  [["do","Scatter the 7 cubes."],["say","How many are there?"],["note","Does the child keep track, for example by moving counted cubes aside?"]],
+  [["say","Count them again, starting from this end."],["note","Does the child expect the same total?"]]
+ ],
+ acts:[
+  {name:"Move and count",parts:[["do","Move each object from one area into a tray, saying one number word for each move. Start with a row, then scattered objects. Then count pictures, marking each one as you count it."]]},
+  {name:"Be the counting teacher",parts:[["do","A puppet counts a set. Sometimes it's right. Sometimes it misses one or counts one twice."],["say","Did Teddy count it right? What went wrong? Show Teddy how to do it."]]}
+ ],
+ why:"To count a set, a child needs to count each object once, say the words in a fixed order, know that the order doesn't change the total, and know that you can count any kind of object (Gelman and Gallistel, 1978)."},
+{n:5,phase:"a",title:"Knowing how many",short:"The last number is the total",key:true,
+ q:"Does the child know that the last number they say tells you how many?",
+ term:"cardinality",
+ looks:["After counting, gives the last number as the answer to 'How many?' without counting again.","Gives you the right number of objects from a bigger pile.","Knows the number stays the same when you spread the objects out or push them together."],
+ watch:["Counts again when you ask 'How many?'","Grabs a handful when you ask for five.","Says a spread-out row has more."],
+ need:"A pile of 15 cubes and something to cover them.",
+ tasks:[
+  [["do","After the child counts a set, cover it."],["say","So how many are there?"],["note","Does the child answer without counting again?"]],
+  [["do","Put out a pile of 15 cubes."],["say","Give me 3."],["do","Then ask for 5, then 7."],["note","Write down the biggest number the child gives correctly. This 'give me' task is the clearest check for this step."]],
+  [["do","Make two rows of 6 cubes, side by side, matched one to one."],["say","Are there more here, more here, or are they the same?"],["do","Spread one row out and ask again."]]
+ ],
+ acts:[
+  {name:"Collect an order",parts:[["say","Please bring me four cars."],["do","Show how you count and stop at four, then sum up: 'Four cars altogether.' Take turns to give and check orders."]]},
+  {name:"Same number, new arrangement",parts:[["do","Count a set, then spread it out or move it around."],["say","Have we added any or taken any away? How many now?"],["tip","Check together by counting if the child is unsure."]]}
+ ],
+ why:"This is called {cardinality}. Children learn it one number at a time: what 'one' means, then 'two', then 'three' and 'four', before they get the rule for all numbers (Le Corre and Carey, 2007). A child who counts a row easily may still not know that the last number tells you how many (Nunes and Bryant, 2009)."},
+{n:6,phase:"b",title:"Linking numerals, words and amounts",short:"7, seven, and seven things",
+ q:"Can the child match a written number to its name and to that many objects?",
+ looks:["Reads the {numerals} 0 to 10.","Matches each numeral to its word and to a set of objects.","Puts numeral cards in order, and shows a numeral on their fingers."],
+ watch:["Names a numeral but can't make a set that size.","Puts cards in order from memory, but can't find a missing card."],
+ need:"Numeral cards 0 to 10, and cubes.",
+ tasks:[
+  [["do","Show numeral cards 0 to 10 in a mixed order."],["say","What number is this?"]],
+  [["say","Put these cards in order."],["do","Take one card away while the child looks away."],["say","Which one is missing?"]],
+  [["do","Show the card for 6."],["say","Give me this many cubes."],["say","Show me this many fingers."]]
+ ],
+ acts:[
+  {name:"Fill the labelled pot",parts:[["do","Label pots with numerals and put the right number of objects in each. Include 0 as an empty pot."],["tip","Sometimes put in the wrong number for the child to spot and fix."]]},
+  {name:"Find another way",parts:[["do","Pick a numeral and match it to objects, fingers and dot cards. Then swap: show an amount and ask the child to find its numeral."],["tip","Mix up the arrangements, and the way the numerals are written."]]}
+ ]},
+{n:7,phase:"b",title:"Comparing numbers on a line",short:"Bigger, smaller, and where it goes",
+ q:"Can the child tell which number is bigger, and place numbers on a line?",
+ looks:["Says which of two numbers is bigger without counting objects.","Places numbers on a {number line} marked 0 and 10 with roughly even gaps.","Uses more, fewer, bigger and smaller correctly."],
+ watch:["Squashes 6, 7, 8 and 9 up near 10.","Works out which number is bigger by counting up from 1 every time."],
+ need:"Paper and a pen.",
+ tasks:[
+  [["say","Which is bigger, 5 or 8?"],["do","Repeat with 3 and 9, then 7 and 6."],["note","Does the child count up from 1?"]],
+  [["do","Draw a line with 0 at one end and 10 at the other."],["say","Show me where 7 goes."],["do","Repeat with 2 and 5."]]
+ ],
+ acts:[
+  {name:"Race and count on",parts:[["do","Play on a straight 1 to 10 {number track} with equal squares, using a spinner showing 1 or 2. The child says the numbers on the squares as they move: from 4, a move of two is '5, 6'."],["tip","Children learn more when they say the numbers on the board as they move, not 'one, two' (Laski and Siegler, 2014)."]]},
+  {name:"Build, then estimate",parts:[["do","Make a 0 to 10 line with equal gaps, and link each place to an amount. Later, take most of the labels off and keep 0, 5 and 10."],["say","Where would 7 go? How do you know?"]]}
+ ],
+ why:"Young children first squash the bigger numbers together at the end of the line. Most children space 0 to 10 evenly by age 5 or 6. Children with maths difficulties go through the same change, later (Siegler and Braithwaite, 2017)."},
+{n:8,phase:"b",title:"Numbers inside numbers",short:"5 is 3 and 2, and 4 and 1",
+ q:"Does the child know that a number is made of smaller numbers?",
+ term:"part-whole",
+ looks:["Knows 5 is 4 and 1, and also 3 and 2.","Finds the pairs that make 5, then 10. First with objects and fingers, then without.","Sees a {ten-frame} showing 7 as 5 and 2."],
+ watch:["Counts both parts from 1 to find the total.","Doesn't see that 3 and 2 makes the same as 2 and 3."],
+ need:"5 cubes and a cup. A ten-frame and 7 counters.",
+ tasks:[
+  [["do","Show 5 cubes. Hide some under a cup."],["say","I had 5. How many are hiding?"],["do","Repeat with different amounts."]],
+  [["do","Show a ten-frame with 7 counters."],["say","How many? How did you know?"],["note","Does the child see 5 and 2?"]],
+  [["say","Show me 5 on your fingers another way."]]
+ ],
+ acts:[
+  {name:"Split and describe",parts:[["do","Share five counters between two mats. Move one counter at a time to find each split, including 5 and 0."],["say","Three and two make five."],["do","Swap the mats round."],["say","What changed? What stayed the same?"]]},
+  {name:"Hide a part",parts:[["do","Agree the total, then cover some counters."],["say","Five altogether, two showing. How many are hidden?"],["tip","Lift the cover to check. Use a smaller total if the child needs it."]]}
+ ],
+ why:"This is called {part-whole} understanding. It's the base for later work on tens and ones."},
+{n:9,phase:"b",title:"Early adding and taking away",short:"From counting all to counting on",
+ q:"How does the child add and take away small numbers?",
+ looks:["Solves simple stories with objects, like 'You have 4 sweets and I give you 3 more'.","Moves on through the four stages below."],
+ stages:[["Counting all","Counts both groups from 1."],["Counting on","Starts from the first or bigger number and counts the rest."],["Working it out","Uses a fact they know: 6 + 7 from 6 + 6."],["Just knowing","Knows the answer."]],
+ watch:["Still counts everything from 1 in Year 2.","Includes the starting number when counting on, so 5 + 3 becomes '5, 6, 7'.","Recites facts learnt by heart but can't use them to solve a problem."],
+ need:"Cubes and a cloth.",
+ tasks:[
+  [["do","Tell a story with objects."],["say","You have 4 sweets and I give you 3 more. How many now?"]],
+  [["do","Put 5 cubes under a cloth and 3 next to it."],["say","There are 5 under here and 3 here. How many altogether?"],["note","Does the child count on from 5, or want to lift the cloth?"]],
+  [["say","What's 4 + 4?"],["say","So what's 4 + 5?"],["note","Does the child use the first answer to get the second?"]],
+  [["say","How did you work it out?"],["do","Ask this after every answer."]]
+ ],
+ acts:[
+  {name:"Act, show, write",parts:[["do","Act out joining and taking-away stories with small numbers. Show each story with counters, then a drawing, then the number sentence."],["say","What changed? What does each number show?"]]},
+  {name:"Keep the first number",parts:[["do","Put out five counters and cover them. Add two counters the child can see."],["say","Five... six, seven."],["do","For taking away, start with seven and take two away. Lift the cover or rebuild the set to check."]]}
+ ],
+ why:"Stages 3 and 4 depend on stage 2, {counting on}. Teach {number bonds} by working out how numbers relate, and leave memorising till later (Baroody and colleagues, 2009)."},
+{n:10,phase:"c",title:"Ten as a group, and numbers to 20",short:"14 is 10 and 4",
+ q:"Does the child see 10 as one group, and teen numbers as ten and some more?",
+ looks:["Sees 10 as one group as well as ten ones.","Knows 14 is 10 and 4, and can make it with a full {ten-frame} and 4 more.","Counts on from 10 to find a teen number, without counting the ten from 1."],
+ watch:["Counts all 14 cubes from 1 each time.","Writes fourteen as 41.","Mixes up teen and tens numbers, like fifteen and fifty."],
+ need:"A ten-frame, counters, paper and a pen.",
+ tasks:[
+  [["do","Show a full ten-frame and 4 loose counters."],["say","How many?"],["note","Does the child start from 10, or count from 1?"]],
+  [["do","Give the child a ten-frame and a pile of counters."],["say","Make 16."]],
+  [["say","Write fourteen."],["say","Now write forty."]]
+ ],
+ acts:[
+  {name:"Make and swap ten",parts:[["do","Count ten loose sticks and bundle them. Swap the bundle for ten loose sticks and back again."],["say","One ten is ten ones."],["do","Add four loose sticks to make fourteen."]]},
+  {name:"Build, name, match",parts:[["do","Show fourteen on two ten-frames, with one frame full."],["say","Fourteen is ten and four."],["do","Match it to the numeral 14. Build other teen numbers and talk about what stays the same."]]}
+ ],
+ why:"English teen names hide the ten. 'Fourteen' says the 4 first, and 'eleven' and 'twelve' give no clue at all. Point the ten out every time."},
+{n:11,phase:"c",title:"Number facts to 20",short:"Doubles and making ten",
+ q:"Can the child work out new facts from ones they already know?",
+ looks:["Works out new facts from ones they know.","Uses {doubles} and {near doubles}: 7 + 8 is 7 + 7 and 1 more.","Goes through ten ({making ten}): 8 + 5 is 8 + 2 to make 10, then 3 more.","With practice, knows many facts quickly."],
+ watch:["Counts on in ones for every fact, even 9 + 9.","Gives fast answers that are often wrong, because the facts were learnt without understanding.","Knows 8 + 2 = 10 but doesn't use it for 8 + 5."],
+ need:"Paper to jot down answers.",
+ tasks:[
+  [["say","What's 6 + 6?"],["say","So what's 6 + 7?"],["note","Does the child use the double?"]],
+  [["say","What's 8 + 5? How did you work it out?"],["note","Listen for making 10."]],
+  [["do","Ask ten facts to 20 in a mixed order."],["note","Write down which ones the child just knows and which they work out."]]
+ ],
+ acts:[
+  {name:"Use a fact you know",parts:[["do","Build 6 + 6, then change it to 6 + 7."],["say","What changed? What must happen to the answer?"],["do","Link the take-away facts too, like 13 − 6 = 7."]]},
+  {name:"Make ten, then practise",parts:[["do","Show 8 + 5 by splitting the 5 into 2 and 3. For 13 − 5, take away 3 to get to 10, then 2 more."],["tip","Once the child is accurate, come back to these facts in short, mixed practice."]]}
+ ],
+ why:"Accurate and understood first, fast second (Haring and colleagues, 1978). Once facts come quickly, the child's memory is free for solving problems."},
+{n:12,phase:"c",title:"Word problems",short:"Choosing add or take away",
+ q:"Can the child solve adding and taking-away stories, and choose what to do?",
+ term:"additive reasoning",
+ looks:["Solves the three kinds of story below with numbers to 10, using objects or a drawing.","Solves stories where the start is missing: 'I had some sweets. I ate 2 and now I have 3. How many did I have?'","Knows adding and taking away undo each other: if 3 + 2 = 5, then 5 − 2 = 3."],
+ stories:[["Combine","Ali has 3 red pens and 2 blue pens. How many pens altogether?"],["Change","Ali has 3 cars. His gran gives him 2 more. How many does he have now?"],["Compare","Mia has 5 stickers and Tom has 3. How many more does Mia have?"]],
+ watch:["Picks add or take away from a key word, so 'more' always means add.","Adds every number in the problem.","Can do 5 − 2, but doesn't see it in a comparing story."],
+ need:"Cubes, or paper to draw on.",
+ tasks:[
+  [["do","Let the child use cubes or draw."],["say","There are 4 red cubes and 3 blue cubes. How many altogether?"]],
+  [["say","I had some sweets. I ate 2. Now I have 4. How many did I have at the start?"]],
+  [["say","Ella has 7 stickers. Sam has 4. How many more does Ella have?"]],
+  [["say","4 + 3 = 7. So what is 7 − 3?"],["note","Does the child work it out, or use the link?"]]
+ ],
+ acts:[
+  {name:"Same numbers, different stories",parts:[["do","Use 3, 2 and 5 in combine, change and compare stories. Act them out and draw them."],["tip","For compare stories, line the two rows up side by side and keep both in view, so the child sees how many more."]]},
+  {name:"Move the missing number",parts:[["do","Tell linked stories: 'Three cars arrive, then two more.' 'Some cars arrive, then two more make five.' 'Three cars arrive, then some more make five.'"],["say","What do we know? What do we need to find?"]]}
+ ],
+ why:"Stories with a missing start or a missing middle are harder than ones with a missing answer, even with the same numbers. Teach all three (Vergnaud, 1997)."},
+{n:13,phase:"c",title:"Counting in tens, and numbers to 100",short:"28, 29, 30, and 3, 13, 23",
+ q:"Can the child count past each ten, and count in tens from any number?",
+ looks:["Counts to 100 and back, crossing each ten without stopping: 28, 29, 30.","Counts in tens from 0 and from other numbers, like 3, 13, 23.","Counts in twos and fives.","Uses the pattern of the numbers to work out what comes next."],
+ watch:["Gets stuck at a new ten: '28, 29, twenty-ten'.","Counts in tens from 10 but can't start from 3.","Recites fives from memory but can't say what comes after 35."],
+ need:"Nothing needed. Bundles of ten sticks help with teaching.",
+ tasks:[
+  [["say","Count from 27. Keep going until I say stop."],["do","Stop the child at 43."]],
+  [["say","Count in tens, starting at 6."]],
+  [["say","Count in fives from zero."],["say","What comes after 35?"]]
+ ],
+ acts:[
+  {name:"What changes?",parts:[["do","Start with three loose sticks and add bundles of ten: 3, 13, 23, 33."],["say","What changes? What stays the same?"],["do","Take bundles away to count back."]]},
+  {name:"Build the counting pattern",parts:[["do","Count pairs of objects, groups of five and bundles of ten, pointing to each group."],["tip","To practise crossing a ten, build 28, 29 and 30, swapping ten ones for a bundle of ten."]]}
+ ]},
+{n:14,phase:"c",title:"Tens and ones, and adding to 100",short:"The 4 in 43 means four tens",
+ q:"Does the child understand tens and ones, and use them to add?",
+ term:"place value",
+ looks:["Knows the 4 in 43 means four tens.","Makes 43 with tens and ones in more than one way, like 3 tens and 13 ones.","Places numbers on a 0 to 100 line with roughly even gaps.","Adds and takes away 10 without counting in ones, and adds two 2-digit numbers using tens and ones."],
+ watch:["Reads 43 as 'four, three'.","Counts on in ones to add 10.","Writes forty-three as 403."],
+ need:"Tens sticks and single cubes, paper and a pen.",
+ tasks:[
+  [["do","Write 43. Give the child tens sticks and single cubes."],["say","What does the 4 stand for? Show me with these."]],
+  [["do","Draw a line with 0 at one end and 100 at the other."],["say","Show me where 50 goes."],["do","Repeat with 20 and 85."]],
+  [["say","What is 10 more than 36? What is 10 less than 52?"],["note","Does the child count in ones?"]],
+  [["say","What is 23 + 14? How did you work it out?"]]
+ ],
+ acts:[
+  {name:"Same number, different groups",parts:[["do","Build 43 as four tens and three ones. Swap one ten for ten ones to make three tens and thirteen ones."],["say","Why is it still 43?"]]},
+  {name:"Change the tens or the ones",parts:[["do","Build 36, add one ten, and compare 36 with 46. Build 23 + 14 by putting the tens together and the ones together. Do it backwards for taking away."],["tip","Write the number sentence next to the objects."]]},
+  {name:"Stretch the line",parts:[["do","Use the step 7 number line activity on a 0 to 100 line, with 0, 50 and 100 marked."]]}
+ ],
+ why:"Most children space 0 to 100 evenly by age 7 or 8. A child who puts 20 near the middle of the line isn't yet sure how big these numbers are (Siegler and Braithwaite, 2017)."},
+{n:15,phase:"c",title:"Early multiplying and sharing",short:"Equal groups, sharing fairly",
+ q:"Can the child make equal groups, and share fairly?",
+ looks:["Makes equal groups and finds the total: 3 plates with 2 biscuits on each.","Shares a set fairly between a number of people.","Puts a set into groups of a given size and finds how many groups.","Doubles and halves small numbers.","Links counting in 2s, 5s and 10s to equal groups."],
+ watch:["Shares unevenly and doesn't check the groups match.","Adds the number of groups to the number in each, so 3 plates of 2 biscuits becomes 5.","Recites times tables but can't use them in a problem."],
+ need:"Some plates (or paper circles), 12 counters, and a few teddies.",
+ tasks:[
+  [["do","Put out 3 plates."],["say","Put 2 biscuits on each plate. How many biscuits altogether?"]],
+  [["do","Give the child 12 counters."],["say","Share these fairly between 3 teddies. How many does each teddy get?"]],
+  [["do","Give the child 12 counters and some plates."],["say","Put 3 counters on each plate. How many plates do you need?"]],
+  [["say","What is double 4? What is half of 10?"]]
+ ],
+ acts:[
+  {name:"Make equal groups",parts:[["do","Put two counters on each of three plates."],["say","Three groups of two."],["do","Find the total. Set the six counters out in rows and columns, and talk about both ways of seeing them. Link two equal groups to doubling."]]},
+  {name:"Share or group?",parts:[["do","With twelve counters, compare two jobs: share them between three plates, and put three on each plate."],["say","Are we finding how many on each plate, or how many plates?"],["tip","Share between two to explore halving."]]}
+ ],
+ why:"These problems are harder than adding problems, because they link two kinds of thing, like plates and biscuits."}
+];
+
+const SPOT=[
+ {t:"You ask Jay for 5 + 3. He says '5, 6, 7' and tells you the answer is 7.",o:[2,9,11],a:9,w:"Jay is counting on, but he's counting the 5 again. That's a common step 9 slip.",tip:"Try 'Keep the first number': cover 5 counters, then count on from the cover."},
+ {t:"Ruby counts 6 cubes perfectly. You ask 'How many?' and she counts them all again.",o:[4,5,8],a:5,w:"Ruby can count, but doesn't yet know that the last number tells you how many. That's step 5.",tip:"Use the 'give me' task and 'Collect an order'."},
+ {t:"You ask Sam to write fourteen. He writes 41.",o:[6,10,14],a:10,w:"'Fourteen' says the 4 first. Sam doesn't yet see 14 as ten and four. That's step 10.",tip:"Build teen numbers on two ten-frames and say 'ten and four'."},
+ {t:"You show Amir 3 counters spread wide and 8 close together. He says the 3 has more.",o:[1,3,7],a:1,w:"Amir is judging by how much space the group takes up. That's step 1.",tip:"Pair the objects up one to one to check which has more."},
+ {t:"Maya counts '27, 28, 29, twenty-ten'.",o:[2,13,14],a:13,w:"Maya gets stuck where the ten changes. That's step 13.",tip:"Build 28, 29, 30 with sticks and swap ten ones for a bundle."},
+ {t:"You ask Ellie: 'Mia has 5 stickers and Tom has 3. How many more does Mia have?' Ellie says 8.",o:[9,12,15],a:12,w:"Ellie heard 'more' and added. Picking the sum from a key word is a step 12 error.",tip:"Line the two rows up side by side and look at the difference."},
+ {t:"Counting a scattered pile of cubes, Noah counts some of them twice.",o:[3,4,5],a:4,w:"Noah loses track of which cubes he has counted. That's step 4.",tip:"Try 'Move and count': move each cube into a tray as you say its number."},
+ {t:"On a line from 0 to 10, Isla puts 6, 7, 8 and 9 all squashed up near the 10.",o:[6,7,14],a:7,w:"Squashing the bigger numbers together is typical before a child understands step 7.",tip:"Play a straight 1 to 10 race game, saying the numbers on the squares."},
+ {t:"You put out 3 plates with 2 biscuits on each. Theo says there are 5 biscuits.",o:[9,12,15],a:15,w:"Theo added the number of plates to the number on each plate. That's step 15.",tip:"Say 'three groups of two' and count the groups together."},
+ {t:"You flash 2 dots. Zara says 'one, two' and points at each dot every time.",o:[2,3,4],a:3,w:"Zara has to count even very small groups. She isn't yet seeing small numbers at a glance, which is step 3.",tip:"Play 'See it, show it' with 1 to 3 objects."},
+ {t:"Freddie reads the card '6' correctly, but can't give you 6 cubes.",o:[5,6,7],a:6,w:"Freddie knows the name of the numeral but not the amount it stands for. That's step 6. Check step 5 too.",tip:"Play 'Fill the labelled pot'."},
+ {t:"Leo knows 8 + 2 = 10, but for 8 + 5 he counts on in ones from 8.",o:[9,11,13],a:11,w:"Leo isn't yet using facts he knows to work out new ones. That's step 11.",tip:"Show 8 + 5 by splitting the 5 into 2 and 3, making ten first."}
+];
+
+const MYTHS=[
+ {t:"She can count to 20, so she knows her numbers to 20.",m:true,w:"Saying the words in order is step 2. A child can count to 20 and still grab a handful when you ask for five. Use the 'give me' task to check steps 4 and 5."},
+ {t:"He just needs more practice.",m:true,w:"If a child doesn't understand the idea underneath, more practice builds a routine they can't use in a new problem. Go back to the step where understanding breaks down, and teach from there."},
+ {t:"Children with maths difficulties go through the same steps as other children, just later.",m:false,w:"Fact. They move through the same steps, later (Siegler and Braithwaite, 2017). Good teaching moves them on."},
+ {t:"Cubes and counters are for the younger children.",m:true,w:"Use objects at the step the child is working at, whatever their age. Choose materials that fit the idea, like a number track with equal squares."},
+ {t:"A simple board game with a straight numbered track can improve children's number skills.",m:false,w:"Fact. A few short sessions of a 1 to 10 race game improved young children's number skills (Siegler and Ramani, 2008)."},
+ {t:"She'll catch up when she's ready.",m:true,w:"Teaching moves children on. If you wait, the gap stays."},
+ {t:"He knows his number bonds. He answers in a flash.",m:true,w:"Fast answers learnt by heart can fall apart when the numbers change. Ask 'How do you know?' A child who explains 6 + 7 from 6 + 6 has something to build on."},
+ {t:"Regular, structured time with a skilled adult is a big part of what makes any programme work.",m:false,w:"Fact. In one trial, children who had the same one-to-one time with a teaching assistant, without the programme, did slightly better than those on it."}
+];
+
+const YEARS=[["N","Nursery"],["R","Reception"],["Y1","Year 1"],["Y2","Year 2"],["Y3","Year 3"],["older","Older, with SEND"]];
+const ST={secure:{l:"Secure",d:"Did it confidently, without help"},emerging:{l:"Emerging",d:"Some of it, or only with help"},notyet:{l:"Not yet",d:"Couldn't do this yet"}};
+const FLAGS=[
+ ["two","Two blocks of teaching at the right step, with little progress"],
+ ["s45","Not secure at steps 4 and 5 by the end of Year 1"],
+ ["uneven","An uneven profile, with gaps scattered across many steps"],
+ ["other","Other needs, such as language, attention or memory, make it hard to tell what's getting in the way"],
+ ["anx","Anxious about maths, or avoids number work"]
+];
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=s=>s.replace(/\{([^}|]+)(?:\|([^}]+))?\}/g,(m,k,d)=>GLOSS[k]?`<button type="button" class="term" data-term="${k}">${d||k}</button>`:(d||k));
+const plain=s=>s.replace(/\{([^}|]+)(?:\|([^}]+))?\}/g,(m,k,d)=>d||k);
+const LBL={do:"Do",say:"Say",note:"Look for",tip:"Tip"};
+const parts=arr=>arr.map(([t,x])=>`<div class="pt pt-${t}"><span class="pt-l">${LBL[t]}</span><div class="pt-x">${t==="say"?"‘"+fmt(x)+"’":fmt(x)}</div></div>`).join("");
+const store={
+ get(k,d){try{const v=localStorage.getItem("numsteps-"+k);return v?JSON.parse(v):d}catch(e){return d}},
+ set(k,v){try{localStorage.setItem("numsteps-"+k,JSON.stringify(v))}catch(e){}}
+};
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const addDays=(iso,n)=>{const d=new Date(iso+"T12:00:00");if(isNaN(d))return "";d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const nice=iso=>{if(!iso)return "";const d=new Date(iso+"T12:00:00");return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})};
+const yearName=v=>(YEARS.find(y=>y[0]===v)||["",""])[1];
+const pill=s=>s?`<span class="pill s-${s}">${ST[s].l}</span>`:"";
+const reduce=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let S=store.get("check",null);
+let P=store.get("practise",{si:0,mi:0,spot:{},myth:{}});
+let stepTab="look", pendingStart=1, confirmNew=false;
+const saveS=()=>store.set("check",S);
+const saveP=()=>store.set("practise",P);
+
+function teachStart(){
+ if(!S)return null;
+ const ns=Object.keys(S.res).map(Number).filter(n=>S.res[n]&&S.res[n].s&&S.res[n].s!=="secure").sort((a,b)=>a-b);
+ return ns.length?ns[0]:null;
+}
+function checkedList(){return S?Object.keys(S.res).map(Number).filter(n=>S.res[n]&&S.res[n].s).sort((a,b)=>a-b):[]}
+function autoFlags(){
+ const f={};if(!S)return f;
+ const ns=checkedList(), bad=n=>S.res[n]&&S.res[n].s&&S.res[n].s!=="secure";
+ if(["Y2","Y3","older"].includes(S.pupil.year)&&(bad(4)||bad(5)))f.s45=true;
+ const seq=ns.map(n=>bad(n));
+ for(let i=0;i<seq.length;i++)for(let j=i+1;j<seq.length;j++)for(let k=j+1;k<seq.length;k++)if(seq[i]&&!seq[j]&&seq[k])f.uneven=true;
+ return f;
+}
+const flagOn=k=>S.flags&&k in S.flags?S.flags[k]:!!autoFlags()[k];
+
+/* ---------- Illustrations ---------- */
+const EPI=`<div class="ep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M12 11v7"/><path d="M12 6.3v.2"/></svg></div>`;
+const SC={secure:"ok",emerging:"mid",notyet:"no"};
+const statusOf=n=>S&&S.res[n]&&S.res[n].s||null;
+const f1=v=>(+v).toFixed(1);
+function buddy(x,y){
+ return `<g transform="translate(${f1(x)} ${f1(y)})"><g class="buddy"><ellipse cx="0" cy="16" rx="10" ry="2.6" fill="#000" opacity=".13"/><circle r="13" fill="var(--go)"/><circle cx="-4.6" cy="-2" r="3.4" fill="#fff"/><circle cx="4.6" cy="-2" r="3.4" fill="#fff"/><circle cx="-4" cy="-1.4" r="1.6" fill="#24264A"/><circle cx="5.2" cy="-1.4" r="1.6" fill="#24264A"/><path d="M-4 5.2q4 3.4 8 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></g></g>`;
+}
+function pebble(x,y,r,n){
+ const st=STEPS[n-1],p=st.phase,s=statusOf(n),rx=r*1.22,ry=r*.9;
+ return `<a href="#step-${n}" class="peb" aria-label="Step ${n}: ${st.title}${s?", "+ST[s].l:""}">`+
+  `<ellipse cx="${f1(x)}" cy="${f1(y+4)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="var(--${p}-deep)" opacity=".2"/>`+
+  `<ellipse class="top" cx="${f1(x)}" cy="${f1(y)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="var(--${p})"/>`+
+  `<ellipse cx="${f1(x-r*.42)}" cy="${f1(y-r*.42)}" rx="${f1(r*.38)}" ry="${f1(r*.15)}" fill="#fff" opacity=".45"/>`+
+  (s?`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(rx+5)}" ry="${f1(ry+5)}" fill="none" stroke="var(--${SC[s]})" stroke-width="3"${s==="notyet"?' stroke-dasharray="5 4"':""}/>`:"")+
+  `<text x="${f1(x)}" y="${f1(y+1)}" text-anchor="middle" dominant-baseline="middle">${n}</text></a>`;
+}
+function band(W,y1,y2,a){
+ let d="";
+ for(let x=0;x<=W;x+=30)d+=(x?"L":"M")+x+" "+f1(y1+a*Math.sin(x/95));
+ for(let x=W;x>=0;x-=30)d+="L"+x+" "+f1(y2+a*Math.sin(x/95+1.3));
+ return `<path d="${d}Z" fill="var(--say)"/>`;
+}
+const ripples=list=>list.map(([x,y])=>`<path d="M${x} ${y}q9 -5 18 0" stroke="var(--surface)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".9"/>`).join("");
+const route=pts=>`<path d="${pts.map((p,i)=>(i?"L":"M")+f1(p[0])+" "+f1(p[1])).join("")}" fill="none" stroke="var(--muted)" stroke-opacity=".4" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>`;
+const flag=(x,y)=>`<g transform="translate(${f1(x)} ${f1(y)})"><ellipse cx="0" cy="2" rx="9" ry="2.6" fill="#000" opacity=".12"/><path d="M0 0V-40" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/><path d="M1.5 -40 L23 -32.5 L1.5 -25Z" fill="var(--go)"/></g>`;
+function pathArt(){
+ const who=S?(teachStart()||S.cur||1):1;
+ // Wide: one gently curving line of stones across a stream.
+ const wp=STEPS.map((s,i)=>[40+i*(780/14),112+28*Math.sin(i*.8+.4)]), wr=22;
+ let wide=band(900,58,172,9)+ripples([[70,160],[250,70],[420,165],[610,74],[760,158],[880,92]])+route(wp);
+ wide+=wp.map((p,i)=>pebble(p[0],p[1],wr,i+1)).join("")+flag(wp[14][0]+44,wp[14][1]+6)+buddy(wp[who-1][0],wp[who-1][1]-wr-17);
+ // Narrow: three rows, one per phase, snaking back and forth.
+ const rows=[["a",80,42,318,false],["b",192,42,318,true],["c",304,30,292,false]], np=[];
+ rows.forEach(([ph,y,x0,x1,rev])=>{const list=STEPS.filter(s=>s.phase===ph),k=list.length;
+  list.forEach((s,j)=>{const jj=rev?k-1-j:j;np.push([x0+jj*(x1-x0)/(k-1),y+7*Math.sin(j*1.4)])})});
+ const nr=19;
+ let narrow=band(360,26,352,7)+ripples([[20,140],[300,140],[150,250],[40,360-26],[260,30]])+route(np);
+ narrow+=np.map((p,i)=>pebble(p[0],p[1],nr,i+1)).join("")+flag(np[14][0]+38,np[14][1]+6)+buddy(np[who-1][0],np[who-1][1]-nr-17);
+ return `<svg class="wide" viewBox="0 0 900 200" role="group" aria-label="The 15 steps as stepping stones">${wide}</svg><svg class="narrow" viewBox="0 0 360 380" role="group" aria-label="The 15 steps as stepping stones">${narrow}</svg>`;
+}
+function miniPath(cur){
+ const pts=STEPS.map((s,i)=>[16+i*29.1,25+6*Math.sin(i*.9)]);
+ let g=route(pts);
+ pts.forEach(([x,y],i)=>{const n=i+1,st=STEPS[i],c=n===cur,s=statusOf(n);
+  g+=`<a href="#step-${n}" class="peb" aria-label="Step ${n}: ${st.title}"><ellipse class="top" cx="${f1(x)}" cy="${f1(y)}" rx="${c?14:8}" ry="${c?11.5:6.5}" fill="var(--${st.phase})" opacity="${c||n<cur?1:.55}"${c?' stroke="var(--ink)" stroke-width="2"':""}/>`+
+   (c?`<text x="${f1(x)}" y="${f1(y+1)}" text-anchor="middle" dominant-baseline="middle" style="font-size:12px">${n}</text>`:"")+
+   (s&&!c?`<circle cx="${f1(x)}" cy="${f1(y-12)}" r="3" fill="var(--${SC[s]})"/>`:"")+`</a>`});
+ return `<svg viewBox="0 0 440 50" role="group" aria-label="Where this step sits among the 15">${g}</svg>`;
+}
+function phaseArt(p,cls){
+ const f="var(--p)",k="var(--pd)";let g="";
+ if(p==="a"){
+  [[16,24],[46,64],[22,70]].forEach(([x,y])=>g+=`<circle cx="${x}" cy="${y}" r="7.5" fill="${f}" stroke="${k}" stroke-width="2"/>`);
+  g+=`<path d="M66 12V80" stroke="${k}" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round" opacity=".6"/>`;
+  for(let i=0;i<8;i++)g+=`<circle cx="${84+(i%4)*14}" cy="${38+Math.floor(i/4)*14}" r="6" fill="${f}" stroke="${k}" stroke-width="2"/>`;
+ } else if(p==="b"){
+  g+=`<rect x="10" y="21" width="120" height="48" rx="6" fill="var(--surface)" stroke="${k}" stroke-width="2"/>`;
+  for(let c=1;c<5;c++)g+=`<path d="M${10+c*24} 21V69" stroke="${k}" stroke-width="1.5"/>`;
+  g+=`<path d="M10 45H130" stroke="${k}" stroke-width="1.5"/>`;
+  for(let i=0;i<7;i++)g+=`<circle cx="${22+(i%5)*24}" cy="${33+Math.floor(i/5)*24}" r="8" fill="${f}" stroke="${k}" stroke-width="2"/>`;
+ } else {
+  [12,46,80].forEach(x0=>{for(let i=0;i<5;i++)g+=`<rect x="${x0+i*5.5}" y="16" width="4.5" height="58" rx="2" fill="${f}" stroke="${k}" stroke-width="1.2"/>`;g+=`<rect x="${x0-2}" y="40" width="31" height="8" rx="3" fill="${k}"/>`});
+  [114,121,128].forEach((x,i)=>g+=`<rect x="${x}" y="${26+i*4}" width="4.5" height="48" rx="2" fill="${f}" stroke="${k}" stroke-width="1.2"/>`);
+ }
+ return `<svg class="${cls||"ph-art"}" viewBox="0 0 140 90" aria-hidden="true">${g}</svg>`;
+}
+
+/* ---------- Views ---------- */
+function tile(s){
+ const r=S&&S.res[s.n]&&S.res[s.n].s;
+ return `<a class="tile ph-${s.phase}" href="#step-${s.n}"><span class="blk">${s.n}</span><span class="tt">${s.title}</span><span class="ts">${s.short}</span>${r?`<span class="pill s-${r}">${esc(S.pupil.initials||"Pupil")}: ${ST[r].l}</span>`:""}</a>`;
+}
+function viewHome(){
+ return `
+ <section class="hero">
+  <p class="eyebrow">Early number · Nursery to Year 3, and older pupils with SEND</p>
+  <h1>Where is this child stuck with number, and what do I teach next?</h1>
+  <p class="lede">Number Steps breaks early maths into 15 small steps. Check a child one-to-one, find the step where they get stuck, then teach from there.</p>
+  <div class="row"><a class="btn go" href="#check">${S&&S.stage!=="results"?"Carry on checking "+esc(S.pupil.initials):"Check a pupil"}</a><button type="button" class="btn ghost" data-act="scroll-map">See all 15 steps</button></div>
+  <figure class="art">${pathArt()}<figcaption>${S?`Rings show ${esc(S.pupil.initials)}'s results so far. Tap a stone to open that step.`:"Fifteen stepping stones across the stream. Tap a stone to open that step."}</figcaption></figure>
+  <ol class="how">
+   <li><b>Check</b><span>Work one-to-one for 10 to 15 minutes, with cubes, counters and a few cards.</span></li>
+   <li><b>Find the step</b><span>Stop at the first step where the child keeps making mistakes. That's where teaching starts.</span></li>
+   <li><b>Teach and review</b><span>Short daily sessions of 10 to 20 minutes. Check again after about six weeks.</span></li>
+  </ol>
+  <p class="note">The steps are a map, not a ladder. A child may manage a later step before an earlier one, so check the steps either side of the one you're interested in.</p>
+ </section>
+ <div id="map">
+ ${["a","b","c"].map(p=>`<section class="phase ph-${p}"><header><div class="ph-t"><span class="ph-k">${PH[p].range}</span><h2>${PH[p].name}</h2><p>${PH[p].blurb}</p></div>${phaseArt(p)}</header><div class="tiles">${STEPS.filter(s=>s.phase===p).map(tile).join("")}</div></section>`).join("")}
+ </div>
+ <section class="ep home-ep" aria-labelledby="ep-h">${EPI}<div><p class="ep-k">Specialist support</p><h2 id="ep-h">When to talk to your link EP</h2>
+  <p>Talk to your link educational psychologist if any of these apply to a child.</p>
+  <ul class="ep-list">${FLAGS.map(f=>`<li>${f[1]}.</li>`).join("")}</ul>
+  <p>Bring your record from the check. It shows your EP where to start.</p></div>
+ </section>`;
+}
+
+function viewStep(n){
+ const s=STEPS[n-1], ph=PH[s.phase];
+ const tabs=[["look","What to look for"],["check","Check it"],["teach","Teach it"]];
+ let body="";
+ if(stepTab==="look"){
+  body=`<div class="cols">
+   <div class="box"><h3>When it's {secure}, the child:</h3><ul class="ticks">${s.looks.map(l=>`<li>${fmt(l)}</li>`).join("")}</ul></div>
+   <div class="box"><h3>Watch out for</h3><ul class="warns">${s.watch.map(l=>`<li>${fmt(l)}</li>`).join("")}</ul></div>
+  </div>
+  ${s.stages?`<div class="box extra"><h3>The four stages</h3><ol class="stages">${s.stages.map(x=>`<li><b>${x[0]}</b>${x[1]}</li>`).join("")}</ol></div>`:""}
+  ${s.stories?`<div class="box extra"><h3>Three kinds of story</h3><div class="stories">${s.stories.map(x=>`<div><b>${x[0]}.</b> ${x[1]}</div>`).join("")}</div></div>`:""}`;
+  body=body.replace("{secure}",`<button type="button" class="term" data-term="secure">secure</button>`);
+ } else if(stepTab==="check"){
+  body=`<p class="need"><b>You need:</b> ${s.need}</p>
+  <ol class="tasks">${s.tasks.map(t=>`<li>${parts(t)}</li>`).join("")}</ol>
+  ${adjustBox()}`;
+ } else {
+  body=`<div class="acts">${s.acts.map(a=>`<article class="act"><h3>${a.name}</h3>${parts(a.parts)}</article>`).join("")}</div>
+  <p class="note" style="margin-top:14px">Keep earlier steps going in short warm-ups, so the child doesn't lose them.</p>`;
+ }
+ return `
+ <nav class="crumbs"><a href="#steps">← All steps</a></nav>
+ <header class="stephead ph-${s.phase}"><span class="blk big">${n}</span><div><p class="eyebrow">Step ${n} of 15 · ${ph.name}</p><h1>${s.title}</h1><p class="q">${s.q}</p>${s.term?`<p class="muted" style="margin-top:6px">Also called <button type="button" class="term" data-term="${s.term}">${s.term}</button>.</p>`:""}<div class="mini">${miniPath(n)}</div></div>${phaseArt(s.phase,"st-art")}</header>
+ <div class="seg" role="tablist">${tabs.map(t=>`<button type="button" role="tab" aria-selected="${stepTab===t[0]}" data-act="steptab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div>
+ <div class="ph-${s.phase}">${body}</div>
+ ${s.why?`<details class="why"><summary>Why this matters</summary><p>${fmt(s.why)}</p></details>`:""}
+ <div class="pager">
+  ${n>1?`<a class="btn ghost" href="#step-${n-1}">← Step ${n-1}</a>`:"<span></span>"}
+  <button type="button" class="btn go" data-act="start-from" data-v="${n}">Check this step with a pupil</button>
+  ${n<15?`<a class="btn ghost" href="#step-${n+1}">Step ${n+1} →</a>`:"<span></span>"}
+ </div>`;
+}
+function adjustBox(){
+ return `<div class="adjust"><div><b>Stuck?</b>Make it easier: use smaller numbers, or let them see and handle the objects.</div><div><b>Too easy?</b>Make it harder: use bigger numbers, or hide the objects.</div></div>`;
+}
+
+function viewCheck(){
+ if(!S)return viewSetup();
+ if(S.stage==="results")return viewResults();
+ return viewRun();
+}
+function viewSetup(){
+ return `
+ <section class="hero"><p class="eyebrow">Check a pupil</p><h1>Find the step where the child gets stuck</h1>
+ <p class="lede">Takes 10 to 15 minutes. You'll go step by step, and the tool tells you where to start teaching.</p></section>
+ <div class="cols" style="margin-top:16px">
+  <form id="setup" class="box stack" autocomplete="off">
+   <div class="form-grid">
+    <div class="field"><label for="pi">Pupil's initials</label><input id="pi" name="pi" maxlength="4" required placeholder="e.g. JS"><small>Initials only, please. No full names.</small></div>
+    <div class="field"><label for="yr">Year group</label><select id="yr" name="yr">${YEARS.map(y=>`<option value="${y[0]}">${y[1]}</option>`).join("")}</select></div>
+    <div class="field"><label for="dt">Date</label><input id="dt" name="dt" type="date" value="${today()}"></div>
+    <div class="field"><label for="ai">Your initials</label><input id="ai" name="ai" maxlength="4" placeholder="e.g. AB"></div>
+   </div>
+   <div class="field"><label for="st">Start at</label><select id="st" name="st">${STEPS.map(s=>`<option value="${s.n}"${s.n===pendingStart?" selected":""}>Step ${s.n}: ${s.title}</option>`).join("")}</select>
+   <small>Start one or two steps below where you expect the child to struggle, so they begin with success. If you're not sure, start at step 1. Easy steps go quickly.</small></div>
+   <div><button class="btn go" type="submit">Start checking</button></div>
+  </form>
+  <div class="box"><h3>Before you start</h3><ul class="ticks">
+   <li>Work one-to-one, somewhere quiet.</li>
+   <li>Use real objects the child can touch and move.</li>
+   <li>Watch how the child gets each answer, not just whether it's right.</li>
+   <li>If the child gets stuck, make it easier. If it's easy, make it harder.</li>
+   <li>Stop at the first step where the child keeps making mistakes.</li>
+  </ul></div>
+ </div>`;
+}
+function strip(){
+ return `<div class="strip" aria-label="Steps checked so far">${STEPS.map(s=>{const r=S.res[s.n]&&S.res[s.n].s;return `<button type="button" class="sq ${r?"s-"+r:""} ${s.n===S.cur?"cur":""}" data-act="goto" data-v="${s.n}" aria-label="Step ${s.n}${r?", "+ST[r].l:", not checked"}">${s.n}</button>`}).join("")}</div>
+ <div class="legend"><span class="pill s-secure">Secure</span><span class="pill s-emerging">Emerging</span><span class="pill s-notyet">Not yet</span><span class="pill">Not checked</span></div>`;
+}
+function viewRun(){
+ const n=S.cur, s=STEPS[n-1], r=S.res[n]||{}, seen=r.seen||[];
+ return `
+ <div class="checkhead"><div><p class="eyebrow">Checking</p><h2>${esc(S.pupil.initials)} · ${yearName(S.pupil.year)}</h2></div>
+  <div class="row"><button type="button" class="btn ghost sm" data-act="results">Finish and see the plan</button></div></div>
+ ${strip()}
+ <article class="ck ph-${s.phase}">
+  <div class="ck-h"><span class="blk">${n}</span><div><p class="eyebrow">Step ${n} · ${PH[s.phase].name}</p><h2>${s.title}</h2></div></div>
+  <p class="need"><b>You need:</b> ${s.need}</p>
+  <ol class="tasks">${s.tasks.map(t=>`<li>${parts(t)}</li>`).join("")}</ol>
+  ${adjustBox()}
+  <h3>Did you see any of these?</h3>
+  <p class="hint">Tap any that happened. They go on the record.</p>
+  <div class="chips">${s.watch.map((w,i)=>`<button type="button" class="chip" aria-pressed="${seen.includes(i)}" data-act="chip" data-v="${i}">${esc(plain(w))}</button>`).join("")}</div>
+  <div class="field"><label for="notes-${n}">What did you notice? How did the child get their answers?</label><textarea id="notes-${n}" data-notes="${n}" placeholder="e.g. Counted from 1 each time. Gave me 4 correctly, grabbed a handful for 7.">${esc(r.notes||"")}</textarea></div>
+  <h3>How did it go?</h3>
+  <div class="rate">${Object.keys(ST).map(k=>`<button type="button" class="r-${k}" aria-pressed="${r.s===k}" data-act="rate" data-v="${k}"><b>${ST[k].l}</b><small>${ST[k].d}</small></button>`).join("")}</div>
+  <div id="nextbox">${nextBox(n,r)}</div>
+  <p><a href="#step-${n}">Open the full step, with teaching ideas</a></p>
+ </article>`;
+}
+function nextBox(n,r){
+ if(!r.s)return "";
+ if(r.s==="secure")return `<div class="next"><p><b>Secure.</b> ${n<15?"Move on to the next step.":"That's the last step."}</p><div class="row">${n<15?`<button type="button" class="btn go" data-act="goto" data-v="${n+1}">Check step ${n+1}</button>`:""}<button type="button" class="btn ghost" data-act="results">Finish and see the plan</button></div></div>`;
+ const before=n>1&&!(S.res[n-1]&&S.res[n-1].s);
+ return `<div class="next"><p><b>This may be where teaching starts.</b> Stop at the first step where the child keeps making mistakes. If you want to be sure, check the step either side.</p>
+ <div class="row"><button type="button" class="btn go" data-act="results">Finish and see the plan</button>${before?`<button type="button" class="btn ghost" data-act="goto" data-v="${n-1}">Check step ${n-1}</button>`:""}${n<15?`<button type="button" class="btn ghost" data-act="goto" data-v="${n+1}">Check step ${n+1}</button>`:""}</div></div>`;
+}
+function sessionBox(){
+ return `<section class="session"><h3>A good teaching session</h3>
+ <p>10 to 20 minutes, every day if you can, in blocks of about ten weeks. Keep the routine the same each time, so the child knows what's coming.</p>
+ <ol class="timeline"><li><b>Counting</b><span>2 to 3 minutes</span></li><li><b>Number ideas</b><span>5 to 7 minutes</span></li><li><b>Calculating</b><span>5 to 7 minutes</span></li><li><b>A story problem</b><span>5 to 7 minutes</span></li></ol>
+ <ul class="bul">
+  <li>Use the same numbers all session. If you work on 4, use 4 in the story too.</li>
+  <li>Objects first, then pictures, then written numbers. Go back to objects whenever the child needs them.</li>
+  <li>My turn, together, your turn. Say the words you want the child to use: more, fewer, altogether, the same as.</li>
+  <li>Ask ‘How did you work it out?’ The child can show you, point or draw, as well as tell you.</li>
+  <li>Speed comes last. Get it right and understood first.</li>
+  <li>Keep earlier steps going in short warm-ups.</li>
+ </ul></section>`;
+}
+function flagsBox(){
+ const auto=autoFlags();
+ return `<section class="ep">${EPI}<div><p class="ep-k">Specialist support</p><h3>Should you talk to your link EP?</h3><p style="margin-bottom:12px">Tick any that apply. They go on the record.</p>
+ <div class="flags">${FLAGS.map(([k,l])=>`<label class="flag"><input type="checkbox" data-flag="${k}"${flagOn(k)?" checked":""}><span>${l}${auto[k]?"<em>Suggested by your answers</em>":""}</span></label>`).join("")}</div></div></section>`;
+}
+function viewResults(){
+ const t=teachStart(), ns=checkedList();
+ let top;
+ if(t){
+  const s=STEPS[t-1];
+  top=`<section class="startbox ph-${s.phase}"><p class="eyebrow">Start teaching at</p>
+   <div class="top-line"><span class="blk big">${t}</span><div><h1>${s.title}</h1><p class="q" style="margin-top:6px">${s.q}</p></div></div></section>
+   <figure class="art">${pathArt()}<figcaption>${esc(S.pupil.initials)}'s path. The buddy is waiting at step ${t}, where teaching starts.</figcaption></figure>
+   <section class="stack"><h2>Activities for step ${t}</h2><div class="acts ph-${s.phase}">${s.acts.map(a=>`<article class="act"><h3>${a.name}</h3>${parts(a.parts)}</article>`).join("")}</div></section>`;
+ } else if(ns.length){
+  const max=ns[ns.length-1];
+  top=`<section class="startbox ph-c"><p class="eyebrow">Result</p><h1>Every step you checked was secure</h1>
+   <p>${max<15?`Check step ${max+1} next to find where teaching should start.`:"The child is secure across all 15 steps."}</p>
+   ${max<15?`<div><button type="button" class="btn go" data-act="goto" data-v="${max+1}">Check step ${max+1}</button></div>`:""}</section>`;
+ } else {
+  top=`<section class="empty"><h2>No steps marked yet</h2><p>Go back and mark at least one step as secure, emerging or not yet.</p><button type="button" class="btn go" data-act="back-run">Back to checking</button></section>`;
+ }
+ return `
+ <div class="checkhead"><div><p class="eyebrow">Plan for</p><h2>${esc(S.pupil.initials)} · ${yearName(S.pupil.year)}</h2></div>
+ <div class="row"><button type="button" class="btn ghost sm" data-act="back-run">Back to checking</button><a class="btn go sm" href="#record">See the record</a></div></div>
+ ${strip()}
+ <div class="stack">${top}${t?sessionBox():""}${flagsBox()}
+ <div class="row"><a class="btn go" href="#record">See the record</a></div></div>`;
+}
+
+function viewRecord(){
+ if(!S)return `<section class="hero"><p class="eyebrow">Record</p><h1>Nothing to record yet</h1></section>
+  <div class="empty" style="margin-top:16px"><svg viewBox="-24 -22 48 44" width="72" height="66" aria-hidden="true">${buddy(0,0)}</svg><p>When you check a pupil, their results appear here as a record you can copy into your school's system.</p>
+  <p class="muted">Prefer paper? Ask your SENCo for the printable Number Steps record sheet.</p><a class="btn go" href="#check">Check a pupil</a></div>`;
+ const t=teachStart();
+ const ticked=FLAGS.filter(([k])=>flagOn(k));
+ return `
+ <div class="checkhead noprint"><div><p class="eyebrow">Record</p><h2>${esc(S.pupil.initials)}</h2></div>
+  <div class="row"><button type="button" class="btn go sm" data-act="copy" id="copybtn">Copy as text</button><button type="button" class="btn ghost sm" data-act="back-run">Change answers</button><button type="button" class="btn ghost sm" data-act="new">Start a new pupil</button></div></div>
+ ${confirmNew?`<div class="confirm noprint" style="margin-bottom:16px"><p><b>Clear this record?</b> Copy it first if you need to keep it. This can't be undone.</p><div class="row"><button type="button" class="btn go sm" data-act="new-yes">Yes, clear it</button><button type="button" class="btn ghost sm" data-act="new-no">Keep it</button></div></div>`:""}
+ <article class="sheet">
+  <header class="stack" style="gap:10px"><p class="eyebrow">Number Steps record</p>
+  <dl class="meta" style="margin:0">
+   <div><dt>Pupil</dt><dd>${esc(S.pupil.initials)}</dd></div>
+   <div><dt>Year</dt><dd>${yearName(S.pupil.year)}</dd></div>
+   <div><dt>Checked on</dt><dd>${nice(S.pupil.date)}</dd></div>
+   <div><dt>Checked by</dt><dd>${esc(S.pupil.adult)||"–"}</dd></div>
+   <div><dt><label for="rv">Review due</label></dt><dd><input id="rv" type="date" value="${esc(S.review||"")}" data-review></dd></div>
+  </dl></header>
+  <section class="${t?"startbox ph-"+STEPS[t-1].phase:"startbox ph-c"}" style="padding:16px 18px">
+   <p class="eyebrow">Teaching starts at</p>
+   <h3>${t?`Step ${t}: ${STEPS[t-1].title}`:"Not found yet. Check the next step up."}</h3>
+   ${t?`<p>Activities: ${STEPS[t-1].acts.map(a=>a.name).join(", ")}.</p>`:""}
+  </section>
+  <div class="tablewrap"><table>
+   <thead><tr><th>Step</th><th>Result</th><th>What you saw</th></tr></thead>
+   <tbody>${STEPS.map(s=>{const r=S.res[s.n]||{};const seen=(r.seen||[]).map(i=>plain(s.watch[i]));
+    return `<tr class="${r.s?"":"unchecked"}"><td class="sn">${s.n}. ${s.title}</td><td>${r.s?pill(r.s):"Not checked"}</td><td>${esc(r.notes||"")}${seen.length?`<ul class="seen">${seen.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</td></tr>`}).join("")}</tbody>
+  </table></div>
+  <section class="ep">${EPI}<div><p class="ep-k">Specialist support</p><h3>Talk to your link EP?</h3>${ticked.length?`<ul class="ep-list" style="margin-bottom:0">${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p>Nothing ticked.</p>`}</div></section>
+  <section><h3>At the review</h3><ul class="bul" style="margin-top:8px">
+   <li><b>Secure:</b> move on to the next step.</li>
+   <li><b>Some progress, not yet secure:</b> carry on at the same step for another block.</li>
+   <li><b>Little or no progress:</b> check the child is at the right step, and change the approach.</li>
+   <li><b>Little or no progress after two blocks:</b> talk to your link EP.</li>
+  </ul><p class="muted" style="margin-top:8px">Use the same tasks and numbers as this check, so you can compare.</p></section>
+ </article>
+ <p class="muted noprint" style="margin-top:14px">This record is saved in this browser only. To keep it, copy it into your school's records.</p>`;
+}
+function recordText(){
+ const t=teachStart(), L=[];
+ L.push("NUMBER STEPS RECORD");
+ L.push(`Pupil: ${S.pupil.initials}   Year: ${yearName(S.pupil.year)}   Checked: ${nice(S.pupil.date)}   By: ${S.pupil.adult||"-"}   Review due: ${nice(S.review)}`);
+ L.push("");
+ L.push("Teaching starts at: "+(t?`Step ${t}, ${STEPS[t-1].title}`:"not found yet"));
+ if(t)L.push("Activities: "+STEPS[t-1].acts.map(a=>a.name).join(", "));
+ L.push("");
+ STEPS.forEach(s=>{const r=S.res[s.n];if(!r||!r.s)return;
+  L.push(`Step ${s.n}, ${s.title}: ${ST[r.s].l}`);
+  (r.seen||[]).forEach(i=>L.push("  - "+plain(s.watch[i])));
+  if(r.notes)L.push("  Notes: "+r.notes.replace(/\s+/g," ").trim());
+ });
+ const ticked=FLAGS.filter(([k])=>flagOn(k));
+ L.push("");
+ L.push("Talk to link EP: "+(ticked.length?ticked.map(f=>f[1]).join("; "):"nothing ticked"));
+ return L.join("\n");
+}
+
+function viewPractise(){
+ const si=P.si, q=SPOT[si], ans=P.spot[si];
+ const right=Object.keys(P.spot).filter(i=>P.spot[i]===SPOT[i].a).length, done=Object.keys(P.spot).length;
+ const mi=P.mi, m=MYTHS[mi], mans=P.myth[mi];
+ const mright=Object.keys(P.myth).filter(i=>(P.myth[i]==="myth")===MYTHS[i].m).length, mdone=Object.keys(P.myth).length;
+ return `
+ <section class="hero"><p class="eyebrow">Practise · optional</p><h1>Sharpen your eye</h1>
+ <p class="lede">A few minutes at a time, when you're not with a pupil. It helps you spot where a child is stuck. Nothing is marked or shared.</p></section>
+ <div class="stack" style="margin-top:20px">
+ <section class="quiz">
+  <div class="quiz-h"><div><p class="eyebrow">Spot the step</p><h2>Which step needs work?</h2></div><span class="score">${right} / ${done} right</span></div>
+  <div class="dots">${SPOT.map((x,i)=>`<button type="button" class="dot ${i in P.spot?(P.spot[i]===x.a?"r":"w"):""} ${i===si?"c":""}" data-act="spot-go" data-v="${i}" aria-label="Question ${i+1}"></button>`).join("")}</div>
+  <p class="scen">${q.t}</p>
+  <div class="opts">${q.o.map(n=>{const s=STEPS[n-1];let c="";if(ans!=null){if(n===q.a)c="right";else if(n===ans)c="wrong"}
+   return `<button type="button" class="opt ph-${s.phase} ${c}" data-act="spot" data-v="${n}"${ans!=null?" disabled":""}><span class="blk">${n}</span><span><b>Step ${n}</b><br>${s.title}</span></button>`}).join("")}</div>
+  ${ans!=null?`<div class="fb ${ans===q.a?"r":"w"}"><b>${ans===q.a?"Spot on.":"Not quite. It's step "+q.a+"."}</b><p>${q.w}</p><p><b style="font-size:1rem">Try:</b> ${q.tip}</p>
+   <div class="row"><a class="btn ghost sm" href="#step-${q.a}">Open step ${q.a}</a>${si<SPOT.length-1?`<button type="button" class="btn go sm" data-act="spot-go" data-v="${si+1}">Next</button>`:`<button type="button" class="btn go sm" data-act="spot-reset">Start again</button>`}</div></div>`:""}
+ </section>
+ <section class="quiz">
+  <div class="quiz-h"><div><p class="eyebrow">Myth or fact?</p><h2>Things people say in school</h2></div><span class="score">${mright} / ${mdone} right</span></div>
+  <div class="dots">${MYTHS.map((x,i)=>`<button type="button" class="dot ${i in P.myth?((P.myth[i]==="myth")===x.m?"r":"w"):""} ${i===mi?"c":""}" data-act="myth-go" data-v="${i}" aria-label="Card ${i+1}"></button>`).join("")}</div>
+  <p class="myth">‘${m.t}’</p>
+  ${mans==null?`<div class="row"><button type="button" class="btn go" data-act="myth" data-v="myth">Myth</button><button type="button" class="btn go" data-act="myth" data-v="fact">Fact</button></div>`:
+  `<div class="fb ${(mans==="myth")===m.m?"r":"w"}"><b>${(mans==="myth")===m.m?"Right.":"Not this time."} It's a ${m.m?"myth":"fact"}.</b><p>${m.w}</p>
+   <div class="row">${mi<MYTHS.length-1?`<button type="button" class="btn go sm" data-act="myth-go" data-v="${mi+1}">Next</button>`:`<button type="button" class="btn go sm" data-act="myth-reset">Start again</button>`}</div></div>`}
+ </section></div>`;
+}
+
+/* ---------- Router and events ---------- */
+function render(){
+ const h=(location.hash||"#steps").slice(1);
+ let m, html, tab="steps";
+ if((m=h.match(/^step-(\d{1,2})$/))&&+m[1]>=1&&+m[1]<=15){html=viewStep(+m[1])}
+ else if(h==="check"){html=viewCheck();tab="check"}
+ else if(h==="record"){html=viewRecord();tab="record"}
+ else if(h==="practise"){html=viewPractise();tab="practise"}
+ else html=viewHome();
+ app.innerHTML=html;
+ document.querySelectorAll(".tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.tab===tab?"page":"false"));
+}
+const top0=()=>window.scrollTo(0,0);
+window.addEventListener("hashchange",()=>{stepTab="look";confirmNew=false;closeTerm();render();top0()});
+
+function openTerm(k){$("#gt").textContent=k;$("#gd").textContent=GLOSS[k];$("#gloss").hidden=false}
+function closeTerm(){$("#gloss").hidden=true}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeTerm()});
+
+document.addEventListener("click",e=>{
+ const term=e.target.closest(".term");
+ if(term){e.preventDefault();openTerm(term.dataset.term);return}
+ const el=e.target.closest("[data-act]");
+ if(!el)return;
+ const a=el.dataset.act, v=el.dataset.v;
+ switch(a){
+  case "close-term":closeTerm();break;
+  case "scroll-map":document.getElementById("map").scrollIntoView({behavior:reduce()?"auto":"smooth"});break;
+  case "steptab":stepTab=v;render();break;
+  case "start-from":
+   if(S){S.cur=+v;S.stage="run";saveS()}else pendingStart=+v;
+   location.hash="check";break;
+  case "goto":S.cur=+v;S.stage="run";saveS();render();top0();break;
+  case "rate":{
+   S.res[S.cur]=Object.assign(S.res[S.cur]||{},{s:v});saveS();render();
+   const nb=document.getElementById("nextbox");if(nb)nb.scrollIntoView({behavior:reduce()?"auto":"smooth",block:"center"});break}
+  case "chip":{
+   const r=S.res[S.cur]=S.res[S.cur]||{};r.seen=r.seen||[];const i=+v,at=r.seen.indexOf(i);
+   if(at>-1)r.seen.splice(at,1);else r.seen.push(i);saveS();el.setAttribute("aria-pressed",at===-1);break}
+  case "results":S.stage="results";saveS();render();top0();break;
+  case "back-run":S.stage="run";saveS();if(location.hash!=="#check")location.hash="check";else{render();top0()}break;
+  case "copy":{
+   const txt=recordText();
+   const done=()=>{el.textContent="Copied";setTimeout(()=>{el.textContent="Copy as text"},2000)};
+   const fallback=()=>{const ta=document.createElement("textarea");ta.value=txt;ta.style.minHeight="240px";ta.setAttribute("aria-label","Record as text");el.closest(".checkhead").after(ta);ta.select();el.textContent="Select and copy the text below"};
+   try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(err){fallback()}
+   break}
+  case "new":confirmNew=true;render();break;
+  case "new-no":confirmNew=false;render();break;
+  case "new-yes":S=null;store.set("check",null);confirmNew=false;pendingStart=1;location.hash="check";break;
+  case "spot":P.spot[P.si]=+v;saveP();render();break;
+  case "spot-go":P.si=+v;saveP();render();break;
+  case "spot-reset":P.spot={};P.si=0;saveP();render();break;
+  case "myth":P.myth[P.mi]=v;saveP();render();break;
+  case "myth-go":P.mi=+v;saveP();render();break;
+  case "myth-reset":P.myth={};P.mi=0;saveP();render();break;
+ }
+});
+document.addEventListener("input",e=>{
+ const t=e.target;
+ if(t.dataset.notes){const n=+t.dataset.notes;S.res[n]=S.res[n]||{};S.res[n].notes=t.value;saveS()}
+});
+document.addEventListener("change",e=>{
+ const t=e.target;
+ if(t.dataset.flag){S.flags=S.flags||{};S.flags[t.dataset.flag]=t.checked;saveS()}
+ if("review" in t.dataset){S.review=t.value;saveS()}
+});
+document.addEventListener("submit",e=>{
+ if(e.target.id!=="setup")return;
+ e.preventDefault();
+ const f=new FormData(e.target), dt=f.get("dt")||today();
+ S={pupil:{initials:String(f.get("pi")||"").trim().toUpperCase(),year:f.get("yr"),date:dt,adult:String(f.get("ai")||"").trim().toUpperCase()},
+    cur:+f.get("st")||1,res:{},flags:{},stage:"run",review:addDays(dt,42)};
+ saveS();render();top0();
+});
+render();
+</script>
