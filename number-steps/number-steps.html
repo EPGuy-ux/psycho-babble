@@ -137,6 +137,19 @@ main.wrap{padding-block:24px 72px}
 .ep-list{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
 .ep-list li{background:var(--ep-tint);border-radius:14px;padding:10px 14px 10px 40px;position:relative;color:var(--ep-ink)}
 .ep-list li::before{content:"";position:absolute;left:17px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--ep-accent)}
+.ep-first{color:var(--ep-ink)!important;font-weight:700}
+.concern{background:var(--b-soft);border-radius:26px;padding:22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start}
+.concern-icon{width:48px;height:48px;border-radius:50%;background:var(--b);color:var(--on-fill);display:grid;place-items:center}
+.concern-icon svg{width:26px;height:26px}
+.concern-k{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--b-deep)}
+.concern h3{margin:4px 0 6px}
+.concern .flag{background:var(--surface)}
+.concern .flag input{accent-color:var(--b-deep)}
+.concern .flag em{color:var(--b-deep)}
+.concern-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.concern-list li{background:var(--surface);border-radius:14px;padding:10px 14px 10px 38px;position:relative}
+.concern-list li::before{content:"";position:absolute;left:16px;top:18px;width:8px;height:8px;border-radius:50%;background:var(--b-deep)}
+@media (max-width:520px){.concern{grid-template-columns:1fr;padding:20px}}
 @media (max-width:520px){.ep{grid-template-columns:1fr;padding:20px}}
 
 /* Step page */
@@ -686,6 +699,7 @@ function autoFlags(){
 const flagOn=k=>S.flags&&k in S.flags?S.flags[k]:!!autoFlags()[k];
 
 /* ---------- Illustrations ---------- */
+const NOTEI=`<div class="concern-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 2.5v3M15 2.5v3M9 11h6M9 15h4"/></svg></div>`;
 const EPI=`<div class="ep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M12 11v7"/><path d="M12 6.3v.2"/></svg></div>`;
 const SC={secure:"ok",emerging:"mid",notyet:"no"};
 const statusOf=n=>S&&S.res[n]&&S.res[n].s||null;
@@ -778,6 +792,7 @@ function viewHome(){
  </div>
  <section class="ep home-ep" aria-labelledby="ep-h">${EPI}<div><p class="ep-k">Specialist support</p><h2 id="ep-h">When to talk to your link EP</h2>
   <p>Talk to your link educational psychologist if any of these apply to a child.</p>
+  <p class="ep-first" style="margin-top:8px">Speak to your SENCo first. They will decide whether to involve your link EP.</p>
   <ul class="ep-list">${FLAGS.map(f=>`<li>${f[1]}.</li>`).join("")}</ul>
   <p>Bring your record from the check. It shows your EP where to start.</p></div>
  </section>`;
@@ -896,7 +911,7 @@ function sessionBox(){
 }
 function flagsBox(){
  const auto=autoFlags();
- return `<section class="ep">${EPI}<div><p class="ep-k">Specialist support</p><h3>Should you talk to your link EP?</h3><p style="margin-bottom:12px">Tick any that apply. They go on the record.</p>
+ return `<section class="concern">${NOTEI}<div><p class="concern-k">Concerns to note</p><h3>Anything else you noticed?</h3><p style="margin-bottom:12px">Tick anything that applies. Share it with the class teacher and SENCo. If these concerns continue after teaching, your SENCo can raise them with your link EP.</p>
  <div class="flags">${FLAGS.map(([k,l])=>`<label class="flag"><input type="checkbox" data-flag="${k}"${flagOn(k)?" checked":""}><span>${l}${auto[k]?"<em>Suggested by your answers</em>":""}</span></label>`).join("")}</div></div></section>`;
 }
 function viewResults(){
@@ -953,7 +968,7 @@ function viewRecord(){
    <tbody>${STEPS.map(s=>{const r=S.res[s.n]||{};const seen=(r.seen||[]).map(i=>plain(s.watch[i]));
     return `<tr class="${r.s?"":"unchecked"}"><td class="sn">${s.n}. ${s.title}</td><td>${r.s?pill(r.s):"Not checked"}</td><td>${esc(r.notes||"")}${seen.length?`<ul class="seen">${seen.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</td></tr>`}).join("")}</tbody>
   </table></div>
-  <section class="ep">${EPI}<div><p class="ep-k">Specialist support</p><h3>Talk to your link EP?</h3>${ticked.length?`<ul class="ep-list" style="margin-bottom:0">${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p>Nothing ticked.</p>`}</div></section>
+  <section class="concern">${NOTEI}<div><p class="concern-k">Concerns to note</p>${ticked.length?`<ul class="concern-list">${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p class="muted" style="margin-top:6px">Nothing ticked.</p>`}<p class="muted" style="margin-top:10px">Share these with the class teacher and SENCo.</p></div></section>
   <section><h3>At the review</h3><ul class="bul" style="margin-top:8px">
    <li><b>Secure:</b> move on to the next step.</li>
    <li><b>Some progress, not yet secure:</b> carry on at the same step for another block.</li>
@@ -978,7 +993,7 @@ function recordText(){
  });
  const ticked=FLAGS.filter(([k])=>flagOn(k));
  L.push("");
- L.push("Talk to link EP: "+(ticked.length?ticked.map(f=>f[1]).join("; "):"nothing ticked"));
+ L.push("Concerns to note: "+(ticked.length?ticked.map(f=>f[1]).join("; "):"nothing ticked"));
  return L.join("\n");
 }
 
