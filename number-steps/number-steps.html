@@ -4,45 +4,48 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
 <style>
-/* Layout: one-column app (max 900px) under a sticky header with four tabs. The 15 steps sit in three coloured bands, one per phase, drawn as chunky number blocks. */
+/* Layout: one-column app (max 900px). Sticky header with tabs on wide screens, a bottom tab bar on phones. The 15 steps are stepping stones across a stream, in three soft colour bands, one per phase. */
 :root{
-  --bg:#F6F8FF; --surface:#FFFFFF; --ink:#1A1C3A; --muted:#565B82; --line:#DCE0F5;
-  --go:#5536E8; --go-ink:#FFFFFF; --go-soft:#ECE8FF;
-  --on-fill:#1A1C3A;
-  --a:#FF5C7A; --a-deep:#BE1E48; --a-soft:#FFE4EA;
-  --b:#FFB21F; --b-deep:#8F5600; --b-soft:#FFF1D2;
-  --c:#14B8A6; --c-deep:#0A6F64; --c-soft:#D3F6F1;
-  --ok:#15803D; --ok-soft:#DCFCE7; --mid:#B45309; --mid-soft:#FEF0C7; --no:#475569; --no-soft:#E9EDF4;
+  --bg:#F6F7FB; --surface:#FFFFFF; --ink:#24264A; --muted:#5F6386; --line:#E3E6F1;
+  --go:#5B53C9; --go-ink:#FFFFFF; --go-soft:#EEEDFA;
+  --on-fill:#24264A;
+  --a:#EE8E9E; --a-deep:#A63A50; --a-soft:#FBECEF;
+  --b:#F2C46E; --b-deep:#80560F; --b-soft:#FBF3E1;
+  --c:#70C6B6; --c-deep:#22695E; --c-soft:#E4F4F0;
+  --ok:#2F8A55; --ok-soft:#E3F3E8; --mid:#B0651A; --mid-soft:#FBEEDC; --no:#5A6478; --no-soft:#EDF0F5;
   --on-status:#FFFFFF;
-  --say:#E6F4FF; --say-ink:#0B4A75;
-  --shadow:0 1px 0 rgba(26,28,58,.05), 0 10px 24px -14px rgba(26,28,58,.35);
+  --say:#E7F1FA; --say-ink:#21506F;
+  --ep-bg:#2F2B63; --ep-ink:#F4F2FF; --ep-muted:#CDC8F2; --ep-accent:#F2C46E; --ep-tint:rgba(255,255,255,.08);
+  --shadow:0 1px 0 rgba(36,38,74,.04), 0 8px 20px -14px rgba(36,38,74,.28);
   --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
   --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#11132A; --surface:#1B1E3D; --ink:#EEF0FF; --muted:#A8ACD4; --line:#30346A;
-  --go:#9A86FF; --go-ink:#11132A; --go-soft:#28245A;
-  --on-fill:#14162E;
-  --a:#FF7590; --a-deep:#FF9DB0; --a-soft:#3A1A2C;
-  --b:#FFC24F; --b-deep:#FFD685; --b-soft:#382A12;
-  --c:#2DD4BF; --c-deep:#74E8D8; --c-soft:#0F3936;
-  --ok:#4ADE80; --ok-soft:#123622; --mid:#FBBF24; --mid-soft:#3A2D0E; --no:#B6C0D0; --no-soft:#262B48;
-  --on-status:#11132A;
-  --say:#14304A; --say-ink:#C3E5FF;
-  --shadow:0 1px 0 rgba(0,0,0,.2), 0 10px 24px -14px rgba(0,0,0,.6);
+  --bg:#15172C; --surface:#1E2140; --ink:#ECEDFA; --muted:#A7AACB; --line:#30345E;
+  --go:#9D95EE; --go-ink:#15172C; --go-soft:#2A2858;
+  --on-fill:#1A1C33;
+  --a:#E8919F; --a-deep:#F2B0BB; --a-soft:#36222F;
+  --b:#E9C27A; --b-deep:#F1D49C; --b-soft:#352C1B;
+  --c:#79C7B9; --c-deep:#A3DDD2; --c-soft:#1B3633;
+  --ok:#7DCB98; --ok-soft:#1C3527; --mid:#E5B26B; --mid-soft:#3A2E1A; --no:#B5BDCD; --no-soft:#2A2E4D;
+  --on-status:#15172C;
+  --say:#1B3247; --say-ink:#CBE4F7;
+  --ep-bg:#E7E3FF; --ep-ink:#211E4A; --ep-muted:#4B4785; --ep-accent:#80560F; --ep-tint:rgba(33,30,74,.07);
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 20px -14px rgba(0,0,0,.55);
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#11132A; --surface:#1B1E3D; --ink:#EEF0FF; --muted:#A8ACD4; --line:#30346A;
-  --go:#9A86FF; --go-ink:#11132A; --go-soft:#28245A;
-  --on-fill:#14162E;
-  --a:#FF7590; --a-deep:#FF9DB0; --a-soft:#3A1A2C;
-  --b:#FFC24F; --b-deep:#FFD685; --b-soft:#382A12;
-  --c:#2DD4BF; --c-deep:#74E8D8; --c-soft:#0F3936;
-  --ok:#4ADE80; --ok-soft:#123622; --mid:#FBBF24; --mid-soft:#3A2D0E; --no:#B6C0D0; --no-soft:#262B48;
-  --on-status:#11132A;
-  --say:#14304A; --say-ink:#C3E5FF;
-  --shadow:0 1px 0 rgba(0,0,0,.2), 0 10px 24px -14px rgba(0,0,0,.6);
+  --bg:#15172C; --surface:#1E2140; --ink:#ECEDFA; --muted:#A7AACB; --line:#30345E;
+  --go:#9D95EE; --go-ink:#15172C; --go-soft:#2A2858;
+  --on-fill:#1A1C33;
+  --a:#E8919F; --a-deep:#F2B0BB; --a-soft:#36222F;
+  --b:#E9C27A; --b-deep:#F1D49C; --b-soft:#352C1B;
+  --c:#79C7B9; --c-deep:#A3DDD2; --c-soft:#1B3633;
+  --ok:#7DCB98; --ok-soft:#1C3527; --mid:#E5B26B; --mid-soft:#3A2E1A; --no:#B5BDCD; --no-soft:#2A2E4D;
+  --on-status:#15172C;
+  --say:#1B3247; --say-ink:#CBE4F7;
+  --ep-bg:#E7E3FF; --ep-ink:#211E4A; --ep-muted:#4B4785; --ep-accent:#80560F; --ep-tint:rgba(33,30,74,.07);
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 20px -14px rgba(0,0,0,.55);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -64,19 +67,19 @@ a{color:var(--go)}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:10px 20px;flex-wrap:wrap;padding-block:10px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
-.logo{display:grid;grid-template-columns:repeat(3,9px);grid-template-rows:repeat(3,9px);gap:2px}
-.logo i{border-radius:3px}
-.logo i:nth-child(1){grid-area:3/1;background:var(--a)}
-.logo i:nth-child(2){grid-area:2/2;background:var(--b)}
-.logo i:nth-child(3){grid-area:3/2;background:var(--b)}
-.logo i:nth-child(4){grid-area:1/3;background:var(--c)}
-.logo i:nth-child(5){grid-area:2/3;background:var(--c)}
-.logo i:nth-child(6){grid-area:3/3;background:var(--c)}
+.logo{width:36px;height:36px;flex:none;display:block}
 .tabs{display:flex;gap:4px;margin-left:auto;background:var(--bg);padding:4px;border-radius:999px;border:1px solid var(--line)}
-.tabs a{padding:8px 16px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.95rem;white-space:nowrap;text-align:center}
+.tabs a{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.95rem;white-space:nowrap}
+.tabs svg{width:18px;height:18px;flex:none}
 .tabs a:hover{color:var(--ink)}
 .tabs a[aria-current="page"]{background:var(--go);color:var(--go-ink)}
-@media (max-width:600px){.tabs{margin-left:0;width:100%}.tabs a{flex:1;padding:8px 4px}}
+@media (max-width:600px){
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;margin:0;border-radius:22px 22px 0 0;border:0;border-top:1px solid var(--line);background:var(--surface);box-shadow:0 -10px 24px -18px rgba(0,0,0,.35);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  .tabs a{flex:1;flex-direction:column;gap:2px;padding:7px 2px;border-radius:14px;font-size:.74rem}
+  .tabs svg{width:22px;height:22px}
+  .tabs a[aria-current="page"]{background:var(--go-soft);color:var(--go)}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+}
 
 main.wrap{padding-block:24px 72px}
 
@@ -93,21 +96,24 @@ main.wrap{padding-block:24px 72px}
 .ph-a{--p:var(--a);--pd:var(--a-deep);--ps:var(--a-soft)}
 .ph-b{--p:var(--b);--pd:var(--b-deep);--ps:var(--b-soft)}
 .ph-c{--p:var(--c);--pd:var(--c-deep);--ps:var(--c-soft)}
-.blk{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:14px;background:var(--p);color:var(--on-fill);font-family:var(--f-display);font-weight:800;font-size:1.55rem;box-shadow:inset 0 -5px 0 rgba(0,0,0,.14);font-variant-numeric:tabular-nums}
-.blk.big{width:78px;height:78px;border-radius:20px;font-size:2.4rem;box-shadow:inset 0 -7px 0 rgba(0,0,0,.14)}
+.blk{display:grid;place-items:center;flex:none;width:54px;height:48px;border-radius:52% 48% 50% 50% / 60% 58% 42% 40%;background:radial-gradient(ellipse at 34% 26%,rgba(255,255,255,.5) 0 13%,transparent 14%),var(--p);color:var(--on-fill);font-family:var(--f-display);font-weight:800;font-size:1.45rem;box-shadow:inset 0 -5px 0 rgba(0,0,0,.08);font-variant-numeric:tabular-nums}
+.blk.big{width:86px;height:76px;font-size:2.3rem;box-shadow:inset 0 -7px 0 rgba(0,0,0,.08)}
 
 /* Home */
 .hero{display:grid;gap:16px;padding-block:8px 8px}
 .hero .lede{font-size:1.15rem;max-width:60ch;color:var(--muted)}
 .how{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;counter-reset:h}
 .how li{counter-increment:h;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px;display:grid;gap:4px}
-.how li::before{content:counter(h);font-family:var(--f-display);font-weight:800;font-size:1.1rem;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--go-soft);color:var(--go);margin-bottom:4px}
+.how li::before{content:counter(h);font-family:var(--f-display);font-weight:800;font-size:1.1rem;width:36px;height:32px;border-radius:52% 48% 50% 50% / 60% 58% 42% 40%;display:grid;place-items:center;background:var(--go-soft);color:var(--go);margin-bottom:4px}
 .how b{font-family:var(--f-display);font-size:1.1rem}
 .how span{color:var(--muted);font-size:.96rem}
 .note{background:var(--go-soft);border-radius:18px;padding:14px 18px;font-size:.98rem}
 
 .phase{margin-top:28px;background:var(--ps);border-radius:26px;padding:20px}
-.phase>header{display:grid;gap:4px;margin-bottom:16px;max-width:62ch}
+.phase>header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;margin-bottom:16px}
+.ph-t{display:grid;gap:4px;max-width:62ch}
+.ph-art{width:130px;height:auto}
+@media (max-width:520px){.ph-art{display:none}}
 .ph-k{font-weight:700;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--pd)}
 .phase>header p{color:var(--ink);opacity:.85}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
@@ -118,8 +124,17 @@ main.wrap{padding-block:24px 72px}
 .ts{font-size:.88rem;color:var(--muted);line-height:1.3}
 .tile .pill{justify-self:start;margin-top:4px}
 
-.ep{margin-top:28px;background:var(--surface);border:2px dashed var(--line);border-radius:22px;padding:20px}
-.ep ul{margin:10px 0 0;padding-left:1.2em;display:grid;gap:4px}
+.ep{background:var(--ep-bg);color:var(--ep-ink);border-radius:26px;padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+.home-ep{margin-top:28px}
+.ep-icon{width:52px;height:52px;border-radius:50%;background:var(--ep-accent);color:var(--ep-bg);display:grid;place-items:center}
+.ep-icon svg{width:28px;height:28px}
+.ep-k{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ep-accent)}
+.ep h2,.ep h3{margin:4px 0 6px}
+.ep p{color:var(--ep-muted)}
+.ep-list{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
+.ep-list li{background:var(--ep-tint);border-radius:14px;padding:10px 14px 10px 40px;position:relative;color:var(--ep-ink)}
+.ep-list li::before{content:"";position:absolute;left:17px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--ep-accent)}
+@media (max-width:520px){.ep{grid-template-columns:1fr;padding:20px}}
 
 /* Step page */
 .crumbs{margin-bottom:14px}
@@ -127,6 +142,10 @@ main.wrap{padding-block:24px 72px}
 .stephead{display:flex;gap:18px;align-items:flex-start;background:var(--ps);border-radius:26px;padding:22px}
 .stephead .q{font-size:1.15rem;margin-top:8px}
 .stephead>div{min-width:0}
+.mini{margin-top:14px;max-width:440px}
+.mini svg{display:block;width:100%;height:auto}
+.st-art{width:120px;height:auto;margin-left:auto;flex:none;align-self:center}
+@media (max-width:720px){.st-art{display:none}}
 @media (max-width:480px){.stephead{flex-direction:column;gap:12px}}
 .seg{display:flex;gap:6px;margin:20px 0;flex-wrap:wrap}
 .seg button{flex:1;min-width:110px;min-height:50px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -198,7 +217,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--go)}
 .checkhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .strip{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:5px;margin-bottom:6px}
 @media (max-width:560px){.strip{grid-template-columns:repeat(8,minmax(0,1fr))}}
-.sq{min-height:34px;border-radius:9px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;font-size:.85rem;color:var(--muted);cursor:pointer;padding:0;font-variant-numeric:tabular-nums}
+.sq{min-height:34px;aspect-ratio:1;width:100%;max-width:46px;justify-self:center;border-radius:50%;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;font-size:.85rem;color:var(--muted);cursor:pointer;padding:0;font-variant-numeric:tabular-nums}
 .sq.s-secure{background:var(--ok);border-color:var(--ok);color:var(--on-status)}
 .sq.s-emerging{background:var(--mid);border-color:var(--mid);color:var(--on-status)}
 .sq.s-notyet{background:var(--no-soft);border-color:var(--no);color:var(--ink);border-style:dashed}
@@ -239,6 +258,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--go)}
 .flag{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border-radius:14px;background:var(--bg);cursor:pointer}
 .flag input{width:22px;height:22px;min-height:0;flex:none;margin-top:2px;accent-color:var(--go)}
 .flag em{display:block;font-style:normal;font-size:.85rem;color:var(--go);font-weight:700}
+.ep .flag{background:var(--ep-tint)}
+.ep .flag input{accent-color:var(--ep-accent)}
+.ep .flag em{color:var(--ep-accent)}
 
 /* Record */
 .sheet{background:var(--surface);border-radius:24px;border:1px solid var(--line);padding:24px;display:grid;gap:20px}
@@ -269,7 +291,7 @@ tr.unchecked td{color:var(--muted)}
 .scen{font-size:1.2rem;font-weight:700;line-height:1.45;background:var(--bg);border-radius:18px;padding:16px 18px}
 .opts{display:grid;gap:10px}
 .opt{display:flex;gap:12px;align-items:center;text-align:left;padding:10px 14px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink)}
-.opt .blk{width:40px;height:40px;font-size:1.2rem;border-radius:11px}
+.opt .blk{width:46px;height:40px;font-size:1.2rem}
 .opt:hover{border-color:var(--go)}
 .opt.right{border-color:var(--ok);background:var(--ok-soft)}
 .opt.wrong{border-color:var(--mid);background:var(--mid-soft)}
@@ -282,18 +304,33 @@ tr.unchecked td{color:var(--muted)}
 
 footer.foot{border-top:1px solid var(--line);padding-block:20px 32px;color:var(--muted);font-size:.9rem}
 
-@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* Illustrations */
+.art{margin:4px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:10px 10px 6px;box-shadow:var(--shadow)}
+.art svg{display:block;width:100%;height:auto}
+.art .narrow{display:none}
+@media (max-width:620px){.art .wide{display:none}.art .narrow{display:block}}
+.art figcaption{font-size:.88rem;color:var(--muted);text-align:center;padding:4px 8px}
+.peb{cursor:pointer}
+.peb text{font-family:var(--f-display);font-weight:800;font-size:17px;fill:var(--on-fill);pointer-events:none}
+.peb:hover .top{filter:brightness(1.06)}
+.peb:focus{outline:none}
+.peb:focus-visible .top{stroke:var(--go);stroke-width:3}
+.buddy{animation:bob 2.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media (max-width:600px){.gloss{bottom:calc(70px + env(safe-area-inset-bottom,0px))}}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
 @media print{header.top,.noprint,footer.foot{display:none!important}body{background:#fff}.sheet{border:0;padding:0}}
 </style>
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#steps" aria-label="Number Steps home"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>Number Steps</a>
+    <a class="brand" href="#steps" aria-label="Number Steps home"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--go)"/><path d="M8 30h8v-7h8v-7h8" fill="none" stroke="var(--go-ink)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29.5" cy="9.5" r="3.8" fill="var(--b)"/></svg>Number Steps</a>
     <nav class="tabs" aria-label="Main">
-      <a href="#steps" data-tab="steps">Steps</a>
-      <a href="#check" data-tab="check">Check</a>
-      <a href="#record" data-tab="record">Record</a>
-      <a href="#practise" data-tab="practise">Practise</a>
+      <a href="#steps" data-tab="steps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="5.5" cy="18" rx="3.5" ry="2.4"/><ellipse cx="12" cy="12" rx="3.5" ry="2.4"/><ellipse cx="18.5" cy="6" rx="3.5" ry="2.4"/></svg>Steps</a>
+      <a href="#check" data-tab="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V2.8h6V4"/><path d="m9 13 2 2 4-4"/></svg>Check</a>
+      <a href="#record" data-tab="record"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h5"/></svg>Record</a>
+      <a href="#practise" data-tab="practise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5l-5.3 2.9 1.2-6-4.5-4.1 6-.7z"/></svg>Practise</a>
     </nav>
   </div>
 </header>
@@ -644,6 +681,74 @@ function autoFlags(){
 }
 const flagOn=k=>S.flags&&k in S.flags?S.flags[k]:!!autoFlags()[k];
 
+/* ---------- Illustrations ---------- */
+const EPI=`<div class="ep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M12 11v7"/><path d="M12 6.3v.2"/></svg></div>`;
+const SC={secure:"ok",emerging:"mid",notyet:"no"};
+const statusOf=n=>S&&S.res[n]&&S.res[n].s||null;
+const f1=v=>(+v).toFixed(1);
+function buddy(x,y){
+ return `<g transform="translate(${f1(x)} ${f1(y)})"><g class="buddy"><ellipse cx="0" cy="16" rx="10" ry="2.6" fill="#000" opacity=".13"/><circle r="13" fill="var(--go)"/><circle cx="-4.6" cy="-2" r="3.4" fill="#fff"/><circle cx="4.6" cy="-2" r="3.4" fill="#fff"/><circle cx="-4" cy="-1.4" r="1.6" fill="#24264A"/><circle cx="5.2" cy="-1.4" r="1.6" fill="#24264A"/><path d="M-4 5.2q4 3.4 8 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></g></g>`;
+}
+function pebble(x,y,r,n){
+ const st=STEPS[n-1],p=st.phase,s=statusOf(n),rx=r*1.22,ry=r*.9;
+ return `<a href="#step-${n}" class="peb" aria-label="Step ${n}: ${st.title}${s?", "+ST[s].l:""}">`+
+  `<ellipse cx="${f1(x)}" cy="${f1(y+4)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="var(--${p}-deep)" opacity=".2"/>`+
+  `<ellipse class="top" cx="${f1(x)}" cy="${f1(y)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="var(--${p})"/>`+
+  `<ellipse cx="${f1(x-r*.42)}" cy="${f1(y-r*.42)}" rx="${f1(r*.38)}" ry="${f1(r*.15)}" fill="#fff" opacity=".45"/>`+
+  (s?`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(rx+5)}" ry="${f1(ry+5)}" fill="none" stroke="var(--${SC[s]})" stroke-width="3"${s==="notyet"?' stroke-dasharray="5 4"':""}/>`:"")+
+  `<text x="${f1(x)}" y="${f1(y+1)}" text-anchor="middle" dominant-baseline="middle">${n}</text></a>`;
+}
+function band(W,y1,y2,a){
+ let d="";
+ for(let x=0;x<=W;x+=30)d+=(x?"L":"M")+x+" "+f1(y1+a*Math.sin(x/95));
+ for(let x=W;x>=0;x-=30)d+="L"+x+" "+f1(y2+a*Math.sin(x/95+1.3));
+ return `<path d="${d}Z" fill="var(--say)"/>`;
+}
+const ripples=list=>list.map(([x,y])=>`<path d="M${x} ${y}q9 -5 18 0" stroke="var(--surface)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".9"/>`).join("");
+const route=pts=>`<path d="${pts.map((p,i)=>(i?"L":"M")+f1(p[0])+" "+f1(p[1])).join("")}" fill="none" stroke="var(--muted)" stroke-opacity=".4" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>`;
+const flag=(x,y)=>`<g transform="translate(${f1(x)} ${f1(y)})"><ellipse cx="0" cy="2" rx="9" ry="2.6" fill="#000" opacity=".12"/><path d="M0 0V-40" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/><path d="M1.5 -40 L23 -32.5 L1.5 -25Z" fill="var(--go)"/></g>`;
+function pathArt(){
+ const who=S?(teachStart()||S.cur||1):1;
+ // Wide: one gently curving line of stones across a stream.
+ const wp=STEPS.map((s,i)=>[40+i*(780/14),112+28*Math.sin(i*.8+.4)]), wr=22;
+ let wide=band(900,58,172,9)+ripples([[70,160],[250,70],[420,165],[610,74],[760,158],[880,92]])+route(wp);
+ wide+=wp.map((p,i)=>pebble(p[0],p[1],wr,i+1)).join("")+flag(wp[14][0]+44,wp[14][1]+6)+buddy(wp[who-1][0],wp[who-1][1]-wr-17);
+ // Narrow: three rows, one per phase, snaking back and forth.
+ const rows=[["a",80,42,318,false],["b",192,42,318,true],["c",304,30,292,false]], np=[];
+ rows.forEach(([ph,y,x0,x1,rev])=>{const list=STEPS.filter(s=>s.phase===ph),k=list.length;
+  list.forEach((s,j)=>{const jj=rev?k-1-j:j;np.push([x0+jj*(x1-x0)/(k-1),y+7*Math.sin(j*1.4)])})});
+ const nr=19;
+ let narrow=band(360,26,352,7)+ripples([[20,140],[300,140],[150,250],[40,360-26],[260,30]])+route(np);
+ narrow+=np.map((p,i)=>pebble(p[0],p[1],nr,i+1)).join("")+flag(np[14][0]+38,np[14][1]+6)+buddy(np[who-1][0],np[who-1][1]-nr-17);
+ return `<svg class="wide" viewBox="0 0 900 200" role="group" aria-label="The 15 steps as stepping stones">${wide}</svg><svg class="narrow" viewBox="0 0 360 380" role="group" aria-label="The 15 steps as stepping stones">${narrow}</svg>`;
+}
+function miniPath(cur){
+ const pts=STEPS.map((s,i)=>[16+i*29.1,25+6*Math.sin(i*.9)]);
+ let g=route(pts);
+ pts.forEach(([x,y],i)=>{const n=i+1,st=STEPS[i],c=n===cur,s=statusOf(n);
+  g+=`<a href="#step-${n}" class="peb" aria-label="Step ${n}: ${st.title}"><ellipse class="top" cx="${f1(x)}" cy="${f1(y)}" rx="${c?14:8}" ry="${c?11.5:6.5}" fill="var(--${st.phase})" opacity="${c||n<cur?1:.55}"${c?' stroke="var(--ink)" stroke-width="2"':""}/>`+
+   (c?`<text x="${f1(x)}" y="${f1(y+1)}" text-anchor="middle" dominant-baseline="middle" style="font-size:12px">${n}</text>`:"")+
+   (s&&!c?`<circle cx="${f1(x)}" cy="${f1(y-12)}" r="3" fill="var(--${SC[s]})"/>`:"")+`</a>`});
+ return `<svg viewBox="0 0 440 50" role="group" aria-label="Where this step sits among the 15">${g}</svg>`;
+}
+function phaseArt(p,cls){
+ const f="var(--p)",k="var(--pd)";let g="";
+ if(p==="a"){
+  [[16,24],[46,64],[22,70]].forEach(([x,y])=>g+=`<circle cx="${x}" cy="${y}" r="7.5" fill="${f}" stroke="${k}" stroke-width="2"/>`);
+  g+=`<path d="M66 12V80" stroke="${k}" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round" opacity=".6"/>`;
+  for(let i=0;i<8;i++)g+=`<circle cx="${84+(i%4)*14}" cy="${38+Math.floor(i/4)*14}" r="6" fill="${f}" stroke="${k}" stroke-width="2"/>`;
+ } else if(p==="b"){
+  g+=`<rect x="10" y="21" width="120" height="48" rx="6" fill="var(--surface)" stroke="${k}" stroke-width="2"/>`;
+  for(let c=1;c<5;c++)g+=`<path d="M${10+c*24} 21V69" stroke="${k}" stroke-width="1.5"/>`;
+  g+=`<path d="M10 45H130" stroke="${k}" stroke-width="1.5"/>`;
+  for(let i=0;i<7;i++)g+=`<circle cx="${22+(i%5)*24}" cy="${33+Math.floor(i/5)*24}" r="8" fill="${f}" stroke="${k}" stroke-width="2"/>`;
+ } else {
+  [12,46,80].forEach(x0=>{for(let i=0;i<5;i++)g+=`<rect x="${x0+i*5.5}" y="16" width="4.5" height="58" rx="2" fill="${f}" stroke="${k}" stroke-width="1.2"/>`;g+=`<rect x="${x0-2}" y="40" width="31" height="8" rx="3" fill="${k}"/>`});
+  [114,121,128].forEach((x,i)=>g+=`<rect x="${x}" y="${26+i*4}" width="4.5" height="48" rx="2" fill="${f}" stroke="${k}" stroke-width="1.2"/>`);
+ }
+ return `<svg class="${cls||"ph-art"}" viewBox="0 0 140 90" aria-hidden="true">${g}</svg>`;
+}
+
 /* ---------- Views ---------- */
 function tile(s){
  const r=S&&S.res[s.n]&&S.res[s.n].s;
@@ -656,6 +761,7 @@ function viewHome(){
   <h1>Where is this child stuck with number, and what do I teach next?</h1>
   <p class="lede">Number Steps breaks early maths into 15 small steps. Check a child one-to-one, find the step where they get stuck, then teach from there.</p>
   <div class="row"><a class="btn go" href="#check">${S&&S.stage!=="results"?"Carry on checking "+esc(S.pupil.initials):"Check a pupil"}</a><button type="button" class="btn ghost" data-act="scroll-map">See all 15 steps</button></div>
+  <figure class="art">${pathArt()}<figcaption>${S?`Rings show ${esc(S.pupil.initials)}'s results so far. Tap a stone to open that step.`:"Fifteen stepping stones across the stream. Tap a stone to open that step."}</figcaption></figure>
   <ol class="how">
    <li><b>Check</b><span>Work one-to-one for 10 to 15 minutes, with cubes, counters and a few cards.</span></li>
    <li><b>Find the step</b><span>Stop at the first step where the child keeps making mistakes. That's where teaching starts.</span></li>
@@ -664,11 +770,12 @@ function viewHome(){
   <p class="note">The steps are a map, not a ladder. A child may manage a later step before an earlier one, so check the steps either side of the one you're interested in.</p>
  </section>
  <div id="map">
- ${["a","b","c"].map(p=>`<section class="phase ph-${p}"><header><span class="ph-k">${PH[p].range}</span><h2>${PH[p].name}</h2><p>${PH[p].blurb}</p></header><div class="tiles">${STEPS.filter(s=>s.phase===p).map(tile).join("")}</div></section>`).join("")}
+ ${["a","b","c"].map(p=>`<section class="phase ph-${p}"><header><div class="ph-t"><span class="ph-k">${PH[p].range}</span><h2>${PH[p].name}</h2><p>${PH[p].blurb}</p></div>${phaseArt(p)}</header><div class="tiles">${STEPS.filter(s=>s.phase===p).map(tile).join("")}</div></section>`).join("")}
  </div>
- <section class="ep"><h3>When to talk to your link EP</h3>
-  <ul>${FLAGS.map(f=>`<li>${f[1]}.</li>`).join("")}</ul>
-  <p class="muted" style="margin-top:10px">Bring your record from the check. It shows your educational psychologist where to start.</p>
+ <section class="ep home-ep" aria-labelledby="ep-h">${EPI}<div><p class="ep-k">Specialist support</p><h2 id="ep-h">When to talk to your link EP</h2>
+  <p>Talk to your link educational psychologist if any of these apply to a child.</p>
+  <ul class="ep-list">${FLAGS.map(f=>`<li>${f[1]}.</li>`).join("")}</ul>
+  <p>Bring your record from the check. It shows your EP where to start.</p></div>
  </section>`;
 }
 
@@ -694,7 +801,7 @@ function viewStep(n){
  }
  return `
  <nav class="crumbs"><a href="#steps">← All steps</a></nav>
- <header class="stephead ph-${s.phase}"><span class="blk big">${n}</span><div><p class="eyebrow">Step ${n} of 15 · ${ph.name}</p><h1>${s.title}</h1><p class="q">${s.q}</p>${s.term?`<p class="muted" style="margin-top:6px">Also called <button type="button" class="term" data-term="${s.term}">${s.term}</button>.</p>`:""}</div></header>
+ <header class="stephead ph-${s.phase}"><span class="blk big">${n}</span><div><p class="eyebrow">Step ${n} of 15 · ${ph.name}</p><h1>${s.title}</h1><p class="q">${s.q}</p>${s.term?`<p class="muted" style="margin-top:6px">Also called <button type="button" class="term" data-term="${s.term}">${s.term}</button>.</p>`:""}<div class="mini">${miniPath(n)}</div></div>${phaseArt(s.phase,"st-art")}</header>
  <div class="seg" role="tablist">${tabs.map(t=>`<button type="button" role="tab" aria-selected="${stepTab===t[0]}" data-act="steptab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div>
  <div class="ph-${s.phase}">${body}</div>
  ${s.why?`<details class="why"><summary>Why this matters</summary><p>${fmt(s.why)}</p></details>`:""}
@@ -785,8 +892,8 @@ function sessionBox(){
 }
 function flagsBox(){
  const auto=autoFlags();
- return `<section class="box"><h3>Should you talk to your link EP?</h3><p class="muted" style="margin:6px 0 12px">Tick any that apply. They go on the record.</p>
- <div class="flags">${FLAGS.map(([k,l])=>`<label class="flag"><input type="checkbox" data-flag="${k}"${flagOn(k)?" checked":""}><span>${l}${auto[k]?"<em>Suggested by your answers</em>":""}</span></label>`).join("")}</div></section>`;
+ return `<section class="ep">${EPI}<div><p class="ep-k">Specialist support</p><h3>Should you talk to your link EP?</h3><p style="margin-bottom:12px">Tick any that apply. They go on the record.</p>
+ <div class="flags">${FLAGS.map(([k,l])=>`<label class="flag"><input type="checkbox" data-flag="${k}"${flagOn(k)?" checked":""}><span>${l}${auto[k]?"<em>Suggested by your answers</em>":""}</span></label>`).join("")}</div></div></section>`;
 }
 function viewResults(){
  const t=teachStart(), ns=checkedList();
@@ -795,6 +902,7 @@ function viewResults(){
   const s=STEPS[t-1];
   top=`<section class="startbox ph-${s.phase}"><p class="eyebrow">Start teaching at</p>
    <div class="top-line"><span class="blk big">${t}</span><div><h1>${s.title}</h1><p class="q" style="margin-top:6px">${s.q}</p></div></div></section>
+   <figure class="art">${pathArt()}<figcaption>${esc(S.pupil.initials)}'s path. The buddy is waiting at step ${t}, where teaching starts.</figcaption></figure>
    <section class="stack"><h2>Activities for step ${t}</h2><div class="acts ph-${s.phase}">${s.acts.map(a=>`<article class="act"><h3>${a.name}</h3>${parts(a.parts)}</article>`).join("")}</div></section>`;
  } else if(ns.length){
   const max=ns[ns.length-1];
@@ -814,7 +922,7 @@ function viewResults(){
 
 function viewRecord(){
  if(!S)return `<section class="hero"><p class="eyebrow">Record</p><h1>Nothing to record yet</h1></section>
-  <div class="empty" style="margin-top:16px"><p>When you check a pupil, their results appear here as a record you can copy into your school's system.</p>
+  <div class="empty" style="margin-top:16px"><svg viewBox="-24 -22 48 44" width="72" height="66" aria-hidden="true">${buddy(0,0)}</svg><p>When you check a pupil, their results appear here as a record you can copy into your school's system.</p>
   <p class="muted">Prefer paper? Ask your SENCo for the printable Number Steps record sheet.</p><a class="btn go" href="#check">Check a pupil</a></div>`;
  const t=teachStart();
  const ticked=FLAGS.filter(([k])=>flagOn(k));
@@ -841,7 +949,7 @@ function viewRecord(){
    <tbody>${STEPS.map(s=>{const r=S.res[s.n]||{};const seen=(r.seen||[]).map(i=>plain(s.watch[i]));
     return `<tr class="${r.s?"":"unchecked"}"><td class="sn">${s.n}. ${s.title}</td><td>${r.s?pill(r.s):"Not checked"}</td><td>${esc(r.notes||"")}${seen.length?`<ul class="seen">${seen.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</td></tr>`}).join("")}</tbody>
   </table></div>
-  <section><h3>Talk to your link EP?</h3>${ticked.length?`<ul class="bul" style="margin-top:8px">${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p class="muted" style="margin-top:6px">Nothing ticked.</p>`}</section>
+  <section class="ep">${EPI}<div><p class="ep-k">Specialist support</p><h3>Talk to your link EP?</h3>${ticked.length?`<ul class="ep-list" style="margin-bottom:0">${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p>Nothing ticked.</p>`}</div></section>
   <section><h3>At the review</h3><ul class="bul" style="margin-top:8px">
    <li><b>Secure:</b> move on to the next step.</li>
    <li><b>Some progress, not yet secure:</b> carry on at the same step for another block.</li>
