@@ -2,7 +2,7 @@
 
 An interactive version of *Early number: a progression and assessment guide for schools* for teaching assistants and teachers working with pupils.
 
-- `number-steps.html`: the interactive tool. It covers the 15 steps, a guided pupil check, a record to copy into school systems, and optional practice for staff.
+- `number-steps.html`: the interactive tool. It covers the 15 steps, a guided pupil check, a record to copy into school systems, and optional practice for staff. The page is styled for education professionals: Inter type, a warm off-white background, slate text and a muted teal accent. Every tab opens with one line saying what to do there.
 - `record-sheet.html`: the source for the paper record sheet.
 - `number-steps-record-sheet.pdf`: the printable A4 record sheet (two pages).
 
