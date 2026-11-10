@@ -2,357 +2,316 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: one-column app (max 900px). Sticky header with tabs on wide screens, a bottom tab bar on phones. The 15 steps are stepping stones across a stream, in three soft colour bands, one per phase. */
+/* Layout: one centred column (max 880px) under a plain header with text tabs. Every view opens with a title and one line saying what to do here. The three phases are told apart only by a muted tint on the step number. */
 :root{
-  --bg:#F6F7FB; --surface:#FFFFFF; --ink:#24264A; --muted:#5F6386; --line:#E3E6F1;
-  --go:#5B53C9; --go-ink:#FFFFFF; --go-soft:#EEEDFA;
-  --on-fill:#24264A;
-  --a:#EE8E9E; --a-deep:#A63A50; --a-soft:#FBECEF;
-  --b:#F2C46E; --b-deep:#80560F; --b-soft:#FBF3E1;
-  --c:#70C6B6; --c-deep:#22695E; --c-soft:#E4F4F0;
-  --ok:#2F8A55; --ok-soft:#E3F3E8; --mid:#B0651A; --mid-soft:#FBEEDC; --no:#5A6478; --no-soft:#EDF0F5;
+  --bg:#F6F4F0; --surface:#FFFFFF; --surface-2:#FAF8F5; --ink:#2B2F38; --muted:#5F6672; --line:#E6E2DC; --line-strong:#CDC7BE;
+  --accent:#2F7D73; --accent-ink:#FFFFFF; --accent-soft:#E2EEEB; --accent-deep:#235F57;
+  --a:#B4654E; --a-soft:#F4E7E2;
+  --b:#9C782C; --b-soft:#F3ECDB;
+  --c:#55688E; --c-soft:#E6EAF2;
+  --ok:#3E7D5A; --ok-soft:#E1EFE7; --mid:#B0701F; --mid-soft:#F7EBD6; --no:#6B7280; --no-soft:#ECEDF0;
   --on-status:#FFFFFF;
-  --say:#E7F1FA; --say-ink:#21506F;
-  --ep-bg:#2F2B63; --ep-ink:#F4F2FF; --ep-muted:#CDC8F2; --ep-accent:#F2C46E; --ep-tint:rgba(255,255,255,.08);
-  --shadow:0 1px 0 rgba(36,38,74,.04), 0 8px 20px -14px rgba(36,38,74,.28);
-  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
-  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --say:#EDF2F6; --say-ink:#2E4557;
+  --shadow:0 1px 2px rgba(43,47,56,.05), 0 6px 16px -10px rgba(43,47,56,.18);
+  --r:6px; --r-lg:8px;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#15172C; --surface:#1E2140; --ink:#ECEDFA; --muted:#A7AACB; --line:#30345E;
-  --go:#9D95EE; --go-ink:#15172C; --go-soft:#2A2858;
-  --on-fill:#1A1C33;
-  --a:#E8919F; --a-deep:#F2B0BB; --a-soft:#36222F;
-  --b:#E9C27A; --b-deep:#F1D49C; --b-soft:#352C1B;
-  --c:#79C7B9; --c-deep:#A3DDD2; --c-soft:#1B3633;
-  --ok:#7DCB98; --ok-soft:#1C3527; --mid:#E5B26B; --mid-soft:#3A2E1A; --no:#B5BDCD; --no-soft:#2A2E4D;
-  --on-status:#15172C;
-  --say:#1B3247; --say-ink:#CBE4F7;
-  --ep-bg:#E7E3FF; --ep-ink:#211E4A; --ep-muted:#4B4785; --ep-accent:#80560F; --ep-tint:rgba(33,30,74,.07);
-  --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 20px -14px rgba(0,0,0,.55);
+  --bg:#1B1D22; --surface:#24272E; --surface-2:#2A2D35; --ink:#E9E7E2; --muted:#A3A7AF; --line:#373B44; --line-strong:#4A4F5A;
+  --accent:#6DB3A7; --accent-ink:#141A19; --accent-soft:#253A37; --accent-deep:#8CC8BE;
+  --a:#D4917C; --a-soft:#3A2B26;
+  --b:#CBA55A; --b-soft:#37301F;
+  --c:#8FA2CC; --c-soft:#272C3A;
+  --ok:#7CBF98; --ok-soft:#21342A; --mid:#D9A454; --mid-soft:#3A2F1B; --no:#A0A6B1; --no-soft:#30343C;
+  --on-status:#141A19;
+  --say:#2A3741; --say-ink:#C9DCE8;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 16px -10px rgba(0,0,0,.6);
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#15172C; --surface:#1E2140; --ink:#ECEDFA; --muted:#A7AACB; --line:#30345E;
-  --go:#9D95EE; --go-ink:#15172C; --go-soft:#2A2858;
-  --on-fill:#1A1C33;
-  --a:#E8919F; --a-deep:#F2B0BB; --a-soft:#36222F;
-  --b:#E9C27A; --b-deep:#F1D49C; --b-soft:#352C1B;
-  --c:#79C7B9; --c-deep:#A3DDD2; --c-soft:#1B3633;
-  --ok:#7DCB98; --ok-soft:#1C3527; --mid:#E5B26B; --mid-soft:#3A2E1A; --no:#B5BDCD; --no-soft:#2A2E4D;
-  --on-status:#15172C;
-  --say:#1B3247; --say-ink:#CBE4F7;
-  --ep-bg:#E7E3FF; --ep-ink:#211E4A; --ep-muted:#4B4785; --ep-accent:#80560F; --ep-tint:rgba(33,30,74,.07);
-  --shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 20px -14px rgba(0,0,0,.55);
+  --bg:#1B1D22; --surface:#24272E; --surface-2:#2A2D35; --ink:#E9E7E2; --muted:#A3A7AF; --line:#373B44; --line-strong:#4A4F5A;
+  --accent:#6DB3A7; --accent-ink:#141A19; --accent-soft:#253A37; --accent-deep:#8CC8BE;
+  --a:#D4917C; --a-soft:#3A2B26;
+  --b:#CBA55A; --b-soft:#37301F;
+  --c:#8FA2CC; --c-soft:#272C3A;
+  --ok:#7CBF98; --ok-soft:#21342A; --mid:#D9A454; --mid-soft:#3A2F1B; --no:#A0A6B1; --no-soft:#30343C;
+  --on-status:#141A19;
+  --say:#2A3741; --say-ink:#C9DCE8;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 16px -10px rgba(0,0,0,.6);
   color-scheme:dark;
 }
-*{box-sizing:border-box}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 [hidden]{display:none!important}
 img{max-width:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
-.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:0;letter-spacing:-.015em}
-h1{font-size:clamp(1.9rem,4.6vw,2.8rem);font-weight:800}
-h2{font-size:clamp(1.4rem,3vw,1.75rem);font-weight:800}
-h3{font-size:1.2rem;font-weight:800}
+.wrap{max-width:880px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{line-height:1.25;text-wrap:balance;margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:1.65rem}
+h2{font-size:1.25rem}
+h3{font-size:1.05rem}
 p{margin:0}
-a{color:var(--go)}
-:focus-visible{outline:3px solid var(--go);outline-offset:2px;border-radius:6px}
-.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .muted{color:var(--muted)}
+.small{font-size:.92rem}
 .stack{display:grid;gap:16px}
-
-/* Header */
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:10px 20px;flex-wrap:wrap;padding-block:10px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
-.logo{width:36px;height:36px;flex:none;display:block}
-.tabs{display:flex;gap:4px;margin-left:auto;background:var(--bg);padding:4px;border-radius:999px;border:1px solid var(--line)}
-.tabs a{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.95rem;white-space:nowrap}
-.tabs svg{width:18px;height:18px;flex:none}
-.tabs a:hover{color:var(--ink)}
-.tabs a[aria-current="page"]{background:var(--go);color:var(--go-ink)}
-@media (max-width:600px){
-  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;margin:0;border-radius:22px 22px 0 0;border:0;border-top:1px solid var(--line);background:var(--surface);box-shadow:0 -10px 24px -18px rgba(0,0,0,.35);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
-  .tabs a{flex:1;flex-direction:column;gap:2px;padding:7px 2px;border-radius:14px;font-size:.74rem}
-  .tabs svg{width:22px;height:22px}
-  .tabs a[aria-current="page"]{background:var(--go-soft);color:var(--go)}
-  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
-}
-
-main.wrap{padding-block:24px 72px}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:14px;font:inherit;font-weight:700;border:2px solid transparent;cursor:pointer;text-decoration:none;line-height:1.2;text-align:center}
-.btn.go{background:var(--go);color:var(--go-ink)}
-.btn.go:hover{filter:brightness(1.08)}
-.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
-.btn.ghost:hover{border-color:var(--go)}
-.btn.sm{min-height:40px;padding:6px 14px;font-size:.92rem}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-/* Phase colours */
-.ph-a{--p:var(--a);--pd:var(--a-deep);--ps:var(--a-soft)}
-.ph-b{--p:var(--b);--pd:var(--b-deep);--ps:var(--b-soft)}
-.ph-c{--p:var(--c);--pd:var(--c-deep);--ps:var(--c-soft)}
-.blk{display:grid;place-items:center;flex:none;width:54px;height:48px;border-radius:52% 48% 50% 50% / 60% 58% 42% 40%;background:radial-gradient(ellipse at 34% 26%,rgba(255,255,255,.5) 0 13%,transparent 14%),var(--p);color:var(--on-fill);font-family:var(--f-display);font-weight:800;font-size:1.45rem;box-shadow:inset 0 -5px 0 rgba(0,0,0,.08);font-variant-numeric:tabular-nums}
-.blk.big{width:86px;height:76px;font-size:2.3rem;box-shadow:inset 0 -7px 0 rgba(0,0,0,.08)}
+/* Header and tabs */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:8px 28px;flex-wrap:wrap;min-height:58px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:600;font-size:1.05rem;padding-block:10px}
+.logo{width:28px;height:28px;flex:none;display:block}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tabs a{padding:18px 10px;text-decoration:none;color:var(--muted);font-weight:500;font-size:.95rem;white-space:nowrap;box-shadow:inset 0 -2px 0 transparent}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+@media (max-width:600px){
+  .top .wrap{gap:0}
+  .brand{padding-block:12px}
+  .tabs{margin:0;width:100%;gap:0;border-top:1px solid var(--line)}
+  .tabs a{flex:1;text-align:center;padding:12px 2px;font-size:.92rem}
+}
+
+main.wrap{padding-block:28px 64px}
+.noscript{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;display:grid;gap:10px;max-width:60ch}
+
+/* Page headings and the one-line instruction under them */
+.pagehead{display:grid;gap:6px;margin-bottom:22px}
+.pagehead .lead{color:var(--muted);max-width:65ch}
+.pagehead .lead b{color:var(--ink);font-weight:600}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:9px 16px;border-radius:var(--r);font:inherit;font-weight:600;font-size:.95rem;border:1px solid transparent;cursor:pointer;text-decoration:none;line-height:1.2;text-align:center;color:var(--ink)}
+.btn.go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.go:hover{filter:brightness(.95)}
+.btn.ghost{background:var(--surface);border-color:var(--line-strong)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent-deep)}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:.9rem}
+
+/* Phase tints and the step number chip */
+.ph-a{--p:var(--a);--p-soft:var(--a-soft)}
+.ph-b{--p:var(--b);--p-soft:var(--b-soft)}
+.ph-c{--p:var(--c);--p-soft:var(--c-soft)}
+.num{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:var(--r);background:var(--p-soft);color:var(--p);font-weight:600;font-size:1rem;font-variant-numeric:tabular-nums}
+.num.big{width:50px;height:50px;font-size:1.3rem}
+
+/* Surfaces */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;min-width:0}
+.box h3{margin-bottom:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--r) var(--r) 0;padding:10px 14px;font-size:.95rem}
+
+/* Callouts: EP guidance (accent) and concerns (amber) */
+.callout{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;padding:20px 22px;border-radius:var(--r-lg);background:var(--accent-soft)}
+.callout .ico{width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.callout .ico svg{width:18px;height:18px}
+.callout h2,.callout h3{margin:2px 0 6px}
+.callout p{color:var(--ink)}
+.callout ul{margin:10px 0;padding-left:1.2em;display:grid;gap:4px}
+.callout.amber{background:var(--mid-soft)}
+.callout.amber .ico{background:var(--mid);color:var(--on-status)}
+.callout .flags{margin-top:10px}
+@media (max-width:480px){.callout{grid-template-columns:1fr;padding:18px}}
+
+/* Privacy badge */
+.privacy{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r);background:var(--surface-2);border:1px solid var(--line);font-size:.92rem;color:var(--muted)}
+.privacy svg{width:20px;height:20px;flex:none;color:var(--accent);margin-top:1px}
+.privacy b{color:var(--ink);font-weight:600}
 
 /* Home */
-.hero{display:grid;gap:16px;padding-block:8px 8px}
-.hero .lede{font-size:1.15rem;max-width:60ch;color:var(--muted)}
-.how{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;counter-reset:h}
-.how li{counter-increment:h;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px;display:grid;gap:4px}
-.how li::before{content:counter(h);font-family:var(--f-display);font-weight:800;font-size:1.1rem;width:36px;height:32px;border-radius:52% 48% 50% 50% / 60% 58% 42% 40%;display:grid;place-items:center;background:var(--go-soft);color:var(--go);margin-bottom:4px}
-.how b{font-family:var(--f-display);font-size:1.1rem}
-.how span{color:var(--muted);font-size:.96rem}
-.note{background:var(--go-soft);border-radius:18px;padding:14px 18px;font-size:.98rem}
-
-.phase{margin-top:28px;background:var(--ps);border-radius:26px;padding:20px}
-.phase>header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;margin-bottom:16px}
-.ph-t{display:grid;gap:4px;max-width:62ch}
-.ph-art{width:130px;height:auto}
-@media (max-width:520px){.ph-art{display:none}}
-.ph-k{font-weight:700;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--pd)}
-.phase>header p{color:var(--ink);opacity:.85}
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.tile{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 14px;align-items:center;padding:14px;border-radius:18px;background:var(--surface);border:2px solid transparent;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
-.tile:hover{border-color:var(--p);transform:translateY(-2px)}
-.tile .blk{grid-row:span 3}
-.tt{font-weight:700;line-height:1.25}
-.ts{font-size:.88rem;color:var(--muted);line-height:1.3}
-.tile .pill{justify-self:start;margin-top:4px}
-
-.ep{background:var(--ep-bg);color:var(--ep-ink);border-radius:26px;padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
-.home-ep{margin-top:28px}
-.ep-icon{width:52px;height:52px;border-radius:50%;background:var(--ep-accent);color:var(--ep-bg);display:grid;place-items:center}
-.ep-icon svg{width:28px;height:28px}
-.ep-k{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ep-accent)}
-.ep h2,.ep h3{margin:4px 0 6px}
-.ep p{color:var(--ep-muted)}
-.ep-list{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
-.ep-list li{background:var(--ep-tint);border-radius:14px;padding:10px 14px 10px 40px;position:relative;color:var(--ep-ink)}
-.ep-list li::before{content:"";position:absolute;left:17px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--ep-accent)}
-.ep-first{color:var(--ep-ink)!important;font-weight:700}
-.concern{background:var(--b-soft);border-radius:26px;padding:22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start}
-.concern-icon{width:48px;height:48px;border-radius:50%;background:var(--b);color:var(--on-fill);display:grid;place-items:center}
-.concern-icon svg{width:26px;height:26px}
-.concern-k{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--b-deep)}
-.concern h3{margin:4px 0 6px}
-.concern .flag{background:var(--surface)}
-.concern .flag input{accent-color:var(--b-deep)}
-.concern .flag em{color:var(--b-deep)}
-.concern-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
-.concern-list li{background:var(--surface);border-radius:14px;padding:10px 14px 10px 38px;position:relative}
-.concern-list li::before{content:"";position:absolute;left:16px;top:18px;width:8px;height:8px;border-radius:50%;background:var(--b-deep)}
-@media (max-width:520px){.concern{grid-template-columns:1fr;padding:20px}}
-@media (max-width:520px){.ep{grid-template-columns:1fr;padding:20px}}
+.intro{display:grid;gap:14px}
+.intro .what{font-size:1.08rem;max-width:62ch}
+.how{list-style:none;padding:0;margin:4px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px 20px;counter-reset:h}
+.how li{counter-increment:h;display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:baseline}
+.how li::before{content:counter(h);font-weight:600;color:var(--accent-deep);font-variant-numeric:tabular-nums}
+.how b{font-weight:600}
+.how span{grid-column:2;color:var(--muted);font-size:.93rem}
+.phase{margin-top:30px}
+.phase>header{display:grid;gap:3px;max-width:65ch;margin-bottom:12px}
+.ph-k{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--p)}
+.phase>header p{color:var(--muted);font-size:.95rem}
+.steplist{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.srow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);text-decoration:none;color:var(--ink);transition:border-color .12s}
+.srow:hover{border-color:var(--accent)}
+.srow .num{grid-row:span 2}
+.srow .tt,.srow .ts{grid-column:2}
+.srow .tt{font-weight:600;line-height:1.3}
+.srow .ts{font-size:.88rem;color:var(--muted);line-height:1.3}
+.srow .pill{grid-column:3;grid-row:span 2}
 
 /* Step page */
-.crumbs{margin-bottom:14px}
-.crumbs a{font-weight:700;text-decoration:none}
-.stephead{display:flex;gap:18px;align-items:flex-start;background:var(--ps);border-radius:26px;padding:22px}
-.stephead .q{font-size:1.15rem;margin-top:8px}
-.stephead>div{min-width:0}
-.mini{margin-top:14px;max-width:440px}
-.mini svg{display:block;width:100%;height:auto}
-.st-art{width:120px;height:auto;margin-left:auto;flex:none;align-self:center}
-@media (max-width:720px){.st-art{display:none}}
-@media (max-width:480px){.stephead{flex-direction:column;gap:12px}}
-.seg{display:flex;gap:6px;margin:20px 0;flex-wrap:wrap}
-.seg button{flex:1;min-width:110px;min-height:50px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
+.crumbs{margin-bottom:16px;font-size:.93rem}
+.crumbs a{font-weight:500;text-decoration:none}
+.stephead{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.stephead>div{min-width:0;display:grid;gap:4px}
+.stephead .q{color:var(--muted);max-width:60ch}
+.seg{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.seg button{padding:12px 12px;border:0;background:none;font:inherit;font-weight:500;font-size:.95rem;color:var(--muted);cursor:pointer;white-space:nowrap;box-shadow:inset 0 -2px 0 transparent}
 .seg button:hover{color:var(--ink)}
-.seg button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
-.box{background:var(--surface);border-radius:22px;padding:20px;border:1px solid var(--line);min-width:0}
-.box h3{margin-bottom:12px}
+.seg button[aria-selected="true"]{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
 .ticks,.warns{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-.ticks li,.warns li{position:relative;padding-left:34px}
-.ticks li::before{content:"";position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:7px;background:var(--ok-soft)}
-.ticks li::after{content:"";position:absolute;left:8px;top:6px;width:6px;height:11px;border:solid var(--ok);border-width:0 3px 3px 0;transform:rotate(45deg)}
-.warns li::before{content:"!";position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;background:var(--mid-soft);color:var(--mid);font-weight:800;display:grid;place-items:center;font-size:.85rem}
+.ticks li,.warns li{position:relative;padding-left:28px}
+.ticks li::before{content:"";position:absolute;left:3px;top:5px;width:6px;height:11px;border:solid var(--ok);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.warns li::before{content:"!";position:absolute;left:0;top:2px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--mid);color:var(--mid);font-weight:700;font-size:.75rem;display:grid;place-items:center}
 .extra{margin-top:16px}
-.stages{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;counter-reset:s}
-.stages li{counter-increment:s;background:var(--bg);border-radius:16px;padding:12px 14px;font-size:.95rem}
-.stages li b{display:block;font-family:var(--f-display)}
-.stages li b::before{content:counter(s) ". ";color:var(--pd)}
-.stories{display:grid;gap:10px;margin-top:10px}
-.stories div{background:var(--bg);border-radius:16px;padding:12px 14px}
-.stories b{font-family:var(--f-display);color:var(--pd)}
-
-.need{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px;margin-bottom:14px}
-.tasks{list-style:none;padding:0;margin:0;counter-reset:t;display:grid;gap:12px}
-.tasks>li{counter-increment:t;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px 14px 58px;position:relative;display:grid;gap:6px}
-.tasks>li::before{content:counter(t);position:absolute;left:14px;top:14px;width:32px;height:32px;border-radius:50%;background:var(--ps);color:var(--pd);display:grid;place-items:center;font-weight:800;font-family:var(--f-display)}
-.pt{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:start}
-.pt-l{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:8px;text-align:center;background:var(--no-soft);color:var(--muted);margin-top:2px}
-.pt-say .pt-x{background:var(--say);color:var(--say-ink);padding:9px 14px;border-radius:16px 16px 16px 4px;font-weight:700;font-size:1.05rem;justify-self:start}
-.pt-say .pt-l{background:var(--say);color:var(--say-ink)}
-.pt-note .pt-l{background:var(--b-soft);color:var(--b-deep)}
-.pt-tip .pt-l{background:var(--c-soft);color:var(--c-deep)}
-@media (max-width:520px){.pt{grid-template-columns:1fr;gap:4px}.pt-l{justify-self:start}.tasks>li{padding-left:16px;padding-top:56px}}
+.stages{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;counter-reset:s}
+.stages li{counter-increment:s;background:var(--surface-2);border-radius:var(--r);padding:12px 14px;font-size:.93rem}
+.stages li b{display:block;font-weight:600}
+.stages li b::before{content:counter(s) ". ";color:var(--p)}
+.stories{display:grid;gap:8px}
+.stories div{background:var(--surface-2);border-radius:var(--r);padding:10px 14px;font-size:.95rem}
+.stories b{color:var(--p);font-weight:600}
+.need{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:.95rem}
+.tasks{list-style:none;padding:0;margin:0;counter-reset:t;display:grid;gap:10px}
+.tasks>li{counter-increment:t;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px 14px 52px;position:relative;display:grid;gap:8px}
+.tasks>li::before{content:counter(t);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:50%;background:var(--p-soft);color:var(--p);display:grid;place-items:center;font-weight:600;font-size:.85rem}
+.pt{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;align-items:start}
+.pt-l{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+.pt-say .pt-x{background:var(--say);color:var(--say-ink);padding:8px 12px;border-radius:var(--r);font-weight:500;justify-self:start}
+.pt-say .pt-l{color:var(--say-ink)}
+.pt-note .pt-l{color:var(--mid)}
+.pt-tip .pt-l{color:var(--accent-deep)}
+@media (max-width:520px){.pt{grid-template-columns:1fr;gap:3px}.tasks>li{padding-left:16px;padding-top:50px}}
 .adjust{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px}
-.adjust div{border-radius:16px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);font-size:.96rem}
-.adjust b{font-family:var(--f-display);display:block}
-.acts{display:grid;gap:14px}
-.act{background:var(--surface);border-radius:22px;padding:18px 20px;border:1px solid var(--line);display:grid;gap:10px}
-.act h3{display:flex;gap:10px;align-items:center}
-.act h3::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--p);flex:none}
-details.why{margin-top:20px;background:var(--surface);border-radius:18px;border:2px dashed var(--line);padding:14px 18px}
-details.why summary{cursor:pointer;font-weight:700}
+.adjust div{border-radius:var(--r);padding:12px 14px;background:var(--surface-2);font-size:.93rem}
+.adjust b{display:block;font-weight:600}
+.acts{display:grid;gap:12px}
+.act{background:var(--surface);border-radius:var(--r-lg);padding:18px 20px;border:1px solid var(--line);display:grid;gap:10px}
+details.why{margin-top:20px;background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--line);padding:12px 16px}
+details.why summary{cursor:pointer;font-weight:600}
 details.why p{margin-top:10px;color:var(--muted)}
 .pager{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
 
-/* Glossary terms */
-.term{font:inherit;color:inherit;background:none;border:0;padding:0;border-bottom:2px dotted var(--go);cursor:help;font-weight:inherit;line-height:inherit}
-.term:hover{color:var(--go)}
+/* Glossary */
+.term{font:inherit;color:inherit;background:none;border:0;padding:0;border-bottom:1px dotted var(--accent);cursor:help;font-weight:inherit;line-height:inherit}
+.term:hover{color:var(--accent-deep)}
 .gloss{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.gin{max-width:620px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:22px;padding:18px 20px;box-shadow:0 20px 40px -16px rgba(0,0,0,.5);display:grid;gap:8px}
+.gin{max-width:600px;margin:0 auto;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-lg);padding:16px 18px;box-shadow:0 16px 40px -12px rgba(0,0,0,.35);display:grid;gap:8px}
 .gin h3{text-transform:capitalize}
-.gin .btn{justify-self:start;background:var(--bg);color:var(--ink);border:0}
+.gin .btn{justify-self:start}
 
-/* Pills */
-.pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--no-soft);color:var(--muted);white-space:nowrap}
-.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+/* Status pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--no-soft);color:var(--muted);white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .pill.s-secure{background:var(--ok-soft);color:var(--ok)}
 .pill.s-emerging{background:var(--mid-soft);color:var(--mid)}
 .pill.s-notyet{background:var(--no-soft);color:var(--no)}
 
 /* Check */
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.field{display:grid;gap:6px;min-width:0}
-.field label{font-weight:700}
-.field small{color:var(--muted)}
-input,select,textarea{width:100%;min-height:48px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;padding:10px 12px}
-textarea{min-height:96px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--go)}
-.checkhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.strip{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:5px;margin-bottom:6px}
-@media (max-width:560px){.strip{grid-template-columns:repeat(8,minmax(0,1fr))}}
-.sq{min-height:34px;aspect-ratio:1;width:100%;max-width:46px;justify-self:center;border-radius:50%;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:700;font-size:.85rem;color:var(--muted);cursor:pointer;padding:0;font-variant-numeric:tabular-nums}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.field{display:grid;gap:5px;min-width:0}
+.field label{font-weight:600;font-size:.95rem}
+.field small{color:var(--muted);font-size:.86rem}
+input,select,textarea{width:100%;min-height:42px;border-radius:var(--r);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font:inherit;padding:8px 10px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.checkhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.checkhead .lead{color:var(--muted);margin-top:4px;max-width:60ch}
+.strip{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.sq{width:34px;height:34px;border-radius:var(--r);border:1px solid var(--line-strong);background:var(--surface);font:inherit;font-weight:600;font-size:.85rem;color:var(--muted);cursor:pointer;padding:0;font-variant-numeric:tabular-nums}
 .sq.s-secure{background:var(--ok);border-color:var(--ok);color:var(--on-status)}
 .sq.s-emerging{background:var(--mid);border-color:var(--mid);color:var(--on-status)}
 .sq.s-notyet{background:var(--no-soft);border-color:var(--no);color:var(--ink);border-style:dashed}
-.sq.cur{outline:3px solid var(--go);outline-offset:2px}
-.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.ck{background:var(--surface);border-radius:26px;border:1px solid var(--line);padding:22px;display:grid;gap:16px;box-shadow:var(--shadow)}
+.sq.cur{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.ck{display:grid;gap:18px}
 .ck-h{display:flex;gap:14px;align-items:center}
-.ck .tasks>li{background:var(--bg);border-color:transparent}
-.ck .adjust div,.ck .need{background:var(--bg);border-color:transparent}
 .chips{display:grid;gap:8px}
-.chip{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 14px;font:inherit;text-align:left;cursor:pointer;color:var(--ink);line-height:1.4}
-.chip::before{content:"";flex:none;width:20px;height:20px;border-radius:6px;border:2px solid var(--line);margin-top:1px}
+.chip{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--r);padding:10px 12px;font:inherit;font-size:.95rem;text-align:left;cursor:pointer;color:var(--ink);line-height:1.4}
+.chip::before{content:"";flex:none;width:18px;height:18px;border-radius:4px;border:1.5px solid var(--line-strong);margin-top:1px;background:var(--surface)}
 .chip[aria-pressed="true"]{border-color:var(--mid);background:var(--mid-soft)}
 .chip[aria-pressed="true"]::before{background:var(--mid);border-color:var(--mid)}
 .rate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 @media (max-width:560px){.rate{grid-template-columns:1fr}}
-.rate button{text-align:left;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink);display:grid;gap:2px}
-.rate b{font-family:var(--f-display);font-size:1.2rem}
-.rate small{color:var(--muted);font-size:.9rem}
+.rate button{text-align:left;padding:12px 14px;border-radius:var(--r-lg);border:1px solid var(--line-strong);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink);display:grid;gap:2px}
+.rate b{font-weight:600;font-size:1.02rem}
+.rate small{color:var(--muted);font-size:.86rem}
 .rate .r-secure[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok)}
 .rate .r-emerging[aria-pressed="true"]{background:var(--mid-soft);border-color:var(--mid)}
 .rate .r-notyet[aria-pressed="true"]{background:var(--no-soft);border-color:var(--no)}
-.next{padding:16px 18px;border-radius:18px;background:var(--go-soft);display:grid;gap:12px}
-.hint{color:var(--muted);font-size:.92rem;margin-top:-10px}
-.startbox{background:var(--ps);border-radius:26px;padding:22px;display:grid;gap:12px}
-.startbox .top-line{display:flex;gap:16px;align-items:center}
-.session{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;display:grid;gap:14px}
+.next{padding:16px 18px;border-radius:var(--r-lg);background:var(--accent-soft);display:grid;gap:12px}
+.hint{color:var(--muted);font-size:.9rem;margin-top:-8px}
+.startbox{display:flex;gap:16px;align-items:center;padding:20px 22px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--p);box-shadow:var(--shadow)}
+.startbox>div{display:grid;gap:4px;min-width:0}
 .timeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.timeline li{border-radius:14px;padding:10px 12px;background:var(--bg);display:grid}
-.timeline li b{font-family:var(--f-display)}
-.timeline li span{color:var(--muted);font-size:.9rem}
-.timeline li:nth-child(1){box-shadow:inset 4px 0 0 var(--a)}
-.timeline li:nth-child(2){box-shadow:inset 4px 0 0 var(--b)}
-.timeline li:nth-child(3){box-shadow:inset 4px 0 0 var(--c)}
-.timeline li:nth-child(4){box-shadow:inset 4px 0 0 var(--go)}
+.timeline li{border-radius:var(--r);padding:10px 12px;background:var(--surface-2);display:grid}
+.timeline li b{font-weight:600}
+.timeline li span{color:var(--muted);font-size:.88rem}
 .bul{margin:0;padding-left:1.2em;display:grid;gap:6px}
 .flags{display:grid;gap:8px}
-.flag{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border-radius:14px;background:var(--bg);cursor:pointer}
-.flag input{width:22px;height:22px;min-height:0;flex:none;margin-top:2px;accent-color:var(--go)}
-.flag em{display:block;font-style:normal;font-size:.85rem;color:var(--go);font-weight:700}
-.ep .flag{background:var(--ep-tint)}
-.ep .flag input{accent-color:var(--ep-accent)}
-.ep .flag em{color:var(--ep-accent)}
+.flag{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);cursor:pointer;font-size:.95rem}
+.flag input{width:18px;height:18px;min-height:0;flex:none;margin-top:3px;accent-color:var(--accent)}
+.flag em{display:block;font-style:normal;font-size:.84rem;color:var(--mid);font-weight:600}
 
 /* Record */
-.sheet{background:var(--surface);border-radius:24px;border:1px solid var(--line);padding:24px;display:grid;gap:20px}
-.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-.meta div{background:var(--bg);border-radius:14px;padding:10px 12px;min-width:0}
-.meta dt{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.meta dd{margin:2px 0 0;font-weight:700}
-.meta input{min-height:36px;padding:4px 8px;margin-top:2px}
+.sheet{display:grid;gap:20px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:0}
+.meta div{background:var(--surface-2);border-radius:var(--r);padding:10px 12px;min-width:0}
+.meta dt{font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:2px 0 0;font-weight:600}
+.meta input{min-height:34px;padding:4px 8px;margin-top:2px;font-size:.92rem}
 .tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.96rem}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
 th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-td.sn{white-space:nowrap;font-weight:700}
+th{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.sn{white-space:nowrap;font-weight:500}
+td.rs{white-space:nowrap}
 td .seen{margin:4px 0 0;padding-left:1.1em;color:var(--muted);font-size:.9rem}
 tr.unchecked td{color:var(--muted)}
-.confirm{background:var(--mid-soft);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
-.empty{background:var(--surface);border:2px dashed var(--line);border-radius:24px;padding:28px;display:grid;gap:12px;justify-items:start}
+.confirm{background:var(--mid-soft);border-radius:var(--r-lg);padding:14px 16px;display:grid;gap:10px;margin-bottom:16px}
+.empty{background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--r-lg);padding:28px;display:grid;gap:12px;justify-items:start}
 
 /* Practise */
-.quiz{background:var(--surface);border-radius:26px;padding:22px;border:1px solid var(--line);display:grid;gap:16px;box-shadow:var(--shadow)}
+.quiz{display:grid;gap:16px}
 .quiz-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.score{font-family:var(--f-display);font-weight:800;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.score{font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
 .dots{display:flex;gap:6px;flex-wrap:wrap}
-.dot{width:14px;height:14px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line-strong);border:0;padding:0;cursor:pointer}
 .dot.r{background:var(--ok)}
 .dot.w{background:var(--mid)}
-.dot.c{outline:3px solid var(--go);outline-offset:2px}
-.scen{font-size:1.2rem;font-weight:700;line-height:1.45;background:var(--bg);border-radius:18px;padding:16px 18px}
-.opts{display:grid;gap:10px}
-.opt{display:flex;gap:12px;align-items:center;text-align:left;padding:10px 14px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink)}
-.opt .blk{width:46px;height:40px;font-size:1.2rem}
-.opt:hover{border-color:var(--go)}
+.dot.c{outline:2px solid var(--accent);outline-offset:2px}
+.scen{font-size:1.08rem;font-weight:500;line-height:1.5;background:var(--surface-2);border-radius:var(--r-lg);padding:16px 18px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;padding:10px 12px;border-radius:var(--r-lg);border:1px solid var(--line-strong);background:var(--surface);font:inherit;cursor:pointer;color:var(--ink)}
+.opt:hover{border-color:var(--accent)}
 .opt.right{border-color:var(--ok);background:var(--ok-soft)}
 .opt.wrong{border-color:var(--mid);background:var(--mid-soft)}
 .opt[disabled]{cursor:default}
-.fb{border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.fb{border-radius:var(--r-lg);padding:14px 16px;display:grid;gap:8px}
 .fb.r{background:var(--ok-soft)}
 .fb.w{background:var(--mid-soft)}
-.fb b{font-family:var(--f-display);font-size:1.15rem}
-.myth{font-family:var(--f-display);font-size:clamp(1.25rem,3vw,1.6rem);font-weight:700;line-height:1.3;background:var(--bg);border-radius:18px;padding:18px 20px}
+.fb b{font-weight:600}
+.myth{font-size:1.1rem;font-weight:500;line-height:1.45;background:var(--surface-2);border-radius:var(--r-lg);padding:16px 18px}
 
-footer.foot{border-top:1px solid var(--line);padding-block:20px 32px;color:var(--muted);font-size:.9rem}
-
-/* Illustrations */
-.art{margin:4px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:10px 10px 6px;box-shadow:var(--shadow)}
-.art svg{display:block;width:100%;height:auto}
-.art .narrow{display:none}
-@media (max-width:620px){.art .wide{display:none}.art .narrow{display:block}}
-.art figcaption{font-size:.88rem;color:var(--muted);text-align:center;padding:4px 8px}
-.peb{cursor:pointer}
-.peb text{font-family:var(--f-display);font-weight:800;font-size:17px;fill:var(--on-fill);pointer-events:none}
-.peb:hover .top{filter:brightness(1.06)}
-.peb:focus{outline:none}
-.peb:focus-visible .top{stroke:var(--go);stroke-width:3}
-.buddy{animation:bob 2.8s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-@media (max-width:600px){.gloss{bottom:calc(70px + env(safe-area-inset-bottom,0px))}}
+footer.foot{border-top:1px solid var(--line);padding-block:20px 32px;color:var(--muted);font-size:.88rem}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
-@media print{header.top,.noprint,footer.foot{display:none!important}body{background:#fff}.sheet{border:0;padding:0}}
+@media print{header.top,.noprint,footer.foot,.gloss{display:none!important}body{background:#fff}.card{border:0;box-shadow:none;padding:0}}
 </style>
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#steps" aria-label="Number Steps home"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--go)"/><path d="M8 30h8v-7h8v-7h8" fill="none" stroke="var(--go-ink)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29.5" cy="9.5" r="3.8" fill="var(--b)"/></svg>Number Steps</a>
+    <a class="brand" href="#steps" aria-label="Number Steps home"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="var(--accent)"/><path d="M8 30h8v-7h8v-7h8" fill="none" stroke="var(--accent-ink)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29.5" cy="9.5" r="3.4" fill="var(--b)"/></svg>Number Steps</a>
     <nav class="tabs" aria-label="Main">
-      <a href="#steps" data-tab="steps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="5.5" cy="18" rx="3.5" ry="2.4"/><ellipse cx="12" cy="12" rx="3.5" ry="2.4"/><ellipse cx="18.5" cy="6" rx="3.5" ry="2.4"/></svg>Steps</a>
-      <a href="#check" data-tab="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V2.8h6V4"/><path d="m9 13 2 2 4-4"/></svg>Check</a>
-      <a href="#record" data-tab="record"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h5"/></svg>Record</a>
-      <a href="#practise" data-tab="practise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5l-5.3 2.9 1.2-6-4.5-4.1 6-.7z"/></svg>Practise</a>
+      <a href="#steps" data-tab="steps">Steps</a>
+      <a href="#check" data-tab="check">Check</a>
+      <a href="#record" data-tab="record">Record</a>
+      <a href="#practise" data-tab="practise">Practise</a>
     </nav>
   </div>
 </header>
-<main class="wrap" id="app"></main>
-<footer class="foot"><div class="wrap">Based on <i>Early number: a progression and assessment guide for schools</i>, North Somerset Educational Psychology Service, draft November 2026. Choosing programmes and planning provision are covered in the full guide for leaders and SENCos. Anything you enter stays in this browser on this device.</div></footer>
-<div class="gloss" id="gloss" hidden role="dialog" aria-labelledby="gt"><div class="gin"><h3 id="gt"></h3><p id="gd"></p><button type="button" class="btn sm" data-act="close-term">Got it</button></div></div>
+<main class="wrap" id="app">
+  <noscript><div class="noscript"><h1>Number Steps</h1><p>This tool needs JavaScript to run, and it is switched off or blocked in this browser.</p><p>Ask your school's IT support to allow JavaScript for this page, or try another browser or device. The tool does not send any data anywhere; everything stays on your device.</p></div></noscript>
+</main>
+<footer class="foot"><div class="wrap">Based on <i>Early number: a progression and assessment guide for schools</i>, North Somerset Educational Psychology Service, draft November 2026. The full guide, including advice on choosing programmes, is for leaders and SENCos.</div></footer>
+<div class="gloss" id="gloss" hidden role="dialog" aria-labelledby="gt"><div class="gin"><h3 id="gt"></h3><p id="gd"></p><button type="button" class="btn ghost sm" data-act="close-term">Got it</button></div></div>
 
 <script>
 /* ---------- Content ---------- */
@@ -674,6 +633,7 @@ const nice=iso=>{if(!iso)return "";const d=new Date(iso+"T12:00:00");return isNa
 const yearName=v=>(YEARS.find(y=>y[0]===v)||["",""])[1];
 const pill=s=>s?`<span class="pill s-${s}">${ST[s].l}</span>`:"";
 const reduce=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const num=(n,big)=>`<span class="num${big?" big":""} ph-${STEPS[n-1].phase}">${n}</span>`;
 
 const PUBLIC=/\.github\.io$/i.test(location.hostname);
 let S=store.get("check",null);
@@ -698,104 +658,43 @@ function autoFlags(){
 }
 const flagOn=k=>S.flags&&k in S.flags?S.flags[k]:!!autoFlags()[k];
 
-/* ---------- Illustrations ---------- */
-const NOTEI=`<div class="concern-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 2.5v3M15 2.5v3M9 11h6M9 15h4"/></svg></div>`;
-const EPI=`<div class="ep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M12 11v7"/><path d="M12 6.3v.2"/></svg></div>`;
-const SC={secure:"ok",emerging:"mid",notyet:"no"};
-const statusOf=n=>S&&S.res[n]&&S.res[n].s||null;
-const f1=v=>(+v).toFixed(1);
-function buddy(x,y){
- return `<g transform="translate(${f1(x)} ${f1(y)})"><g class="buddy"><ellipse cx="0" cy="16" rx="10" ry="2.6" fill="#000" opacity=".13"/><circle r="13" fill="var(--go)"/><circle cx="-4.6" cy="-2" r="3.4" fill="#fff"/><circle cx="4.6" cy="-2" r="3.4" fill="#fff"/><circle cx="-4" cy="-1.4" r="1.6" fill="#24264A"/><circle cx="5.2" cy="-1.4" r="1.6" fill="#24264A"/><path d="M-4 5.2q4 3.4 8 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></g></g>`;
+/* ---------- Shared pieces ---------- */
+const ICO_INFO=`<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 11v6"/><path d="M12 7.2v.2"/></svg></span>`;
+const ICO_NOTE=`<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5v3M15 2.5v3M9 11h6M9 15h4"/></svg></span>`;
+const PRIVACY=`<div class="privacy" role="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><b>Stays on this device.</b> Anything you enter is saved in this browser only. It is not sent anywhere and no one else can see it. Use initials, not names.</div></div>`;
+const pagehead=(title,lead,eyebrow)=>`<div class="pagehead">${eyebrow?`<p class="eyebrow">${eyebrow}</p>`:""}<h1>${title}</h1>${lead?`<p class="lead">${lead}</p>`:""}</div>`;
+function epCallout(){
+ return `<section class="callout" aria-labelledby="ep-h">${ICO_INFO}<div><p class="eyebrow">Specialist support</p><h2 id="ep-h">When to talk to your link EP</h2>
+  <p>Speak to your SENCo first. They will decide whether to involve your link educational psychologist. The guide suggests doing so if any of these apply:</p>
+  <ul>${FLAGS.map(f=>`<li>${f[1]}.</li>`).join("")}</ul>
+  <p>Bring the record from the check. It shows your EP where to start.</p></div></section>`;
 }
-function pebble(x,y,r,n){
- const st=STEPS[n-1],p=st.phase,s=statusOf(n),rx=r*1.22,ry=r*.9;
- return `<a href="#step-${n}" class="peb" aria-label="Step ${n}: ${st.title}${s?", "+ST[s].l:""}">`+
-  `<ellipse cx="${f1(x)}" cy="${f1(y+4)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="var(--${p}-deep)" opacity=".2"/>`+
-  `<ellipse class="top" cx="${f1(x)}" cy="${f1(y)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="var(--${p})"/>`+
-  `<ellipse cx="${f1(x-r*.42)}" cy="${f1(y-r*.42)}" rx="${f1(r*.38)}" ry="${f1(r*.15)}" fill="#fff" opacity=".45"/>`+
-  (s?`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(rx+5)}" ry="${f1(ry+5)}" fill="none" stroke="var(--${SC[s]})" stroke-width="3"${s==="notyet"?' stroke-dasharray="5 4"':""}/>`:"")+
-  `<text x="${f1(x)}" y="${f1(y+1)}" text-anchor="middle" dominant-baseline="middle">${n}</text></a>`;
-}
-function band(W,y1,y2,a){
- let d="";
- for(let x=0;x<=W;x+=30)d+=(x?"L":"M")+x+" "+f1(y1+a*Math.sin(x/95));
- for(let x=W;x>=0;x-=30)d+="L"+x+" "+f1(y2+a*Math.sin(x/95+1.3));
- return `<path d="${d}Z" fill="var(--say)"/>`;
-}
-const ripples=list=>list.map(([x,y])=>`<path d="M${x} ${y}q9 -5 18 0" stroke="var(--surface)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".9"/>`).join("");
-const route=pts=>`<path d="${pts.map((p,i)=>(i?"L":"M")+f1(p[0])+" "+f1(p[1])).join("")}" fill="none" stroke="var(--muted)" stroke-opacity=".4" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>`;
-const flag=(x,y)=>`<g transform="translate(${f1(x)} ${f1(y)})"><ellipse cx="0" cy="2" rx="9" ry="2.6" fill="#000" opacity=".12"/><path d="M0 0V-40" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/><path d="M1.5 -40 L23 -32.5 L1.5 -25Z" fill="var(--go)"/></g>`;
-function pathArt(){
- const who=S?(teachStart()||S.cur||1):1;
- // Wide: one gently curving line of stones across a stream.
- const wp=STEPS.map((s,i)=>[40+i*(780/14),112+28*Math.sin(i*.8+.4)]), wr=22;
- let wide=band(900,58,172,9)+ripples([[70,160],[250,70],[420,165],[610,74],[760,158],[880,92]])+route(wp);
- wide+=wp.map((p,i)=>pebble(p[0],p[1],wr,i+1)).join("")+flag(wp[14][0]+44,wp[14][1]+6)+buddy(wp[who-1][0],wp[who-1][1]-wr-17);
- // Narrow: three rows, one per phase, snaking back and forth.
- const rows=[["a",80,42,318,false],["b",192,42,318,true],["c",304,30,292,false]], np=[];
- rows.forEach(([ph,y,x0,x1,rev])=>{const list=STEPS.filter(s=>s.phase===ph),k=list.length;
-  list.forEach((s,j)=>{const jj=rev?k-1-j:j;np.push([x0+jj*(x1-x0)/(k-1),y+7*Math.sin(j*1.4)])})});
- const nr=19;
- let narrow=band(360,26,352,7)+ripples([[20,140],[300,140],[150,250],[40,360-26],[260,30]])+route(np);
- narrow+=np.map((p,i)=>pebble(p[0],p[1],nr,i+1)).join("")+flag(np[14][0]+38,np[14][1]+6)+buddy(np[who-1][0],np[who-1][1]-nr-17);
- return `<svg class="wide" viewBox="0 0 900 200" role="group" aria-label="The 15 steps as stepping stones">${wide}</svg><svg class="narrow" viewBox="0 0 360 380" role="group" aria-label="The 15 steps as stepping stones">${narrow}</svg>`;
-}
-function miniPath(cur){
- const pts=STEPS.map((s,i)=>[16+i*29.1,25+6*Math.sin(i*.9)]);
- let g=route(pts);
- pts.forEach(([x,y],i)=>{const n=i+1,st=STEPS[i],c=n===cur,s=statusOf(n);
-  g+=`<a href="#step-${n}" class="peb" aria-label="Step ${n}: ${st.title}"><ellipse class="top" cx="${f1(x)}" cy="${f1(y)}" rx="${c?14:8}" ry="${c?11.5:6.5}" fill="var(--${st.phase})" opacity="${c||n<cur?1:.55}"${c?' stroke="var(--ink)" stroke-width="2"':""}/>`+
-   (c?`<text x="${f1(x)}" y="${f1(y+1)}" text-anchor="middle" dominant-baseline="middle" style="font-size:12px">${n}</text>`:"")+
-   (s&&!c?`<circle cx="${f1(x)}" cy="${f1(y-12)}" r="3" fill="var(--${SC[s]})"/>`:"")+`</a>`});
- return `<svg viewBox="0 0 440 50" role="group" aria-label="Where this step sits among the 15">${g}</svg>`;
-}
-function phaseArt(p,cls){
- const f="var(--p)",k="var(--pd)";let g="";
- if(p==="a"){
-  [[16,24],[46,64],[22,70]].forEach(([x,y])=>g+=`<circle cx="${x}" cy="${y}" r="7.5" fill="${f}" stroke="${k}" stroke-width="2"/>`);
-  g+=`<path d="M66 12V80" stroke="${k}" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round" opacity=".6"/>`;
-  for(let i=0;i<8;i++)g+=`<circle cx="${84+(i%4)*14}" cy="${38+Math.floor(i/4)*14}" r="6" fill="${f}" stroke="${k}" stroke-width="2"/>`;
- } else if(p==="b"){
-  g+=`<rect x="10" y="21" width="120" height="48" rx="6" fill="var(--surface)" stroke="${k}" stroke-width="2"/>`;
-  for(let c=1;c<5;c++)g+=`<path d="M${10+c*24} 21V69" stroke="${k}" stroke-width="1.5"/>`;
-  g+=`<path d="M10 45H130" stroke="${k}" stroke-width="1.5"/>`;
-  for(let i=0;i<7;i++)g+=`<circle cx="${22+(i%5)*24}" cy="${33+Math.floor(i/5)*24}" r="8" fill="${f}" stroke="${k}" stroke-width="2"/>`;
- } else {
-  [12,46,80].forEach(x0=>{for(let i=0;i<5;i++)g+=`<rect x="${x0+i*5.5}" y="16" width="4.5" height="58" rx="2" fill="${f}" stroke="${k}" stroke-width="1.2"/>`;g+=`<rect x="${x0-2}" y="40" width="31" height="8" rx="3" fill="${k}"/>`});
-  [114,121,128].forEach((x,i)=>g+=`<rect x="${x}" y="${26+i*4}" width="4.5" height="48" rx="2" fill="${f}" stroke="${k}" stroke-width="1.2"/>`);
- }
- return `<svg class="${cls||"ph-art"}" viewBox="0 0 140 90" aria-hidden="true">${g}</svg>`;
+function adjustBox(){
+ return `<div class="adjust"><div><b>Stuck?</b>Make it easier: use smaller numbers, or let them see and handle the objects.</div><div><b>Too easy?</b>Make it harder: use bigger numbers, or hide the objects.</div></div>`;
 }
 
 /* ---------- Views ---------- */
-function tile(s){
+function stepRow(s){
  const r=S&&S.res[s.n]&&S.res[s.n].s;
- return `<a class="tile ph-${s.phase}" href="#step-${s.n}"><span class="blk">${s.n}</span><span class="tt">${s.title}</span><span class="ts">${s.short}</span>${r?`<span class="pill s-${r}">${esc(S.pupil.initials||"Pupil")}: ${ST[r].l}</span>`:""}</a>`;
+ return `<a class="srow" href="#step-${s.n}">${num(s.n)}<span class="tt">${s.title}</span><span class="ts">${s.short}</span>${r?`<span class="pill s-${r}">${ST[r].l}</span>`:""}</a>`;
 }
 function viewHome(){
+ const cta=S&&S.stage!=="results"?"Carry on checking "+esc(S.pupil.initials):"Check a pupil";
  return `
- <section class="hero">
-  <p class="eyebrow">Early number · Nursery to Year 3, and older pupils with SEND</p>
-  <h1>Where is this child stuck with number, and what do I teach next?</h1>
-  <p class="lede">Number Steps breaks early maths into 15 small steps. Check a child one-to-one, find the step where they get stuck, then teach from there.</p>
-  <div class="row"><a class="btn go" href="#check">${S&&S.stage!=="results"?"Carry on checking "+esc(S.pupil.initials):"Check a pupil"}</a><button type="button" class="btn ghost" data-act="scroll-map">See all 15 steps</button></div>
-  <figure class="art">${pathArt()}<figcaption>${S?`Rings show ${esc(S.pupil.initials)}'s results so far. Tap a stone to open that step.`:"Fifteen stepping stones across the stream. Tap a stone to open that step."}</figcaption></figure>
+ <section class="card intro">
+  <p class="eyebrow">North Somerset Educational Psychology Service</p>
+  <h1>Number Steps</h1>
+  <p class="what">A tool for teachers, teaching assistants and SENCos. It helps you find where a child's early number understanding has broken down, and decide what to teach next. For children from Nursery to Year 3, and older pupils with SEND who are still building early number.</p>
   <ol class="how">
    <li><b>Check</b><span>Work one-to-one for 10 to 15 minutes, with cubes, counters and a few cards.</span></li>
-   <li><b>Find the step</b><span>Stop at the first step where the child keeps making mistakes. That's where teaching starts.</span></li>
-   <li><b>Teach and review</b><span>Short daily sessions of 10 to 20 minutes. Check again after about six weeks.</span></li>
+   <li><b>Find the step</b><span>Stop at the first step where the child keeps making mistakes. Teaching starts there.</span></li>
+   <li><b>Teach and review</b><span>Short daily sessions. Check again after about six weeks.</span></li>
   </ol>
-  <p class="note">The steps are a map, not a ladder. A child may manage a later step before an earlier one, so check the steps either side of the one you're interested in.</p>
+  <div class="row"><a class="btn go" href="#check">${cta}</a>${S?`<a class="btn ghost" href="#record">See ${esc(S.pupil.initials)}'s record</a>`:""}</div>
  </section>
- <div id="map">
- ${["a","b","c"].map(p=>`<section class="phase ph-${p}"><header><div class="ph-t"><span class="ph-k">${PH[p].range}</span><h2>${PH[p].name}</h2><p>${PH[p].blurb}</p></div>${phaseArt(p)}</header><div class="tiles">${STEPS.filter(s=>s.phase===p).map(tile).join("")}</div></section>`).join("")}
- </div>
- <section class="ep home-ep" aria-labelledby="ep-h">${EPI}<div><p class="ep-k">Specialist support</p><h2 id="ep-h">When to talk to your link EP</h2>
-  <p>Talk to your link educational psychologist if any of these apply to a child.</p>
-  <p class="ep-first" style="margin-top:8px">Speak to your SENCo first. They will decide whether to involve your link EP.</p>
-  <ul class="ep-list">${FLAGS.map(f=>`<li>${f[1]}.</li>`).join("")}</ul>
-  <p>Bring your record from the check. It shows your EP where to start.</p></div>
- </section>`;
+ <div class="pagehead" style="margin-top:32px"><h2>The 15 steps</h2><p class="lead">Browse the steps below. Open any step to see what to look for, how to check it and how to teach it. The steps are a map, not a ladder: a child may manage a later step before an earlier one.</p></div>
+ ${["a","b","c"].map(p=>`<section class="phase ph-${p}"><header><span class="ph-k">${PH[p].range}</span><h2>${PH[p].name}</h2><p>${PH[p].blurb}</p></header><div class="steplist">${STEPS.filter(s=>s.phase===p).map(stepRow).join("")}</div></section>`).join("")}
+ <div style="margin-top:32px">${epCallout()}</div>`;
 }
 
 function viewStep(n){
@@ -820,7 +719,7 @@ function viewStep(n){
  }
  return `
  <nav class="crumbs"><a href="#steps">← All steps</a></nav>
- <header class="stephead ph-${s.phase}"><span class="blk big">${n}</span><div><p class="eyebrow">Step ${n} of 15 · ${ph.name}</p><h1>${s.title}</h1><p class="q">${s.q}</p>${s.term?`<p class="muted" style="margin-top:6px">Also called <button type="button" class="term" data-term="${s.term}">${s.term}</button>.</p>`:""}<div class="mini">${miniPath(n)}</div></div>${phaseArt(s.phase,"st-art")}</header>
+ <header class="stephead">${num(n,true)}<div><p class="eyebrow">Step ${n} of 15 · ${ph.name}</p><h1>${s.title}</h1><p class="q">${s.q}${s.term?` Also called <button type="button" class="term" data-term="${s.term}">${s.term}</button>.`:""}</p></div></header>
  <div class="seg" role="tablist">${tabs.map(t=>`<button type="button" role="tab" aria-selected="${stepTab===t[0]}" data-act="steptab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div>
  <div class="ph-${s.phase}">${body}</div>
  ${s.why?`<details class="why"><summary>Why this matters</summary><p>${fmt(s.why)}</p></details>`:""}
@@ -830,9 +729,6 @@ function viewStep(n){
   ${n<15?`<a class="btn ghost" href="#step-${n+1}">Step ${n+1} →</a>`:"<span></span>"}
  </div>`;
 }
-function adjustBox(){
- return `<div class="adjust"><div><b>Stuck?</b>Make it easier: use smaller numbers, or let them see and handle the objects.</div><div><b>Too easy?</b>Make it harder: use bigger numbers, or hide the objects.</div></div>`;
-}
 
 function viewCheck(){
  if(!S)return viewSetup();
@@ -841,12 +737,12 @@ function viewCheck(){
 }
 function viewSetup(){
  return `
- <section class="hero"><p class="eyebrow">Check a pupil</p><h1>Find the step where the child gets stuck</h1>
- <p class="lede">Takes 10 to 15 minutes. You'll go step by step, and the tool tells you where to start teaching.</p></section>
- <div class="cols" style="margin-top:16px">
+ ${pagehead("Check a pupil","Enter the pupil's initials, choose where to start, then work through the tasks with the child. It takes 10 to 15 minutes.")}
+ <div class="cols">
   <form id="setup" class="box stack" autocomplete="off">
+   ${PRIVACY}
    <div class="form-grid">
-    <div class="field"><label for="pi">Pupil's initials</label><input id="pi" name="pi" maxlength="4" required placeholder="e.g. JS"><small>Initials only, please. No full names.</small></div>
+    <div class="field"><label for="pi">Pupil's initials</label><input id="pi" name="pi" maxlength="4" required placeholder="e.g. JS"><small>Initials only. No full names.</small></div>
     <div class="field"><label for="yr">Year group</label><select id="yr" name="yr">${YEARS.map(y=>`<option value="${y[0]}">${y[1]}</option>`).join("")}</select></div>
     <div class="field"><label for="dt">Date</label><input id="dt" name="dt" type="date" value="${today()}"></div>
     <div class="field"><label for="ai">Your initials</label><input id="ai" name="ai" maxlength="4" placeholder="e.g. AB"></div>
@@ -871,22 +767,20 @@ function strip(){
 function viewRun(){
  const n=S.cur, s=STEPS[n-1], r=S.res[n]||{}, seen=r.seen||[];
  return `
- <div class="checkhead"><div><p class="eyebrow">Checking</p><h2>${esc(S.pupil.initials)} · ${yearName(S.pupil.year)}</h2></div>
-  <div class="row"><button type="button" class="btn ghost sm" data-act="results">Finish and see the plan</button></div></div>
+ <div class="checkhead"><div><p class="eyebrow">Checking ${esc(S.pupil.initials)} · ${yearName(S.pupil.year)}</p><h1>Step ${n}: ${s.title}</h1><p class="lead">Do the tasks with the child, note what you see, then mark the step secure, emerging or not yet.</p></div>
+  <button type="button" class="btn ghost sm" data-act="results">Finish and see the plan</button></div>
  ${strip()}
- <article class="ck ph-${s.phase}">
-  <div class="ck-h"><span class="blk">${n}</span><div><p class="eyebrow">Step ${n} · ${PH[s.phase].name}</p><h2>${s.title}</h2></div></div>
-  <p class="need"><b>You need:</b> ${s.need}</p>
+ <article class="card ck ph-${s.phase}">
+  <p class="need" style="margin:0"><b>You need:</b> ${s.need}</p>
   <ol class="tasks">${s.tasks.map(t=>`<li>${parts(t)}</li>`).join("")}</ol>
   ${adjustBox()}
-  <h3>Did you see any of these?</h3>
-  <p class="hint">Tap any that happened. They go on the record.</p>
-  <div class="chips">${s.watch.map((w,i)=>`<button type="button" class="chip" aria-pressed="${seen.includes(i)}" data-act="chip" data-v="${i}">${esc(plain(w))}</button>`).join("")}</div>
+  <div><h3>Did you see any of these?</h3><p class="hint" style="margin:4px 0 10px">Tick any that happened. They go on the record.</p>
+  <div class="chips">${s.watch.map((w,i)=>`<button type="button" class="chip" aria-pressed="${seen.includes(i)}" data-act="chip" data-v="${i}">${esc(plain(w))}</button>`).join("")}</div></div>
   <div class="field"><label for="notes-${n}">What did you notice? How did the child get their answers?</label><textarea id="notes-${n}" data-notes="${n}" placeholder="e.g. Counted from 1 each time. Gave me 4 correctly, grabbed a handful for 7.">${esc(r.notes||"")}</textarea></div>
-  <h3>How did it go?</h3>
-  <div class="rate">${Object.keys(ST).map(k=>`<button type="button" class="r-${k}" aria-pressed="${r.s===k}" data-act="rate" data-v="${k}"><b>${ST[k].l}</b><small>${ST[k].d}</small></button>`).join("")}</div>
+  <div><h3 style="margin-bottom:10px">How did it go?</h3>
+  <div class="rate">${Object.keys(ST).map(k=>`<button type="button" class="r-${k}" aria-pressed="${r.s===k}" data-act="rate" data-v="${k}"><b>${ST[k].l}</b><small>${ST[k].d}</small></button>`).join("")}</div></div>
   <div id="nextbox">${nextBox(n,r)}</div>
-  <p><a href="#step-${n}">Open the full step, with teaching ideas</a></p>
+  <p class="small"><a href="#step-${n}">Open the full step, with teaching ideas</a></p>
  </article>`;
 }
 function nextBox(n,r){
@@ -897,10 +791,10 @@ function nextBox(n,r){
  <div class="row"><button type="button" class="btn go" data-act="results">Finish and see the plan</button>${before?`<button type="button" class="btn ghost" data-act="goto" data-v="${n-1}">Check step ${n-1}</button>`:""}${n<15?`<button type="button" class="btn ghost" data-act="goto" data-v="${n+1}">Check step ${n+1}</button>`:""}</div></div>`;
 }
 function sessionBox(){
- return `<section class="session"><h3>A good teaching session</h3>
- <p>10 to 20 minutes, every day if you can, in blocks of about ten weeks. Keep the routine the same each time, so the child knows what's coming.</p>
+ return `<section class="box"><h3>A good teaching session</h3>
+ <p class="small" style="margin-bottom:12px">10 to 20 minutes, every day if you can, in blocks of about ten weeks. Keep the routine the same each time, so the child knows what's coming.</p>
  <ol class="timeline"><li><b>Counting</b><span>2 to 3 minutes</span></li><li><b>Number ideas</b><span>5 to 7 minutes</span></li><li><b>Calculating</b><span>5 to 7 minutes</span></li><li><b>A story problem</b><span>5 to 7 minutes</span></li></ol>
- <ul class="bul">
+ <ul class="bul small" style="margin-top:14px">
   <li>Use the same numbers all session. If you work on 4, use 4 in the story too.</li>
   <li>Objects first, then pictures, then written numbers. Go back to objects whenever the child needs them.</li>
   <li>My turn, together, your turn. Say the words you want the child to use: more, fewer, altogether, the same as.</li>
@@ -911,7 +805,7 @@ function sessionBox(){
 }
 function flagsBox(){
  const auto=autoFlags();
- return `<section class="concern">${NOTEI}<div><p class="concern-k">Concerns to note</p><h3>Anything else you noticed?</h3><p style="margin-bottom:12px">Tick anything that applies. Share it with the class teacher and SENCo. If these concerns continue after teaching, your SENCo can raise them with your link EP.</p>
+ return `<section class="callout amber">${ICO_NOTE}<div><p class="eyebrow">Concerns to note</p><h3>Anything else you noticed?</h3><p class="small">Tick anything that applies. Share it with the class teacher and SENCo. If these concerns continue after teaching, your SENCo can raise them with your link EP.</p>
  <div class="flags">${FLAGS.map(([k,l])=>`<label class="flag"><input type="checkbox" data-flag="${k}"${flagOn(k)?" checked":""}><span>${l}${auto[k]?"<em>Suggested by your answers</em>":""}</span></label>`).join("")}</div></div></section>`;
 }
 function viewResults(){
@@ -919,20 +813,18 @@ function viewResults(){
  let top;
  if(t){
   const s=STEPS[t-1];
-  top=`<section class="startbox ph-${s.phase}"><p class="eyebrow">Start teaching at</p>
-   <div class="top-line"><span class="blk big">${t}</span><div><h1>${s.title}</h1><p class="q" style="margin-top:6px">${s.q}</p></div></div></section>
-   <figure class="art">${pathArt()}<figcaption>${esc(S.pupil.initials)}'s path. The buddy is waiting at step ${t}, where teaching starts.</figcaption></figure>
-   <section class="stack"><h2>Activities for step ${t}</h2><div class="acts ph-${s.phase}">${s.acts.map(a=>`<article class="act"><h3>${a.name}</h3>${parts(a.parts)}</article>`).join("")}</div></section>`;
+  top=`<section class="startbox ph-${s.phase}">${num(t,true)}<div><p class="eyebrow">Teaching starts at</p><h2>Step ${t}: ${s.title}</h2><p class="muted">${s.q}</p></div></section>
+   <section class="stack"><h2>Activities for step ${t}</h2><div class="acts ph-${s.phase}">${s.acts.map(a=>`<article class="act"><h3>${a.name}</h3>${parts(a.parts)}</article>`).join("")}</div><p class="small"><a href="#step-${t}">Open step ${t} in full</a></p></section>`;
  } else if(ns.length){
   const max=ns[ns.length-1];
-  top=`<section class="startbox ph-c"><p class="eyebrow">Result</p><h1>Every step you checked was secure</h1>
-   <p>${max<15?`Check step ${max+1} next to find where teaching should start.`:"The child is secure across all 15 steps."}</p>
-   ${max<15?`<div><button type="button" class="btn go" data-act="goto" data-v="${max+1}">Check step ${max+1}</button></div>`:""}</section>`;
+  top=`<section class="startbox ph-c"><div><p class="eyebrow">Result</p><h2>Every step you checked was secure</h2>
+   <p class="muted">${max<15?`Check step ${max+1} next to find where teaching should start.`:"The child is secure across all 15 steps."}</p>
+   ${max<15?`<div style="margin-top:8px"><button type="button" class="btn go" data-act="goto" data-v="${max+1}">Check step ${max+1}</button></div>`:""}</div></section>`;
  } else {
   top=`<section class="empty"><h2>No steps marked yet</h2><p>Go back and mark at least one step as secure, emerging or not yet.</p><button type="button" class="btn go" data-act="back-run">Back to checking</button></section>`;
  }
  return `
- <div class="checkhead"><div><p class="eyebrow">Plan for</p><h2>${esc(S.pupil.initials)} · ${yearName(S.pupil.year)}</h2></div>
+ <div class="checkhead"><div><p class="eyebrow">Plan for ${esc(S.pupil.initials)} · ${yearName(S.pupil.year)}</p><h1>What to teach next</h1><p class="lead">Teaching starts at the first step that isn't secure. Use the activities below, then check again in about six weeks.</p></div>
  <div class="row"><button type="button" class="btn ghost sm" data-act="back-run">Back to checking</button><a class="btn go sm" href="#record">See the record</a></div></div>
  ${strip()}
  <div class="stack">${top}${t?sessionBox():""}${flagsBox()}
@@ -940,43 +832,45 @@ function viewResults(){
 }
 
 function viewRecord(){
- if(!S)return `<section class="hero"><p class="eyebrow">Record</p><h1>Nothing to record yet</h1></section>
-  <div class="empty" style="margin-top:16px"><svg viewBox="-24 -22 48 44" width="72" height="66" aria-hidden="true">${buddy(0,0)}</svg><p>When you check a pupil, their results appear here as a record you can copy into your school's system.</p>
-  <p class="muted">Prefer paper? ${PUBLIC?`<a href="number-steps-record-sheet.pdf" target="_blank" rel="noopener">Download the printable record sheet (PDF)</a>.`:"Ask your SENCo for the printable Number Steps record sheet."}</p><a class="btn go" href="#check">Check a pupil</a></div>`;
+ const paper=PUBLIC?`<a href="number-steps-record-sheet.pdf" target="_blank" rel="noopener">Download the printable record sheet (PDF)</a>.`:"Ask your SENCo for the printable Number Steps record sheet.";
+ if(!S)return `${pagehead("Record","When you check a pupil, their results appear here as a record you can copy into your school's system.")}
+  ${PRIVACY}
+  <div class="empty" style="margin-top:16px"><p>No pupil has been checked on this device yet.</p><p class="muted small">Prefer paper? ${paper}</p><a class="btn go" href="#check">Check a pupil</a></div>`;
  const t=teachStart();
  const ticked=FLAGS.filter(([k])=>flagOn(k));
  return `
- <div class="checkhead noprint"><div><p class="eyebrow">Record</p><h2>${esc(S.pupil.initials)}</h2></div>
+ <div class="checkhead noprint"><div><p class="eyebrow">Record for ${esc(S.pupil.initials)}</p><h1>Record</h1><p class="lead">Copy this record into your school's system. It isn't saved anywhere else.</p></div>
   <div class="row"><button type="button" class="btn go sm" data-act="copy" id="copybtn">Copy as text</button>${PUBLIC?`<button type="button" class="btn ghost sm" data-act="print">Print</button>`:""}<button type="button" class="btn ghost sm" data-act="back-run">Change answers</button><button type="button" class="btn ghost sm" data-act="new">Start a new pupil</button></div></div>
- ${confirmNew?`<div class="confirm noprint" style="margin-bottom:16px"><p><b>Clear this record?</b> Copy it first if you need to keep it. This can't be undone.</p><div class="row"><button type="button" class="btn go sm" data-act="new-yes">Yes, clear it</button><button type="button" class="btn ghost sm" data-act="new-no">Keep it</button></div></div>`:""}
- <article class="sheet">
+ <div class="noprint" style="margin-bottom:16px">${PRIVACY}</div>
+ ${confirmNew?`<div class="confirm noprint"><p><b>Clear this record?</b> Copy it first if you need to keep it. This can't be undone.</p><div class="row"><button type="button" class="btn go sm" data-act="new-yes">Yes, clear it</button><button type="button" class="btn ghost sm" data-act="new-no">Keep it</button></div></div>`:""}
+ <article class="card sheet">
   <header class="stack" style="gap:10px"><p class="eyebrow">Number Steps record</p>
-  <dl class="meta" style="margin:0">
+  <dl class="meta">
    <div><dt>Pupil</dt><dd>${esc(S.pupil.initials)}</dd></div>
    <div><dt>Year</dt><dd>${yearName(S.pupil.year)}</dd></div>
    <div><dt>Checked on</dt><dd>${nice(S.pupil.date)}</dd></div>
    <div><dt>Checked by</dt><dd>${esc(S.pupil.adult)||"–"}</dd></div>
    <div><dt><label for="rv">Review due</label></dt><dd><input id="rv" type="date" value="${esc(S.review||"")}" data-review></dd></div>
   </dl></header>
-  <section class="${t?"startbox ph-"+STEPS[t-1].phase:"startbox ph-c"}" style="padding:16px 18px">
+  <section class="startbox ${t?"ph-"+STEPS[t-1].phase:"ph-c"}" style="box-shadow:none">${t?num(t,true):""}<div>
    <p class="eyebrow">Teaching starts at</p>
    <h3>${t?`Step ${t}: ${STEPS[t-1].title}`:"Not found yet. Check the next step up."}</h3>
-   ${t?`<p>Activities: ${STEPS[t-1].acts.map(a=>a.name).join(", ")}.</p>`:""}
-  </section>
+   ${t?`<p class="muted small">Activities: ${STEPS[t-1].acts.map(a=>a.name).join(", ")}.</p>`:""}
+  </div></section>
   <div class="tablewrap"><table>
    <thead><tr><th>Step</th><th>Result</th><th>What you saw</th></tr></thead>
    <tbody>${STEPS.map(s=>{const r=S.res[s.n]||{};const seen=(r.seen||[]).map(i=>plain(s.watch[i]));
-    return `<tr class="${r.s?"":"unchecked"}"><td class="sn">${s.n}. ${s.title}</td><td>${r.s?pill(r.s):"Not checked"}</td><td>${esc(r.notes||"")}${seen.length?`<ul class="seen">${seen.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</td></tr>`}).join("")}</tbody>
+    return `<tr class="${r.s?"":"unchecked"}"><td class="sn">${s.n}. ${s.title}</td><td class="rs">${r.s?pill(r.s):"Not checked"}</td><td>${esc(r.notes||"")}${seen.length?`<ul class="seen">${seen.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</td></tr>`}).join("")}</tbody>
   </table></div>
-  <section class="concern">${NOTEI}<div><p class="concern-k">Concerns to note</p>${ticked.length?`<ul class="concern-list">${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p class="muted" style="margin-top:6px">Nothing ticked.</p>`}<p class="muted" style="margin-top:10px">Share these with the class teacher and SENCo.</p></div></section>
-  <section><h3>At the review</h3><ul class="bul" style="margin-top:8px">
+  <section class="callout amber">${ICO_NOTE}<div><p class="eyebrow">Concerns to note</p>${ticked.length?`<ul>${ticked.map(f=>`<li>${f[1]}</li>`).join("")}</ul>`:`<p class="muted" style="margin-top:4px">Nothing ticked.</p>`}<p class="small">Share these with the class teacher and SENCo.</p></div></section>
+  <section><h3 style="margin-bottom:8px">At the review</h3><ul class="bul small">
    <li><b>Secure:</b> move on to the next step.</li>
    <li><b>Some progress, not yet secure:</b> carry on at the same step for another block.</li>
    <li><b>Little or no progress:</b> check the child is at the right step, and change the approach.</li>
-   <li><b>Little or no progress after two blocks:</b> talk to your link EP.</li>
-  </ul><p class="muted" style="margin-top:8px">Use the same tasks and numbers as this check, so you can compare.</p></section>
+   <li><b>Little or no progress after two blocks:</b> ask your SENCo about involving your link EP.</li>
+  </ul><p class="muted small" style="margin-top:8px">Use the same tasks and numbers as this check, so you can compare.</p></section>
  </article>
- <p class="muted noprint" style="margin-top:14px">This record is saved in this browser only. To keep it, copy it into your school's records.</p>`;
+ <p class="muted small noprint" style="margin-top:14px">Prefer paper? ${paper}</p>`;
 }
 function recordText(){
  const t=teachStart(), L=[];
@@ -1003,19 +897,18 @@ function viewPractise(){
  const mi=P.mi, m=MYTHS[mi], mans=P.myth[mi];
  const mright=Object.keys(P.myth).filter(i=>(P.myth[i]==="myth")===MYTHS[i].m).length, mdone=Object.keys(P.myth).length;
  return `
- <section class="hero"><p class="eyebrow">Practise · optional</p><h1>Sharpen your eye</h1>
- <p class="lede">A few minutes at a time, when you're not with a pupil. It helps you spot where a child is stuck. Nothing is marked or shared.</p></section>
- <div class="stack" style="margin-top:20px">
- <section class="quiz">
+ ${pagehead("Practise","Optional, for your own learning when you're not with a pupil. Read each scenario and pick the step it points to. Nothing is marked or shared.")}
+ <div class="stack">
+ <section class="card quiz">
   <div class="quiz-h"><div><p class="eyebrow">Spot the step</p><h2>Which step needs work?</h2></div><span class="score">${right} / ${done} right</span></div>
   <div class="dots">${SPOT.map((x,i)=>`<button type="button" class="dot ${i in P.spot?(P.spot[i]===x.a?"r":"w"):""} ${i===si?"c":""}" data-act="spot-go" data-v="${i}" aria-label="Question ${i+1}"></button>`).join("")}</div>
   <p class="scen">${q.t}</p>
   <div class="opts">${q.o.map(n=>{const s=STEPS[n-1];let c="";if(ans!=null){if(n===q.a)c="right";else if(n===ans)c="wrong"}
-   return `<button type="button" class="opt ph-${s.phase} ${c}" data-act="spot" data-v="${n}"${ans!=null?" disabled":""}><span class="blk">${n}</span><span><b>Step ${n}</b><br>${s.title}</span></button>`}).join("")}</div>
-  ${ans!=null?`<div class="fb ${ans===q.a?"r":"w"}"><b>${ans===q.a?"Spot on.":"Not quite. It's step "+q.a+"."}</b><p>${q.w}</p><p><b style="font-size:1rem">Try:</b> ${q.tip}</p>
+   return `<button type="button" class="opt ${c}" data-act="spot" data-v="${n}"${ans!=null?" disabled":""}>${num(n)}<span><b>Step ${n}</b><br><span class="small">${s.title}</span></span></button>`}).join("")}</div>
+  ${ans!=null?`<div class="fb ${ans===q.a?"r":"w"}"><b>${ans===q.a?"Spot on.":"Not quite. It's step "+q.a+"."}</b><p>${q.w}</p><p><b>Teaching idea:</b> ${q.tip}</p>
    <div class="row"><a class="btn ghost sm" href="#step-${q.a}">Open step ${q.a}</a>${si<SPOT.length-1?`<button type="button" class="btn go sm" data-act="spot-go" data-v="${si+1}">Next</button>`:`<button type="button" class="btn go sm" data-act="spot-reset">Start again</button>`}</div></div>`:""}
  </section>
- <section class="quiz">
+ <section class="card quiz">
   <div class="quiz-h"><div><p class="eyebrow">Myth or fact?</p><h2>Things people say in school</h2></div><span class="score">${mright} / ${mdone} right</span></div>
   <div class="dots">${MYTHS.map((x,i)=>`<button type="button" class="dot ${i in P.myth?((P.myth[i]==="myth")===x.m?"r":"w"):""} ${i===mi?"c":""}" data-act="myth-go" data-v="${i}" aria-label="Card ${i+1}"></button>`).join("")}</div>
   <p class="myth">‘${m.t}’</p>
@@ -1052,7 +945,6 @@ document.addEventListener("click",e=>{
  const a=el.dataset.act, v=el.dataset.v;
  switch(a){
   case "close-term":closeTerm();break;
-  case "scroll-map":document.getElementById("map").scrollIntoView({behavior:reduce()?"auto":"smooth"});break;
   case "steptab":stepTab=v;render();break;
   case "start-from":
    if(S){S.cur=+v;S.stage="run";saveS()}else pendingStart=+v;
